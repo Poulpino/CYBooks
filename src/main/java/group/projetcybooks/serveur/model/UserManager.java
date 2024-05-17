@@ -2,6 +2,7 @@ package group.projetcybooks.serveur.model;
 
 import group.projetcybooks.serveur.ConnectDB;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,23 +11,23 @@ import java.util.Map;
  */
 public class UserManager {
 
-    HashMap<Integer, User> Users;
+    private HashMap<Integer, User> users;
 
     public UserManager(String requestUser) {
 
-        this.Users = new HashMap<>();
+        this.users = new HashMap<>();
 
         //Split lines and values
         String[] lines = requestUser.split("/");
         for(String line : lines){
-            String[] values = line.split(",");
-
+            String[] values = line.split(";");
             if(values.length==4){
                 int id = Integer.parseInt(values[0]);
                 String lastName = values[1];
                 String firstName = values[2];
                 String phone = values[3];
-                Users.put(id,new User(id,lastName,firstName,phone));
+                User user = new User(id,lastName,firstName,phone);
+                users.put(id,user);
             }
             else{
                 System.out.println("The lines doesn't have all the values wanted");
@@ -44,14 +45,14 @@ public class UserManager {
     public void addUser(String lastName, String firstName, String phone) throws Exception {
         ConnectDB connectDB = new ConnectDB();
         int newID=0;
-        while(Users.containsKey(newID)){
+        while(users.containsKey(newID)){
                 newID+=1;
             }
 
         User User = new User(newID, lastName, firstName, phone);
-        Users.put(newID, User);
-        connectDB.requestInsertDB("INSERT into User (id,lastname,firstname,phone) VALUES ('"+User.getId()+"', '"+User.getLastName()+"', '"+User.getFirstName()+"', '"+User.getPhone()+"');");
-        System.out.println(Users.get(newID).toString() + "added");
+        users.put(newID, User);
+        connectDB.requestInsertDB("INSERT into User (id,lastName,firstName,phone) VALUES ('"+User.getId()+"', '"+User.getLastName()+"', '"+User.getFirstName()+"', '"+User.getPhone()+"');");
+        System.out.println(users.get(newID).toString() + "added");
 
     }
 
@@ -71,7 +72,7 @@ public class UserManager {
                 return;
             }
         }
-        Users.remove(id);
+        users.remove(id);
         System.out.println("User removed");
     }
 
@@ -87,15 +88,15 @@ public class UserManager {
         //TODO : Modifier les infos dans la BDD
         //To give the possibility of changing only one element, we assume that if an element must not be changed it is the empty string
         if(!lastName.isEmpty()) {
-            Users.get(id).setLastName(lastName);
+            users.get(id).setLastName(lastName);
         }
         if(!firstName.isEmpty()) {
-            Users.get(id).setFirstName(firstName);
+            users.get(id).setFirstName(firstName);
         }
         if(!phone.isEmpty()) {
-            Users.get(id).setPhone(phone);
+            users.get(id).setPhone(phone);
         }
-        System.out.println(Users.get(id).toString() + "updated");
+        System.out.println(users.get(id).toString() + "updated");
     }
 
     /**
@@ -108,7 +109,7 @@ public class UserManager {
     public int searchUser(String lastName, String firstName, String phone){
 
         //Search the id of the User with is Last/First name or is phone number
-        for(Map.Entry<Integer, User> entry : Users.entrySet()){
+        for(Map.Entry<Integer, User> entry : users.entrySet()){
             if (entry.getValue().getLastName().equals(lastName) | entry.getValue().getFirstName().equals(firstName) | entry.getValue().getPhone().equals(phone)){
                 return(entry.getKey());
             }
@@ -118,6 +119,6 @@ public class UserManager {
     }
 
     public HashMap<Integer, User> getUsers() {
-        return Users;
+        return users;
     }
 }

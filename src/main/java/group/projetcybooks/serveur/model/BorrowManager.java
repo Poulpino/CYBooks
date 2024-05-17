@@ -37,12 +37,12 @@ public class BorrowManager {
 
                 //On recupère les informations du livre d'ID bookId pour crée un objet book pour le constructeur borow
                 int bookId = Integer.parseInt(values[4]);
-                String infoBook = connectDB.RequestSelectDB("SELECT * FROM book WHERE id='"+user.getId()+"'");
+                String infoBook = connectDB.RequestSelectDB("SELECT * FROM book WHERE ISBN='"+bookId+"'");
                 String[] bookValues = infoBook.split(";");
 
-                if(bookValues.length==8){
-                    //TODO : Verifier ordre atribut avec la table d'Adrien
-                    int ISBN = Integer.parseInt(bookValues[0]);
+                if(bookValues.length==7){
+                    long ISBN = Long.parseLong(bookValues[0]);
+                    System.out.println(ISBN);
 
                     String stringStatue = bookValues[1];
                     TypeStatue statue;
@@ -85,11 +85,10 @@ public class BorrowManager {
 
                 //On recupère les informations du livre d'ID bookId pour crée un objet book pour le constructeur borow
                 int bookId = Integer.parseInt(values[4]);
-                String infoBook = connectDB.RequestSelectDB("SELECT * FROM book WHERE id='"+user.getId()+"'");
+                String infoBook = connectDB.RequestSelectDB("SELECT * FROM book WHERE ISBN='"+bookId+"'");
                 String[] bookValues = infoBook.split(";");
 
-                if(bookValues.length==8){
-                    //TODO : Verifier ordre atribut avec la table d'Adrien
+                if(bookValues.length==7){
                     int ISBN = Integer.parseInt(bookValues[0]);
 
                     String stringStatue = bookValues[1];
@@ -125,10 +124,12 @@ public class BorrowManager {
      * @param user;
      * @throws ParseException Error of date format;
      */
-    public void borrow_book(Book book,User user) throws ParseException {
+    public void borrow_book(Book book,User user) throws Exception {
+        ConnectDB connectDB = new ConnectDB();
 
         if(book.getStatue().equals(TypeStatue.FREE)){
             //Find new ID available in borrowing
+
             int newID=0;
             while(borrowing.containsKey(newID)){
                 newID+=1;
@@ -136,6 +137,7 @@ public class BorrowManager {
 
             Borrow borrow = new Borrow(newID,user,LocalDate.now().toString(),book);
             borrowing.put(newID,borrow);
+            connectDB.requestInsertDB("INSERT into borrowing (id, userId,borrowDate,returnDate,bookIsbn) VALUES ('"+borrow.getId()+"', '"+borrow.getUser()+"', '"+borrow.getBorrowDate()+"', '"+borrow.getReturnDate()+"', '"+borrow.getBook().getISBN()+"');");
             System.out.println(user.toString() + "have borrow" + book.toString());
         }
         else{System.out.println("This book is not free");}
