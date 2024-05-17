@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.projetcybooks.SceneController">
    <children>
-      <Label layoutX="164.0" layoutY="31.0" text="CY Books">
-         <font>
-            <Font size="66.0" />
-         </font>
-      </Label>
-      <Button layoutX="274.0" layoutY="175.0" mnemonicParsing="false" onAction="#switchToClientsMain" text="Clients" />
-      <Button layoutX="277.0" layoutY="237.0" mnemonicParsing="false" text="Books" />
-      <Button layoutX="274.0" layoutY="295.0" mnemonicParsing="false" text="Borrow" />
+      <VBox layoutX="150.0" layoutY="50.0" spacing="20.0" alignment="CENTER">
+         <children>
+            <Label text="Main">
+               <font>
+                  <Font size="66.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#switchToClientsMain" text="Clients" />
+         </children>
+         <padding>
+            <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+         </padding>
+      </VBox>
    </children>
 </AnchorPane>
+
