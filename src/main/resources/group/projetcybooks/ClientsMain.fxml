@@ -16,8 +16,8 @@
                <Font size="66.0" />
             </font>
          </Label>
-         <Button mnemonicParsing="false" text="Sign Up" prefWidth="150.0"/>
-         <Button mnemonicParsing="false" text="Search Profile" prefWidth="150.0"/>
+         <Button mnemonicParsing="false" onAction="#switchToClientsSignUp" text="Sign Up" prefWidth="150.0"/>
+         <Button mnemonicParsing="false" onAction="#switchToClientsResearch" text="Search Profile" prefWidth="150.0"/>
          <Button mnemonicParsing="false" onAction="#switchToMain" text="Main" prefWidth="150.0">
             <VBox.margin>
                <Insets top="20.0"/>
