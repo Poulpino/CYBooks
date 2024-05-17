@@ -26,7 +26,7 @@ public class BorrowManager {
         for(String line : lines){
             String[] values = line.split(";");
 
-            if(values.length==5){
+            if(values.length==6){
                 int id = Integer.parseInt(values[0]);
 
                 int userId = Integer.parseInt(values[1]);
@@ -34,15 +34,16 @@ public class BorrowManager {
 
                 String borrowDate = values[2];
                 String return_date = values[3];
+                Boolean restore = Boolean.parseBoolean(values[5]);
 
                 //On recupère les informations du livre d'ID bookId pour crée un objet book pour le constructeur borow
                 int bookId = Integer.parseInt(values[4]);
-                String infoBook = connectDB.RequestSelectDB("SELECT * FROM book WHERE id='"+user.getId()+"'");
+                String infoBook = connectDB.RequestSelectDB("SELECT * FROM book WHERE ISBN='"+bookId+"'");
                 String[] bookValues = infoBook.split(";");
 
-                if(bookValues.length==8){
-                    //TODO : Verifier ordre atribut avec la table d'Adrien
-                    int ISBN = Integer.parseInt(bookValues[0]);
+                if(bookValues.length==7){
+                    long ISBN = Long.parseLong(bookValues[0]);
+                    System.out.println(ISBN);
 
                     String stringStatue = bookValues[1];
                     TypeStatue statue;
@@ -56,7 +57,7 @@ public class BorrowManager {
                     int year = Integer.parseInt(bookValues[5]);
                     String genre = bookValues[6];
                     Book book = new Book(ISBN,statue,editor,title,author,year,genre);
-                    borrowing.put(id,new Borrow(id,user,borrowDate,return_date,book));
+                    borrowing.put(id,new Borrow(id,user,borrowDate,return_date,book,restore));
                 }
                 else{
                     System.out.println("The lines doesn't have all the values wanted");}
@@ -74,7 +75,7 @@ public class BorrowManager {
         for(String line : linesHistory){
             String[] values = line.split(";");
 
-            if(values.length==5){
+            if(values.length==6){
                 int id = Integer.parseInt(values[0]);
 
                 int userId = Integer.parseInt(values[1]);
@@ -82,14 +83,14 @@ public class BorrowManager {
 
                 String borrowDate = values[2];
                 String return_date = values[3];
+                Boolean restore = Boolean.parseBoolean(values[5]);
 
                 //On recupère les informations du livre d'ID bookId pour crée un objet book pour le constructeur borow
                 int bookId = Integer.parseInt(values[4]);
-                String infoBook = connectDB.RequestSelectDB("SELECT * FROM book WHERE id='"+user.getId()+"'");
+                String infoBook = connectDB.RequestSelectDB("SELECT * FROM book WHERE ISBN='"+bookId+"'");
                 String[] bookValues = infoBook.split(";");
 
-                if(bookValues.length==8){
-                    //TODO : Verifier ordre atribut avec la table d'Adrien
+                if(bookValues.length==7){
                     int ISBN = Integer.parseInt(bookValues[0]);
 
                     String stringStatue = bookValues[1];
@@ -105,7 +106,7 @@ public class BorrowManager {
                     int year = Integer.parseInt(bookValues[5]);
                     String genre = bookValues[6];
                     Book book = new Book(ISBN,statue,editor,title,author,year,genre);
-                    history.put(id,new Borrow(id,user,borrowDate,return_date,book));
+                    history.put(id,new Borrow(id,user,borrowDate,return_date,book,restore));
                 }
                 else{
                     System.out.println("The lines doesn't have all the values wanted");}
@@ -125,17 +126,21 @@ public class BorrowManager {
      * @param user;
      * @throws ParseException Error of date format;
      */
-    public void borrow_book(Book book,User user) throws ParseException {
+    public void borrowBook(Book book,User user) throws Exception {
+        ConnectDB connectDB = new ConnectDB();
 
         if(book.getStatue().equals(TypeStatue.FREE)){
             //Find new ID available in borrowing
+
             int newID=0;
             while(borrowing.containsKey(newID)){
                 newID+=1;
             }
 
-            Borrow borrow = new Borrow(newID,user,LocalDate.now().toString(),book);
+            Borrow borrow = new Borrow(newID,user,LocalDate.now().toString(),book,Boolean.FALSE);
             borrowing.put(newID,borrow);
+            System.out.println(borrow.getRestore());
+            connectDB.requestInsertDB("INSERT into borrowing (id, userId,borrowDate,returnDate,bookIsbn,restored) VALUES ('"+borrow.getId()+"', '"+user.getId()+"', '"+borrow.getBorrowDate()+"', '"+borrow.getReturnDate()+"', '"+borrow.getBook().getISBN()+"', '"+borrow.getRestore()+"');");
             System.out.println(user.toString() + "have borrow" + book.toString());
         }
         else{System.out.println("This book is not free");}
@@ -145,7 +150,7 @@ public class BorrowManager {
      * This method permits to return a book from a user
      * @param id of the borrow;
      */
-    public void return_book(int id){
+    public void returnBook(int id){
         borrowing.get(id).getBook().setStatue(TypeStatue.FREE);
         borrowing.get(id).setRestore(Boolean.TRUE);
         //Find a new ID available in history
@@ -155,6 +160,7 @@ public class BorrowManager {
         }
         history.put(newID,borrowing.get(id));
         borrowing.remove(id);
+        //TODO : Supprimer dans la table borrow
         System.out.println("Book restored");
     }
 
