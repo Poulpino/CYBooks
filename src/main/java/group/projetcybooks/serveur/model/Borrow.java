@@ -9,7 +9,7 @@ public class Borrow {
     private User User;
     private LocalDate borrowDate;
     private LocalDate returnDate;
-    private Boolean restore=Boolean.FALSE;
+    private Boolean restore;
     private Book book;
 
     /**
@@ -21,10 +21,11 @@ public class Borrow {
      * @param book;
      * @throws ParseException Error of date format
      */
-    public Borrow(int id, User user, String borrowDate, Book book) throws ParseException {
+    public Borrow(int id, User user, String borrowDate, Book book,Boolean restore) throws ParseException {
         this.id = id;
         this.User = user;
         this.book = book;
+        this.restore= restore;
 
         // Force the format of borrowDate to "yyyy-MM-dd"
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -38,10 +39,22 @@ public class Borrow {
         this.returnDate = this.borrowDate.plusMonths(1);
     }
 
-    public Borrow(int id, User user, String borrowDate, String returnDate,Book book) throws ParseException {
+    /**
+     * This constructor check if the format of borrowDate is "dd/MM/yyyy" and if returnDate already fixed
+     *
+     * @param id;
+     * @param user;
+     * @param borrowDate;
+     * @param returnDate;
+     * @param book;
+     * @throws ParseException Error of date format
+     */
+    public Borrow(int id, User user, String borrowDate, String returnDate,Book book,Boolean restore) throws ParseException {
         this.id=id;
         this.User= user;
         this.book=book;
+        this.restore=restore;
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
             this.borrowDate = LocalDate.parse(borrowDate, formatter);
