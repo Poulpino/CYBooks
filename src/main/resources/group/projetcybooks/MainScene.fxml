@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.projetcybooks.SceneController">
    <children>
-      <VBox layoutX="150.0" layoutY="50.0" spacing="20.0" alignment="CENTER">
+      <VBox alignment="CENTER" layoutX="150.0" layoutY="50.0" spacing="20.0">
          <children>
             <Label text="Main">
                <font>
@@ -19,9 +19,10 @@
             <Button mnemonicParsing="false" onAction="#switchToClientsMain" text="Clients" />
          </children>
          <padding>
-            <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </VBox>
+      <Button layoutX="218.0" layoutY="231.0" mnemonicParsing="false" onAction="#switchToBooksMain" text="Books" />
+      <Button layoutX="218.0" layoutY="274.0" mnemonicParsing="false" onAction="#switchToBorrowMain" text="Borrow" />
    </children>
 </AnchorPane>
-
