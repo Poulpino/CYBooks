@@ -22,7 +22,7 @@
                 <TextField fx:id="lastNameField" promptText="Last Name" />
                 <TextField fx:id="phoneField" promptText="Phone" />
                 <Button text="Search" prefWidth="100.0" />
-                <Button onAction="#switchToClientsMain" text="Back" />
+                <Button mnemonicParsing="false" onAction="#switchToClientsMain" text="Back" />
             </children>
         </VBox>
         <Region layoutX="350.0" layoutY="20.0" prefWidth="220.0" prefHeight="360.0" style="-fx-border-color: black;">

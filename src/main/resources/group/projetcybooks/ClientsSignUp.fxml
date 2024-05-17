@@ -21,7 +21,7 @@
                 <TextField fx:id="lastNameField" promptText="Last Name" />
                 <TextField fx:id="phoneField" promptText="Phone" />
                 <Button text="Sign Up" prefWidth="150.0" />
-                <Button onAction="#switchToClientsMain" text="Back" />
+                <Button mnemonicParsing="false" onAction="#switchToClientsMain" text="Back" />
             </children>
             <padding>
                 <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
