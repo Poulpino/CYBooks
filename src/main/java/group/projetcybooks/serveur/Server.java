@@ -24,7 +24,7 @@ public class Server {
             //Init objets
             ConnectDB connectDB = new ConnectDB();
             UserManager userManager = new UserManager(connectDB.RequestSelectDB("SELECT * FROM user"));
-            BorrowManager borrowManager = new BorrowManager(connectDB.RequestSelectDB("SELECT * FROM borrow"),connectDB.RequestSelectDB("SELECT * FROM history"),userManager);
+            BorrowManager borrowManager = new BorrowManager(connectDB.RequestSelectDB("SELECT * FROM borrowing"),connectDB.RequestSelectDB("SELECT * FROM history"),userManager);
 
             //attente de la connection client
             while (run) {
@@ -44,12 +44,12 @@ public class Server {
                     inputLineSplit = inputLine.split(" ");
 
                     switch (Integer.parseInt(inputLineSplit[0])) {
-                        case 105:
+                        case 105 -> {
                             Book book = new ConnectApi(inputLineSplit[1]).getBook();
+                            out.println(book.toString());
                             out.println("201");
-                            break;
-                        case 150:
-                            run=false;
+                        }
+                        case 150 -> run = false;
                     }
                     if ("End".equals(inputLine)) {
                         out.println("Au revoir!");

@@ -14,6 +14,8 @@ public class Artwork {
         this.genre = genre;
     }
 
+    public Artwork(){}
+
     //Getter
     public String getTitle() {
         return title;

@@ -14,6 +14,18 @@ public class Book extends Artwork{
         this.statue = statue;
         this.editor = editor;
     }
+    public Book(String str){
+        super();
+        String[] strSplit = str.split(";");
+        super.setTitle(strSplit[3]);
+        super.setAuthor(strSplit[4]);
+        super.setYear(Integer.parseInt(strSplit[5]));
+        super.setGenre(strSplit[6]);
+        this.ISBN = Long.parseLong(strSplit[0]);
+        //TODO insere le bon statue
+        this.statue = TypeStatue.FREE;
+        this.editor = strSplit[2];
+    }
     //Getter
     public long getISBN() {
         return ISBN;
@@ -36,8 +48,7 @@ public class Book extends Artwork{
         this.editor = editor;
     }
 
-    @Override
-    public String toString() {
+    public String afficher() {
         return "Book{" +
                 "ISBN=" + ISBN +
                 ", statue=" + statue +
@@ -47,5 +58,10 @@ public class Book extends Artwork{
                 ", year=" + super.getYear() +
                 ", year=" + super.getYear() +
                 '}';
+    }
+
+    @Override
+    public String toString(){
+        return  ISBN +";"+ statue +";"+ editor +";"+ super.getTitle() +";"+ super.getAuthor() +";" + super.getYear() +";"+ super.getYear();
     }
 }
