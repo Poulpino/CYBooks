@@ -38,7 +38,7 @@
       <ListView layoutX="366.0" layoutY="100.0" prefHeight="221.0" prefWidth="200.0" />
       <Button layoutX="541.0" layoutY="330.0" mnemonicParsing="false" text="&gt;" />
       <Button layoutX="516.0" layoutY="330.0" mnemonicParsing="false" text="&lt;" />
-      <Button layoutX="366.0" layoutY="330.0" mnemonicParsing="false" onAction="#switchToMain" text="Confirm book returning" />
+      <Button layoutX="366.0" layoutY="330.0" mnemonicParsing="false" onAction="#switchToMain" text="Confirm book borrowing" />
       <Button layoutX="498.0" layoutY="28.0" mnemonicParsing="false" onAction="#switchToBorrowBook1" prefHeight="25.0" prefWidth="87.0" text="Back" />
    </children>
 </AnchorPane>
