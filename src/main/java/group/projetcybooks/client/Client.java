@@ -1,6 +1,7 @@
 package group.projetcybooks.client;
 
 import group.projetcybooks.serveur.model.Book;
+import group.projetcybooks.serveur.model.User;
 
 import java.io.*;
 import java.net.*;
@@ -22,7 +23,6 @@ public class Client {
             out.println(clientInput);
             book = new Book(in.readLine());
             System.out.println(Integer.parseInt(in.readLine()));
-            out.println("150");
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
             return null;
@@ -34,7 +34,28 @@ public class Client {
         return book;
     }
 
+    public int ClientSendNewUser(User user) {
+        try (Socket socket = new Socket(host, port);
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
+
+            String clientInput = "106 "+user.toString();
+            out.println(clientInput);
+            System.out.println(Integer.parseInt(in.readLine()));
+            out.println("150");
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host " + host);
+            return -1;
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for the connection to " + host);
+            e.printStackTrace();
+            return -1;
+        }
+        return 1;
+    }
+
     public static void main(String[] args){
-        System.out.println(new Client().ClientISBN("9782810627196"));
+        System.out.println(new Client().ClientSendNewUser(new User(1,"Michel","Aubert", "0686502589")));
     }
 }

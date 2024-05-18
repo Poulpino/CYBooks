@@ -14,6 +14,14 @@ public class User {
         this.phone = phone;
     }
 
+    public User(String str){
+        String [] strSplit = str.split(";");
+        this.id = Integer.parseInt(strSplit[0]);
+        this.lastName = strSplit[1];
+        this.firstName = strSplit[2];
+        this.phone = strSplit[3];
+    }
+
     //Getter
     public int getId() {
         return id;
@@ -41,6 +49,6 @@ public class User {
 
     @Override
     public String toString() {
-        return (firstName + ' ' + lastName + ' ');
+        return id+";"+firstName+";"+lastName+";"+phone;
     }
 }

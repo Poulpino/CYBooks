@@ -49,11 +49,21 @@ public class Server {
                             out.println(book.toString());
                             out.println("201");
                         }
-                        case 150 -> run = false;
-                    }
-                    if ("End".equals(inputLine)) {
-                        out.println("Au revoir!");
-                        break;
+                        case 106 -> {
+                            User user = new User(inputLineSplit[1]);
+                            int n  = userManager.searchUser(user.getLastName(),user.getFirstName(),user.getPhone());
+                            if (n!=-1){
+                                out.println("400 User already existe");
+                            }
+                            else {
+                                userManager.addUser(user.getLastName(),user.getFirstName(),user.getPhone());
+                                out.println("201");
+                            }
+                        }
+                        case 150 ->{
+                            System.out.println("Fermeture du serveur");
+                            run = false;
+                        }
                     }
                 }
 
