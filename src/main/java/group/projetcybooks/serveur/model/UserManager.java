@@ -14,31 +14,39 @@ public class UserManager {
 
     private HashMap<Integer, User> users;
 
+    /**
+     * Constructs a UserManager and populates the users map based on the input request string.
+     *
+     * @param requestUser A string containing user data
+     *                    Example: "id;lastName;firstName;phone".
+     * @throws IllegalArgumentException If a line does not contain exactly 4 values.
+     */
     public UserManager(String requestUser) {
 
         this.users = new HashMap<>();
-
-        //Split lines and values
-        String[] lines = requestUser.split("/");
-        for(String line : lines){
-            String[] values = line.split(";");
-            if(values.length==4){
-                int id = Integer.parseInt(values[0]);
-                String lastName = values[1];
-                String firstName = values[2];
-                String phone = values[3];
-                User user = new User(id,lastName,firstName,phone);
-                users.put(id,user);
+            if (!requestUser.isEmpty()) {
+                //Split lines and values
+                String[] lines = requestUser.split("/");
+                for (String line : lines) {
+                    String[] values = line.split(";");
+                    if (values.length == 4) {
+                        int id = Integer.parseInt(values[0]);
+                        String lastName = values[1];
+                        String firstName = values[2];
+                        String phone = values[3];
+                        User user = new User(id, lastName, firstName, phone);
+                        users.put(id, user);
+                    } else {
+                        throw new IllegalArgumentException("The line doesn't have all the values wanted: " + line);
+                    }
+                }
             }
-            else{
-                System.out.println("The lines doesn't have all the values wanted");
-            }
-        }
     }
 
     /**
      * This method permits to add a User into the system.
      * It defines a new ID by looking from 0 to +inf if the number is already use for an ID
+     *
      * @param lastName;
      * @param firstName;
      * @param phone;
@@ -60,6 +68,7 @@ public class UserManager {
     /**
      * This method permits to remove a User from the system.
      * It checks if the User have restored all book he had borrow.
+     *
      * @param id;
      * @param borrowManager;
      */
@@ -81,6 +90,7 @@ public class UserManager {
     /**
      * This method permits to change User's information.
      * Information that should not be modified must be written as an empty character string "".
+     *
      * @param id;
      * @param lastName;
      * @param firstName;
@@ -106,6 +116,7 @@ public class UserManager {
 
     /**
      * This method permits to search the id of a User by using is Last name or is First Name or is Phone number
+     *
      * @param lastName;
      * @param firstName;
      * @param phone;

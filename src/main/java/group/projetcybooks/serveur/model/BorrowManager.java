@@ -17,89 +17,107 @@ public class BorrowManager {
     private HashMap<Book,Integer> nbborrowperbook;
     private HashMap<Integer,Book> books;
 
+    /**
+     * Constructs a BorrowManager and populates the books, borrowing, and history maps based on the input request strings.
+     *
+     * @param requestBorrow  A string containing borrow data,
+     *                       example "id;userId;borrowDate;returnDate;ISBN;restore".
+     *
+     * @param requestHistory A string containing history data,
+     *                       example "id;userId;borrowDate;returnDate;ISBN;restore".
+     *
+     * @param requestBook    A string containing book data,
+     *                       example "ISBN;statue;editor;title;author;year;genre".
+     *
+     * @param userManager    An instance of UserManager that provides access to user data.
+     * @throws IllegalArgumentException If any line in the input strings does not contain the expected number of values.
+     * @throws Exception;
+     */
     public BorrowManager(String requestBorrow,String requestHistory,String requestBook, UserManager userManager) throws Exception {
         this.nbborrowperbook= new HashMap<>();
 
         ConnectDB connectDB = new ConnectDB();
         this.books = new HashMap<>();
-        String[] booksLines = requestBook.split("/");
-        for(String line : booksLines)
-        {
-            String[] bookValues = line.split(";");
 
-            if(bookValues.length==7)
+        if (!requestBook.isEmpty()) {
+            String[] booksLines = requestBook.split("/");
+            for(String line : booksLines)
             {
-                int ISBN = Integer.parseInt(bookValues[0]);
-                String stringStatue = bookValues[1];
-                TypeStatue statue;
-                if(stringStatue.equals("FREE")){
-                    statue=TypeStatue.FREE;
-                }else{
-                    statue=TypeStatue.BORROW;}
+                String[] bookValues = line.split(";");
 
-                String editor = bookValues[2];
-                String title = bookValues[3];
-                String author = bookValues[4];
-                int year = Integer.parseInt(bookValues[5]);
-                String genre = bookValues[6];
-                Book book = new Book(ISBN,statue,editor,title,author,year,genre);
-                books.put(ISBN,book);
-            }
-            else{
-                System.out.println("The lines doesn't have all the values wanted");
-                return;
+                if(bookValues.length==7)
+                {
+                    int ISBN = Integer.parseInt(bookValues[0]);
+                    String stringStatue = bookValues[1];
+                    TypeStatue statue;
+                    if(stringStatue.equals("FREE")){
+                        statue=TypeStatue.FREE;
+                    }else{
+                        statue=TypeStatue.BORROW;}
+
+                    String editor = bookValues[2];
+                    String title = bookValues[3];
+                    String author = bookValues[4];
+                    int year = Integer.parseInt(bookValues[5]);
+                    String genre = bookValues[6];
+                    Book book = new Book(ISBN,statue,editor,title,author,year,genre);
+                    books.put(ISBN,book);
+                }
+                else{
+                    throw new IllegalArgumentException("The line doesn't have all the values wanted: " + line);
+                }
             }
         }
 
 
         this.borrowing = new HashMap<>();
-        //Split lines and values
-        String[] borrowLines = requestBorrow.split("/");
-        for(String line : borrowLines){
-            String[] values = line.split(";");
+        if (!requestBorrow.isEmpty()) {
+            //Split lines and values
+            String[] borrowLines = requestBorrow.split("/");
+            for (String line : borrowLines) {
+                String[] values = line.split(";");
 
-            if(values.length==6){
-                int id = Integer.parseInt(values[0]);
+                if (values.length == 6) {
+                    int id = Integer.parseInt(values[0]);
 
-                int userId = Integer.parseInt(values[1]);
-                User user = userManager.getUsers().get(userId);
+                    int userId = Integer.parseInt(values[1]);
+                    User user = userManager.getUsers().get(userId);
 
-                String borrowDate = values[2];
-                String return_date = values[3];
-                Boolean restore = Boolean.parseBoolean(values[5]);
+                    String borrowDate = values[2];
+                    String return_date = values[3];
+                    Boolean restore = Boolean.parseBoolean(values[5]);
 
-                int ISBN = Integer.parseInt(values[4]);
-                Book book = books.get(ISBN);
-                borrowing.put(id,new Borrow(id,user,borrowDate,return_date,book,restore));
-            }
-            else{
-                System.out.println("The lines doesn't have all the values wanted");
-                return;
+                    int ISBN = Integer.parseInt(values[4]);
+                    Book book = books.get(ISBN);
+                    borrowing.put(id, new Borrow(id, user, borrowDate, return_date, book, restore));
+                } else {
+                    throw new IllegalArgumentException("The line doesn't have all the values wanted: " + line);
+                }
             }
         }
 
         //On fait la même chose pour history
         this.history = new HashMap<>();
-        String[] historyLine = requestHistory.split("/");
-        for(String line : historyLine){
-            String[] values = line.split(";");
-            if(values.length==6){
-                int id = Integer.parseInt(values[0]);
 
-                int userId = Integer.parseInt(values[1]);
-                User user = userManager.getUsers().get(userId);
+        if (!requestHistory.isEmpty()) {
+            String[] historyLine = requestHistory.split("/");
+            for (String line : historyLine) {
+                String[] values = line.split(";");
+                if (values.length == 6) {
+                    int id = Integer.parseInt(values[0]);
 
-                String borrowDate = values[2];
-                String return_date = values[3];
-                Boolean restore = Boolean.parseBoolean(values[5]);
-                int ISBN = Integer.parseInt(values[4]);
-                Book book = books.get(ISBN);
-                history.put(id,new Borrow(id,user,borrowDate,return_date,book,restore));
-            }
+                    int userId = Integer.parseInt(values[1]);
+                    User user = userManager.getUsers().get(userId);
 
-            else{
-                System.out.println("The lines doesn't have all the values wanted");
-                return;
+                    String borrowDate = values[2];
+                    String return_date = values[3];
+                    Boolean restore = Boolean.parseBoolean(values[5]);
+                    int ISBN = Integer.parseInt(values[4]);
+                    Book book = books.get(ISBN);
+                    history.put(id, new Borrow(id, user, borrowDate, return_date, book, restore));
+                } else {
+                    throw new IllegalArgumentException("The line doesn't have all the values wanted: " + line);
+                }
             }
         }
     }
@@ -138,6 +156,7 @@ public class BorrowManager {
     /**
      * This method permits to return a book from a user
      * @param ISBN of the borrow;
+     * @param borrowId;
      */
     public void returnBook(int ISBN,int borrowId) throws Exception {
         ConnectDB connectDB = new ConnectDB();
@@ -182,7 +201,14 @@ public class BorrowManager {
             System.out.println(entry.getKey() + " - Borrow number : " + entry.getValue());
         }
     }
-
+    /**
+     * Searches for borrows by a user's details (last name, first name, and phone number)
+     *
+     * @param lastName;
+     * @param firstName;
+     * @param phone;
+     * @param userManager;
+     */
     public void searchBorrowByUser(String lastName, String firstName, String phone,UserManager userManager) {
 
         int id = userManager.searchUser(lastName, firstName, phone);
@@ -195,6 +221,12 @@ public class BorrowManager {
         return; //TODO voir format a rendre javaFX
     }
 
+    /**
+     * Searches for a book by its title or author.
+     *
+     * @param title  The title of the book to search for.
+     * @param author The author of the book to search for.
+     */
     public void searchBook(String title, String author){
         //TODO : Mettre d'autre critère de recherche pour livre ?
         for(Map.Entry<Integer, Book> entry : books.entrySet()) {
