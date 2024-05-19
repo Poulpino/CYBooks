@@ -1,7 +1,7 @@
 package group.projetcybooks.serveur.model;
 
 /**
- * This class define books
+ * Represents a book instance in the system.
  */
 public class Book extends Artwork{
     private long ISBN;

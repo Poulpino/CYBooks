@@ -1,19 +1,32 @@
 package group.projetcybooks.serveur.model;
-
+/**
+ * Represents a user instance in the system.
+ */
 public class User {
     private final int id;
     private String lastName;
     private String firstName;
     private String phone;
 
-    //Constructor
+    /**
+     * Constructs a new User object with the specified parameters.
+     *
+     * @param id        The unique identifier of the user.
+     * @param lastName  The last name of the user.
+     * @param firstName The first name of the user.
+     * @param phone     The phone number of the user.
+     */
     public User(int id, String lastName, String firstName, String phone) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
         this.phone = phone;
     }
-
+    /**
+     * Constructs a new User object by parsing a string.
+     *
+     * @param str A string representing user data in the format "id;lastName;firstName;phone".
+     */
     public User(String str){
         String [] strSplit = str.split(";");
         this.id = Integer.parseInt(strSplit[0]);

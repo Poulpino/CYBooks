@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class permits to manage all users
+ * This class manages user-related operations.
  */
 public class UserManager {
 
@@ -17,8 +17,8 @@ public class UserManager {
     /**
      * Constructs a UserManager and populates the users map based on the input request string.
      *
-     * @param requestUser A string containing user data
-     *                    Example: "id;lastName;firstName;phone".
+     * @param requestUser               A string containing user data
+     *                                  Example: "id;lastName;firstName;phone".
      * @throws IllegalArgumentException If a line does not contain exactly 4 values.
      */
     public UserManager(String requestUser) {
@@ -45,11 +45,12 @@ public class UserManager {
 
     /**
      * This method permits to add a User into the system.
-     * It defines a new ID by looking from 0 to +inf if the number is already use for an ID
+     * It defines a new ID by looking from 0 to +inf if the number is already use for an ID.
      *
-     * @param lastName;
-     * @param firstName;
-     * @param phone;
+     * @param lastName   The last name of the user.
+     * @param firstName  The first name of the user.
+     * @param phone      The phone number of the user.
+     * @throws Exception If an error occurs during the user addition process.
      */
     public void addUser(String lastName, String firstName, String phone) throws Exception {
         ConnectDB connectDB = new ConnectDB();
@@ -67,10 +68,11 @@ public class UserManager {
 
     /**
      * This method permits to remove a User from the system.
-     * It checks if the User have restored all book he had borrow.
+     * It checks if the User has restored all books he had borrowed.
      *
-     * @param id;
-     * @param borrowManager;
+     * @param id            The ID of the user to be removed.
+     * @param borrowManager An instance of BorrowManager for accessing borrow data.
+     * @throws Exception    If an error occurs during the user removal process.
      */
     public void removeUser(int id,BorrowManager borrowManager) throws Exception {
         ConnectDB connectDB = new ConnectDB();
@@ -88,13 +90,14 @@ public class UserManager {
     }
 
     /**
-     * This method permits to change User's information.
+     * This method permits to change a User's information.
      * Information that should not be modified must be written as an empty character string "".
      *
-     * @param id;
-     * @param lastName;
-     * @param firstName;
-     * @param phone;
+     * @param id         The ID of the user whose information is to be updated.
+     * @param lastName   The new last name of the user (or an empty string if not to be changed).
+     * @param firstName  The new first name of the user (or an empty string if not to be changed).
+     * @param phone      The new phone number of the user (or an empty string if not to be changed).
+     * @throws Exception If an error occurs during the user information update process.
      */
     public void updateUser(int id,String lastName, String firstName, String phone) throws Exception {
         ConnectDB connectDB = new ConnectDB();
@@ -115,12 +118,12 @@ public class UserManager {
     }
 
     /**
-     * This method permits to search the id of a User by using is Last name or is First Name or is Phone number
+     * This method permits to search for a User's ID using their last name, first name, or phone number.
      *
-     * @param lastName;
-     * @param firstName;
-     * @param phone;
-     * @return id of the User or -1 if not found;
+     * @param lastName  The last name of the user.
+     * @param firstName The first name of the user.
+     * @param phone     The phone number of the user.
+     * @return The ID of the User if found, otherwise -1.
      */
     public int searchUser(String lastName, String firstName, String phone){
 

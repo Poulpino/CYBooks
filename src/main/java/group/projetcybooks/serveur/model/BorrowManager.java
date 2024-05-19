@@ -125,10 +125,10 @@ public class BorrowManager {
     /**
      * This method permits to borrow a book for a specific user
      *
-     * @param ISBN;
-     * @param userID;
-     * @param userManager;
-     * @throws ParseException Error of date format;
+     * @param ISBN         The ISBN of the book to be borrowed.
+     * @param userID       The ID of the user borrowing the book.
+     * @param userManager  An instance of UserManager that provides access to user data.
+     * @throws Exception   If an error occurs during the borrowing process.
      */
     public void borrowBook(int ISBN,int userID,UserManager userManager) throws Exception {
         ConnectDB connectDB = new ConnectDB();
@@ -154,9 +154,11 @@ public class BorrowManager {
     }
 
     /**
-     * This method permits to return a book from a user
-     * @param ISBN of the borrow;
-     * @param borrowId;
+     * This method permits to return a book from a user.
+     *
+     * @param ISBN     The ISBN of the book being returned.
+     * @param borrowId The ID of the borrow record.
+     * @throws Exception If an error occurs during the return process.
      */
     public void returnBook(int ISBN,int borrowId) throws Exception {
         ConnectDB connectDB = new ConnectDB();
@@ -202,12 +204,12 @@ public class BorrowManager {
         }
     }
     /**
-     * Searches for borrows by a user's details (last name, first name, and phone number)
+     * Searches for borrows by a user's details (last name, first name, and phone number).
      *
-     * @param lastName;
-     * @param firstName;
-     * @param phone;
-     * @param userManager;
+     * @param lastName    The last name of the user.
+     * @param firstName   The first name of the user.
+     * @param phone       The phone number of the user.
+     * @param userManager An instance of UserManager that provides access to user data.
      */
     public void searchBorrowByUser(String lastName, String firstName, String phone,UserManager userManager) {
 

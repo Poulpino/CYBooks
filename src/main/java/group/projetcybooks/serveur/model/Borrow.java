@@ -4,6 +4,9 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a borrow instance in the system.
+ */
 public class Borrow {
     private int id;
     private User User;
@@ -13,13 +16,14 @@ public class Borrow {
     private Book book;
 
     /**
-     * This constructor check if the format of borrowDate is "dd/MM/yyyy" and affect the returnDate 1 month after
+     * Constructs a new Borrow object, check if the format of borrowDate is "dd/MM/yyyy" and affect the returnDate 1 month after
      *
-     * @param id;
-     * @param user;
-     * @param borrowDate;
-     * @param book;
-     * @throws ParseException Error of date format
+     * @param id              The ID of the borrow.
+     * @param user            The user who borrowed the book.
+     * @param borrowDate      The date the book was borrowed.
+     * @param book            The book that was borrowed.
+     * @param restore         A boolean value indicating whether the book has been restored.
+     * @throws ParseException If there is an error in the date format.
      */
     public Borrow(int id, User user, String borrowDate, Book book,Boolean restore) throws ParseException {
         this.id = id;
@@ -40,14 +44,15 @@ public class Borrow {
     }
 
     /**
-     * This constructor check if the format of borrowDate is "dd/MM/yyyy" and if returnDate already fixed
+     * Constructs a new Borrow object if returnDate already fixed, check if the format of borrowDate is "dd/MM/yyyy"
      *
-     * @param id;
-     * @param user;
-     * @param borrowDate;
-     * @param returnDate;
-     * @param book;
-     * @throws ParseException Error of date format
+     * @param id              The ID of the borrow.
+     * @param user            The user who borrowed the book.
+     * @param borrowDate      The date the book was borrowed.
+     * @param returnDate      The date the book is expected to be returned.
+     * @param book            The book that was borrowed.
+     * @param restore         A boolean value indicating whether the book has been restored.
+     * @throws ParseException If there is an error in the date format.
      */
     public Borrow(int id, User user, String borrowDate, String returnDate,Book book,Boolean restore) throws ParseException {
         this.id=id;
