@@ -2,7 +2,7 @@ package group.projetcybooks.serveur.model;
 
 import group.projetcybooks.serveur.ConnectDB;
 
-import java.text.ParseException;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -36,7 +36,6 @@ public class BorrowManager {
     public BorrowManager(String requestBorrow,String requestHistory,String requestBook, UserManager userManager) throws Exception {
         this.nbborrowperbook= new HashMap<>();
 
-        ConnectDB connectDB = new ConnectDB();
         this.books = new HashMap<>();
 
         if (!requestBook.isEmpty()) {

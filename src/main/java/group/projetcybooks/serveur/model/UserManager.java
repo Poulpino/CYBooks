@@ -1,9 +1,6 @@
 package group.projetcybooks.serveur.model;
 
-import group.projetcybooks.serveur.ConnectApi;
 import group.projetcybooks.serveur.ConnectDB;
-
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
