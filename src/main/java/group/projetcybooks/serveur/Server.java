@@ -24,7 +24,7 @@ public class Server {
             //Init objets
             ConnectDB connectDB = new ConnectDB();
             UserManager userManager = new UserManager(connectDB.RequestSelectDB("SELECT * FROM user"));
-            BorrowManager borrowManager = new BorrowManager(connectDB.RequestSelectDB("SELECT * FROM borrowing"),connectDB.RequestSelectDB("SELECT * FROM history"),userManager);
+            BorrowManager borrowManager = new BorrowManager(connectDB.RequestSelectDB("SELECT * FROM borrowing"),connectDB.RequestSelectDB("SELECT * FROM history"), connectDB.RequestSelectDB("SELECT * FROM book"), userManager);
 
             //attente de la connection client
             while (run) {

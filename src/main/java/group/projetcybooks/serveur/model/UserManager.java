@@ -1,5 +1,6 @@
 package group.projetcybooks.serveur.model;
 
+import group.projetcybooks.serveur.ConnectApi;
 import group.projetcybooks.serveur.ConnectDB;
 
 import java.util.Arrays;
@@ -62,16 +63,17 @@ public class UserManager {
      * @param id;
      * @param borrowManager;
      */
-    public void removeUser(int id,BorrowManager borrowManager){
-        //TODO : Supprimer la ligne dans la BDD
+    public void removeUser(int id,BorrowManager borrowManager) throws Exception {
+        ConnectDB connectDB = new ConnectDB();
         //Check if User restored all book he had borrow
         for(Map.Entry<Integer,Borrow> entry : borrowManager.getBorrowing().entrySet()){
             if(entry.getValue().getUser().getId()==id && entry.getValue().getRestore()!=Boolean.TRUE){
-                System.out.println("The book" + entry.getValue().getBook().getTitle() + "have not been restored");
+                System.out.println("The book " + entry.getValue().getBook().getTitle() + " have not been restored");
                 System.out.println("User can't be removed");
                 return;
             }
         }
+        connectDB.requestInsertDB("DELETE FROM user WHERE id = '"+id+"'");
         users.remove(id);
         System.out.println("User removed");
     }
@@ -84,19 +86,22 @@ public class UserManager {
      * @param firstName;
      * @param phone;
      */
-    public void updateUser(int id,String lastName, String firstName, String phone){
-        //TODO : Modifier les infos dans la BDD
+    public void updateUser(int id,String lastName, String firstName, String phone) throws Exception {
+        ConnectDB connectDB = new ConnectDB();
         //To give the possibility of changing only one element, we assume that if an element must not be changed it is the empty string
         if(!lastName.isEmpty()) {
+            connectDB.requestInsertDB("UPDATE user SET lastName='"+lastName+"' WHERE id ='"+id+"'");
             users.get(id).setLastName(lastName);
         }
         if(!firstName.isEmpty()) {
+            connectDB.requestInsertDB("UPDATE user SET firstName='"+firstName+"' WHERE id ='"+id+"'");
             users.get(id).setFirstName(firstName);
         }
         if(!phone.isEmpty()) {
+            connectDB.requestInsertDB("UPDATE user SET phone='"+phone+"' WHERE id ='"+id+"'");
             users.get(id).setPhone(phone);
         }
-        System.out.println(users.get(id).toString() + "updated");
+        System.out.println(users.get(id).getLastName() +" "+ users.get(id).getFirstName() + " information's updated");
     }
 
     /**
@@ -111,7 +116,7 @@ public class UserManager {
         //Search the id of the User with is Last/First name or is phone number
         for(Map.Entry<Integer, User> entry : users.entrySet()){
             if (entry.getValue().getLastName().equals(lastName) | entry.getValue().getFirstName().equals(firstName) | entry.getValue().getPhone().equals(phone)){
-                return(entry.getKey());
+                return(entry.getKey()); //TODO : A voir format a rendre javaFX;
             }
         }
         System.out.println("User not found");
