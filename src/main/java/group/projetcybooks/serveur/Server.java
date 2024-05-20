@@ -64,13 +64,17 @@ public class Server {
 
                     switch (Integer.parseInt(inputLineSplit[0])) {
 
-                        //ClientBoreowISBN
+                        //ClientBorrowISBN //TODO peut etre gerer un isbn qui existe pas
                         case 105 -> {
                             try {
                                 Book book = new ConnectApi(inputLineSplit[1]).getBook();
-                                borrowManager.addBook(book);
-                                out.println(book.toString());
-                                out.println("201");
+                                User user = new User(inputLineSplit[2]);
+                                if (userManager.userExiste(user.getId())){
+                                    borrowManager.addBook(book);
+                                    borrowManager.borrowBook(book.getISBN(),user.getId(),userManager);
+                                    out.println(book.toString());
+                                    out.println("201");
+                                }
                             }catch (Exception e){
                                 out.println("400 "+e.getMessage());
                             }
@@ -153,6 +157,10 @@ public class Server {
                             }
                         }
 
+                        //ClientReturnBook
+                        case 111 ->{
+
+                        }
 
                         case 150 ->{
                             System.out.println("Closing Server");

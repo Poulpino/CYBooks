@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class Borrow {
     private int id;
-    private User User;
+    private User user;
     private LocalDate borrowDate;
     private LocalDate returnDate;
     private Boolean restore;
@@ -27,7 +27,7 @@ public class Borrow {
      */
     public Borrow(int id, User user, String borrowDate, Book book,Boolean restore) throws ParseException {
         this.id = id;
-        this.User = user;
+        this.user = user;
         this.book = book;
         this.restore= restore;
 
@@ -56,7 +56,7 @@ public class Borrow {
      */
     public Borrow(int id, User user, String borrowDate, String returnDate,Book book,Boolean restore) throws ParseException {
         this.id=id;
-        this.User= user;
+        this.user= user;
         this.book=book;
         this.restore=restore;
 
@@ -73,13 +73,35 @@ public class Borrow {
         }
     }
 
+    public Borrow(String str){
+        String[] strSplit = str.split("/");
+        user = new User(strSplit[1]);
+        book = new Book(strSplit[2]);
+        strSplit = strSplit[0].split(";");
+        id=Integer.parseInt(strSplit[0]);
+        borrowDate= LocalDate.parse(strSplit[1]);
+        if (strSplit.length > 2){
+            returnDate= LocalDate.parse(strSplit[2]);
+            restore= Boolean.valueOf(strSplit[3]);
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (restore){
+            return id+";"+borrowDate+";"+returnDate+";"+restore+"/"+ user.toString()+"/"+book.toString();
+        }
+        else {
+            return id+";"+borrowDate+"/"+ user.toString()+"/"+book;
+        }
+    }
 
     //Getter
     public int getId() {
         return id;
     }
     public User getUser() {
-        return User;
+        return user;
     }
     public LocalDate getBorrowDate() {
         return borrowDate;
@@ -96,7 +118,7 @@ public class Borrow {
 
     //Setter
     public void setUser(User User) {
-        this.User = User;
+        this.user = User;
     }
     public void setBorrowDate(LocalDate borrowDate) {
         this.borrowDate = borrowDate;
@@ -112,5 +134,16 @@ public class Borrow {
     }
     public void setRestore(Boolean restore){
         this.restore=restore;
+    }
+
+    public static void main(String[] args){
+        try {
+            Borrow b = new Borrow(2,new User(1,"Maestri","Adrien","06578595575"),"2024-05-10","2024-05-20", new Book(8008,TypeStatue.FREE,"lalalal","okokokok","atior",2000,"M"),true);
+            Borrow a = new Borrow(b.toString());
+            System.out.println(a.toString());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

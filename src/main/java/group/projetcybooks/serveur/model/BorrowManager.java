@@ -155,6 +155,7 @@ public class BorrowManager {
      * @param genre   The genre of the book.
      * @throws Exception If there's an error whit DB connection.
      */
+    //TODO Faire les verifs que le livre n'existe pas deja
     public void addBook(Long ISBN,TypeStatue statue,String editor,String title, String author,int year,String genre) throws Exception {
         ConnectDB connectDB = new ConnectDB();
 
@@ -163,6 +164,13 @@ public class BorrowManager {
         connectDB.requestInsertDB("INSERT into book (isbn,statue,editor,title,author,year,genre) VALUES ('"+book.getISBN()+"', '"+book.getStatue()+"', '"+book.getEditor()+"', '"+book.getTitle()+"', '"+book.getAuthor()+"', '"+book.getYear()+"', '"+book.getGenre()+"');");
         System.out.println(books.get(ISBN).toString() +" added");
     }
+
+    /**
+     * Adds a new book to the system.
+     *
+     * @param book Book you want to add
+     * @throws Exception If there's an error whit DB connection.
+     */
     public void addBook(Book book) throws Exception {
         addBook(book.getISBN(),book.getStatue(),book.getEditor(),book.getTitle(),book.getAuthor(),book.getYear(),book.getGenre());
     }
@@ -174,7 +182,7 @@ public class BorrowManager {
      * @param userManager  An instance of UserManager that provides access to user data.
      * @throws Exception   If an error occurs during the borrowing process.
      */
-    public void borrowBook(int ISBN,int userID,UserManager userManager) throws Exception {
+    public void borrowBook(long ISBN,int userID,UserManager userManager) throws Exception {
         ConnectDB connectDB = new ConnectDB();
         Book book = books.get(ISBN);
 
