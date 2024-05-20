@@ -31,7 +31,6 @@ public class Server {
             UserManager userManager = new UserManager(connectDB.RequestSelectDB("SELECT * FROM user"));
             BorrowManager borrowManager = new BorrowManager(connectDB.RequestSelectDB("SELECT * FROM borrowing"),connectDB.RequestSelectDB("SELECT * FROM history"), connectDB.RequestSelectDB("SELECT * FROM book"), userManager);
 
-            //look for late return
             try {
                 List<Borrow> lateReturn = borrowManager.lateReturn();
             }catch (NoLateReturnBook e){
@@ -110,7 +109,14 @@ public class Server {
                             String phone=inputLineSplit[3];
                             try {
                                 List<User> users = userManager.searchUser(lastName, firstName, phone, Boolean.FALSE);
-                                out.println("201"); //TODO : voir quoi return (toString() ?)
+                                StringBuilder result = new StringBuilder();
+                                for (int i = 0; i < users.size(); i++) {
+                                    result.append(users.get(i).toString());
+                                    if (i < users.size() - 1) {
+                                        result.append(";");
+                                    }
+                                }
+                                out.println("201"+result.toString());
                             }catch (UserNotFoundException e){
                                 out.println(e.getMessage());
                             }
