@@ -1,7 +1,12 @@
 package group.projetcybooks.serveur.model;
 
 import group.projetcybooks.serveur.ConnectDB;
+import group.projetcybooks.serveur.model.exception.BookNotReturnException;
+import group.projetcybooks.serveur.model.exception.UserNotFoundException;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,6 +55,7 @@ public class UserManager {
      * @throws Exception If an error occurs during the user addition process.
      */
     public void addUser(String lastName, String firstName, String phone) throws Exception {
+
         ConnectDB connectDB = new ConnectDB();
         int newID=0;
         while(users.containsKey(newID)){
@@ -58,8 +64,8 @@ public class UserManager {
 
         User User = new User(newID, lastName, firstName, phone);
         users.put(newID, User);
-        connectDB.requestInsertDB("INSERT into User (id,lastName,firstName,phone) VALUES ('"+User.getId()+"', '"+User.getLastName()+"', '"+User.getFirstName()+"', '"+User.getPhone()+"');");
-        System.out.println(users.get(newID).toString() + "added");
+        connectDB.requestInsertDB(STR."INSERT into User (id,lastName,firstName,phone) VALUES ('\{User.getId()}', '\{User.getLastName()}', '\{User.getFirstName()}', '\{User.getPhone()}');");
+        System.out.println(STR."\{users.get(newID).toString()}added");
 
     }
 
@@ -76,12 +82,10 @@ public class UserManager {
         //Check if User restored all book he had borrow
         for(Map.Entry<Integer,Borrow> entry : borrowManager.getBorrowing().entrySet()){
             if(entry.getValue().getUser().getId()==id && entry.getValue().getRestore()!=Boolean.TRUE){
-                System.out.println("The book " + entry.getValue().getBook().getTitle() + " have not been restored");
-                System.out.println("User can't be removed");
-                return;
+                throw new BookNotReturnException(STR."The book \{entry.getValue().getBook().getTitle()} have not been restored \n User can't be removed");
             }
         }
-        connectDB.requestInsertDB("DELETE FROM user WHERE id = '"+id+"'");
+        connectDB.requestInsertDB(STR."DELETE FROM user WHERE id = '\{id}'");
         users.remove(id);
         System.out.println("User removed");
     }
@@ -99,20 +103,26 @@ public class UserManager {
     public void updateUser(int id,String lastName, String firstName, String phone) throws Exception {
         ConnectDB connectDB = new ConnectDB();
         //To give the possibility of changing only one element, we assume that if an element must not be changed it is the empty string
-        if(!lastName.isEmpty()) {
-            connectDB.requestInsertDB("UPDATE user SET lastName='"+lastName+"' WHERE id ='"+id+"'");
-            users.get(id).setLastName(lastName);
+        if (!(users.get(id) == null)) {
+            if (!lastName.isEmpty()) {
+                connectDB.requestInsertDB(STR."UPDATE user SET lastName='\{lastName}' WHERE id ='\{id}'");
+                users.get(id).setLastName(lastName);
+            }
+            if (!firstName.isEmpty()) {
+                connectDB.requestInsertDB(STR."UPDATE user SET firstName='\{firstName}' WHERE id ='\{id}'");
+                users.get(id).setFirstName(firstName);
+            }
+            if (!phone.isEmpty()) {
+                connectDB.requestInsertDB(STR."UPDATE user SET phone='\{phone}' WHERE id ='\{id}'");
+                users.get(id).setPhone(phone);
+            }
+            System.out.println(STR."\{users.get(id).getLastName()} \{users.get(id).getFirstName()} information's updated");
         }
-        if(!firstName.isEmpty()) {
-            connectDB.requestInsertDB("UPDATE user SET firstName='"+firstName+"' WHERE id ='"+id+"'");
-            users.get(id).setFirstName(firstName);
+        else{
+            throw new UserNotFoundException("User not found so can't update information");
         }
-        if(!phone.isEmpty()) {
-            connectDB.requestInsertDB("UPDATE user SET phone='"+phone+"' WHERE id ='"+id+"'");
-            users.get(id).setPhone(phone);
-        }
-        System.out.println(users.get(id).getLastName() +" "+ users.get(id).getFirstName() + " information's updated");
     }
+
 
     /**
      * This method permits to search for a User's ID using their last name, first name, or phone number.
@@ -120,18 +130,34 @@ public class UserManager {
      * @param lastName  The last name of the user.
      * @param firstName The first name of the user.
      * @param phone     The phone number of the user.
+     * @param bool      If true all parameter need to be exact to select one user,
+     *                  otherwise if false only one parameter needed to find several user
      * @return The ID of the User if found, otherwise -1.
      */
-    public int searchUser(String lastName, String firstName, String phone){
+    public List<User> searchUser(String lastName, String firstName, String phone,Boolean bool) throws UserNotFoundException {
 
-        //Search the id of the User with is Last/First name or is phone number
-        for(Map.Entry<Integer, User> entry : users.entrySet()){
-            if (entry.getValue().getLastName().equals(lastName) | entry.getValue().getFirstName().equals(firstName) | entry.getValue().getPhone().equals(phone)){
-                return(entry.getKey()); //TODO : A voir format a rendre javaFX;
+        List<User> userId = new ArrayList<>();
+        if(bool.equals(Boolean.TRUE)) {
+            for(Map.Entry<Integer, User> entry : users.entrySet()){
+                if (entry.getValue().getLastName().equals(lastName) && entry.getValue().getFirstName().equals(firstName) && entry.getValue().getPhone().equals(phone)){
+                    userId.add(entry.getValue());
+                }
             }
+
+        } else if (bool.equals(Boolean.FALSE)) {
+            for (Map.Entry<Integer, User> entry : users.entrySet()){
+                if (entry.getValue().getLastName().equals(lastName) | entry.getValue().getFirstName().equals(firstName) | entry.getValue().getPhone().equals(phone)){
+                    userId.add(entry.getValue());
+                }
+            }
+
         }
-        System.out.println("User not found");
-        return(-1);
+        if (!userId.isEmpty()){
+            return userId;
+        }
+        else{
+            throw new UserNotFoundException("User not found with given details.");
+        }
     }
 
     public HashMap<Integer, User> getUsers() {

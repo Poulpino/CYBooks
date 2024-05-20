@@ -1,6 +1,7 @@
 package group.projetcybooks.serveur.model;
 
 import group.projetcybooks.serveur.ConnectDB;
+import group.projetcybooks.serveur.model.exception.*;
 
 
 import java.time.LocalDate;
@@ -120,6 +121,27 @@ public class BorrowManager {
             }
         }
     }
+    /**
+     * Checks for any late returns in the borrowing records.
+     * If a borrowed item has a return date that is after the current date,
+     * it indicates a late return.
+     */
+    public List<Book> lateReturn() throws NoLateReturnBook {
+
+        List<Book> lateReturnBook = new ArrayList<>();
+
+        for (Map.Entry<Integer, Borrow> entry : borrowing.entrySet()) {
+            Borrow borrow = entry.getValue();
+            if (borrow.getReturnDate().isAfter(LocalDate.now())) {
+                lateReturnBook.add(borrow.getBook());
+            }
+        }
+        if (!lateReturnBook.isEmpty())
+            return lateReturnBook;
+        else {
+            throw new NoLateReturnBook("No late return book");
+        }
+    }
 
     /**
      * This method permits to borrow a book for a specific user
@@ -145,11 +167,13 @@ public class BorrowManager {
 
             Borrow borrow = new Borrow(newID,user,LocalDate.now().toString(),book,Boolean.FALSE);
             borrowing.put(newID,borrow);
-            connectDB.requestInsertDB("INSERT into borrowing (id, userId,borrowDate,returnDate,bookIsbn,restored) VALUES ('"+borrow.getId()+"', '"+user.getId()+"', '"+borrow.getBorrowDate()+"', '"+borrow.getReturnDate()+"', '"+borrow.getBook().getISBN()+"', '"+borrow.getRestore()+"');");
-            connectDB.requestInsertDB("UPDATE book SET statue='BORROW' where isbn='"+ISBN+"';");
-            System.out.println(user.toString() + "have borrow" + book.toString());
+            connectDB.requestInsertDB(STR."INSERT into borrowing (id, userId,borrowDate,returnDate,bookIsbn,restored) VALUES ('\{borrow.getId()}', '\{user.getId()}', '\{borrow.getBorrowDate()}', '\{borrow.getReturnDate()}', '\{borrow.getBook().getISBN()}', '\{borrow.getRestore()}');");
+            connectDB.requestInsertDB(STR."UPDATE book SET statue='BORROW' where isbn='\{ISBN}';");
+            System.out.println(STR."\{user.toString()}have borrow\{book.toString()}");
         }
-        else{System.out.println("This book is not free");}
+        else{
+            throw new BookNotFreeException("Book not free.");
+        }
     }
 
     /**
@@ -162,7 +186,7 @@ public class BorrowManager {
     public void returnBook(int ISBN,int borrowId) throws Exception {
         ConnectDB connectDB = new ConnectDB();
         books.get(ISBN).setStatue(TypeStatue.FREE);
-        connectDB.requestInsertDB("UPDATE book SET statue='FREE' WHERE isbn='"+ISBN+"'");
+        connectDB.requestInsertDB(STR."UPDATE book SET statue='FREE' WHERE isbn='\{ISBN}'");
 
         borrowing.get(borrowId).setRestore(Boolean.TRUE);
         borrowing.get(borrowId).setReturnDate(LocalDate.now());
@@ -173,9 +197,9 @@ public class BorrowManager {
             newID+=1;
         }
 
-        connectDB.requestInsertDB("INSERT into history (id, userId,borrowDate,returnDate,bookIsbn,restored) VALUES ('"+newID+"', '"+borrowing.get(borrowId).getUser().getId()+"', '"+borrowing.get(borrowId).getBorrowDate()+"', '"+borrowing.get(borrowId).getReturnDate()+"', '"+borrowing.get(borrowId).getBook().getISBN()+"', '"+borrowing.get(borrowId).getRestore()+"');");
+        connectDB.requestInsertDB(STR."INSERT into history (id, userId,borrowDate,returnDate,bookIsbn,restored) VALUES ('\{newID}', '\{borrowing.get(borrowId).getUser().getId()}', '\{borrowing.get(borrowId).getBorrowDate()}', '\{borrowing.get(borrowId).getReturnDate()}', '\{borrowing.get(borrowId).getBook().getISBN()}', '\{borrowing.get(borrowId).getRestore()}');");
         history.put(newID,borrowing.get(ISBN));
-        connectDB.requestInsertDB("DELETE FROM borrowing WHERE id='"+borrowId+"'");
+        connectDB.requestInsertDB(STR."DELETE FROM borrowing WHERE id='\{borrowId}'");
         borrowing.remove(ISBN);
         System.out.println("Book restored");
     }
@@ -203,41 +227,56 @@ public class BorrowManager {
         }
     }
     /**
-     * Searches for borrows by a user's details (last name, first name, and phone number).
+     * Searches for borrows by a user.
      *
-     * @param lastName    The last name of the user.
-     * @param firstName   The first name of the user.
-     * @param phone       The phone number of the user.
-     * @param userManager An instance of UserManager that provides access to user data.
+     * @param user The user whose borrows are to be searched.
+     * @return A list of borrows associated with the specified user.
+     * @throws UserNotFoundException If the user is not found in the system.
+     * @throws NoBorrowForUser If the user has no borrows.
      */
-    public void searchBorrowByUser(String lastName, String firstName, String phone,UserManager userManager) {
+    public List<Borrow> searchBorrowByUser(User user) throws UserNotFoundException, NoBorrowForUser {
 
-        int id = userManager.searchUser(lastName, firstName, phone);
+        List<Borrow> borrows = new ArrayList<>();
+
+        int id = user.getId();
         for (Map.Entry<Integer, Borrow> entry : borrowing.entrySet()) {
             Borrow borrow = entry.getValue();
             if (borrow.getUser().getId() == id) {
-                return; //TODO a voir format a rendre javaFX;
+                borrows.add(borrow);
             }
         }
-        return; //TODO voir format a rendre javaFX
+        if (!borrows.isEmpty()){
+            return borrows;
+        }
+        else{
+            throw new NoBorrowForUser("This user have no borrow");
+        }
     }
 
     /**
      * Searches for a book by its title or author.
      *
+     * @param ISBN   The ISBN of the book to search for.
      * @param title  The title of the book to search for.
      * @param author The author of the book to search for.
+     * @return A list of books matching the search criteria.
+     * @throws BookNotFoundException If no books are found matching the search criteria.
      */
-    public void searchBook(String title, String author){
-        //TODO : Mettre d'autre critère de recherche pour livre ?
+    public List<Book> searchBook(String ISBN, String title, String author) throws BookNotFoundException {
+
+        List<Book> booksFind = new ArrayList<>();
+
         for(Map.Entry<Integer, Book> entry : books.entrySet()) {
-            if (entry.getValue().getTitle().equals(title) | entry.getValue().getAuthor().equals(author)) {
-                return;//TODO : A voir format javaFX;
+            if (entry.getValue().getTitle().equals(ISBN) | entry.getValue().getTitle().equals(title) | entry.getValue().getAuthor().equals(author)) {
+                booksFind.add(entry.getValue());
             }
         }
-        System.out.println("Book not found");
-        return; //TODO : voir format javaFX
-
+        if (!booksFind.isEmpty()){
+            return booksFind;
+        }
+        else{
+            throw new BookNotFoundException("No book find with given details.");
+        }
     }
 
     public HashMap<Integer, Borrow> getBorrowing() {
