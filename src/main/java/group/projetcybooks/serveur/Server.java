@@ -1,6 +1,7 @@
 package group.projetcybooks.serveur;
 
 import group.projetcybooks.serveur.model.*;
+import group.projetcybooks.serveur.model.exception.NoLateReturnBook;
 import group.projetcybooks.serveur.model.exception.UserNotFoundException;
 
 
@@ -29,7 +30,11 @@ public class Server {
             BorrowManager borrowManager = new BorrowManager(connectDB.RequestSelectDB("SELECT * FROM borrowing"),connectDB.RequestSelectDB("SELECT * FROM history"), connectDB.RequestSelectDB("SELECT * FROM book"), userManager);
 
             //look for late return
-            borrowManager.lateReturn(); //TODO : Voir que faire de la méthode (affichage JavaFX)
+            try {
+                List<Borrow> lateReturn = borrowManager.lateReturn();
+            }catch (NoLateReturnBook e){
+                System.out.println(e.getMessage());
+            }
 
             //waiting client connexion's
             while (run) {
@@ -44,11 +49,20 @@ public class Server {
                 String inputLine;
                 String[] inputLineSplit;
 
+                //Pop up at start to tell there is late return
+                try {
+                    List<Borrow> lateReturn = borrowManager.lateReturn();
+                    out.println("There is late return to check");
+                }catch (NoLateReturnBook e){
+                    System.out.println(e.getMessage());
+                }
+
                 while ((inputLine = in.readLine()) != null) {
                     System.out.println("Reçu du client: " + inputLine);
                     inputLineSplit = inputLine.split(" ");
 
                     switch (Integer.parseInt(inputLineSplit[0])) {
+
                         case 105 -> {
                             Book book = new ConnectApi(inputLineSplit[1]).getBook();
                             out.println(book.toString());

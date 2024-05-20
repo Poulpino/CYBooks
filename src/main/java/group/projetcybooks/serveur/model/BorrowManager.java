@@ -126,14 +126,14 @@ public class BorrowManager {
      * If a borrowed item has a return date that is after the current date,
      * it indicates a late return.
      */
-    public List<Book> lateReturn() throws NoLateReturnBook {
+    public List<Borrow> lateReturn() throws NoLateReturnBook {
 
-        List<Book> lateReturnBook = new ArrayList<>();
+        List<Borrow> lateReturnBook = new ArrayList<>();
 
         for (Map.Entry<Integer, Borrow> entry : borrowing.entrySet()) {
             Borrow borrow = entry.getValue();
             if (borrow.getReturnDate().isAfter(LocalDate.now())) {
-                lateReturnBook.add(borrow.getBook());
+                lateReturnBook.add(borrow);
             }
         }
         if (!lateReturnBook.isEmpty())
@@ -143,6 +143,27 @@ public class BorrowManager {
         }
     }
 
+    /**
+     * Adds a new book to the system.
+     *
+     * @param ISBN    The ISBN of the book.
+     * @param statue  The status of the book (e.g., FREE or BORROW).
+     * @param editor  The editor of the book.
+     * @param title   The title of the book.
+     * @param author  The author of the book.
+     * @param year    The publication year of the book.
+     * @param genre   The genre of the book.
+     * @throws Exception If there's an error whit DB connection.
+     */
+    public void addBook(int ISBN,TypeStatue statue,String editor,String title, String author,int year,String genre) throws Exception {
+        ConnectDB connectDB = new ConnectDB();
+
+        Book book = new Book(ISBN,statue,editor,title,author,year,genre);
+        books.put(ISBN, book);
+        connectDB.requestInsertDB(STR."INSERT into book (isbn,statue,editor,title,author,year,genre) VALUES ('\{book.getISBN()}', '\{book.getStatue()}', '\{book.getEditor()}', '\{book.getTitle()}', '\{book.getAuthor()}', '\{book.getYear()}', '\{book.getGenre()}'}');");
+        System.out.println(STR."\{books.get(ISBN).toString()}added");
+
+    }
     /**
      * This method permits to borrow a book for a specific user
      *
@@ -203,7 +224,6 @@ public class BorrowManager {
         borrowing.remove(ISBN);
         System.out.println("Book restored");
     }
-
 
     /**
      * This method return a list of the book with more borrow
