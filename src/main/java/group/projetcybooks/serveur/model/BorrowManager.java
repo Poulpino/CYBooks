@@ -16,7 +16,7 @@ public class BorrowManager {
     private HashMap<Integer,Borrow> borrowing;
     private HashMap<Integer,Borrow> history;
     private HashMap<Book,Integer> nbborrowperbook;
-    private HashMap<Integer,Book> books;
+    private HashMap<Long,Book> books;
 
     /**
      * Constructs a BorrowManager and populates the books, borrowing, and history maps based on the input request strings.
@@ -47,7 +47,7 @@ public class BorrowManager {
 
                 if(bookValues.length==7)
                 {
-                    int ISBN = Integer.parseInt(bookValues[0]);
+                    Long ISBN = Long.parseLong(bookValues[0]);
                     String stringStatue = bookValues[1];
                     TypeStatue statue;
                     if(stringStatue.equals("FREE")){
@@ -155,14 +155,16 @@ public class BorrowManager {
      * @param genre   The genre of the book.
      * @throws Exception If there's an error whit DB connection.
      */
-    public void addBook(int ISBN,TypeStatue statue,String editor,String title, String author,int year,String genre) throws Exception {
+    public void addBook(Long ISBN,TypeStatue statue,String editor,String title, String author,int year,String genre) throws Exception {
         ConnectDB connectDB = new ConnectDB();
 
         Book book = new Book(ISBN,statue,editor,title,author,year,genre);
         books.put(ISBN, book);
-        connectDB.requestInsertDB(STR."INSERT into book (isbn,statue,editor,title,author,year,genre) VALUES ('\{book.getISBN()}', '\{book.getStatue()}', '\{book.getEditor()}', '\{book.getTitle()}', '\{book.getAuthor()}', '\{book.getYear()}', '\{book.getGenre()}'}');");
-        System.out.println(STR."\{books.get(ISBN).toString()}added");
-
+        connectDB.requestInsertDB("INSERT into book (isbn,statue,editor,title,author,year,genre) VALUES ('"+book.getISBN()+"', '"+book.getStatue()+"', '"+book.getEditor()+"', '"+book.getTitle()+"', '"+book.getAuthor()+"', '"+book.getYear()+"', '"+book.getGenre()+"');");
+        System.out.println(books.get(ISBN).toString() +" added");
+    }
+    public void addBook(Book book) throws Exception {
+        addBook(book.getISBN(),book.getStatue(),book.getEditor(),book.getTitle(),book.getAuthor(),book.getYear(),book.getGenre());
     }
     /**
      * This method permits to borrow a book for a specific user
@@ -188,9 +190,9 @@ public class BorrowManager {
 
             Borrow borrow = new Borrow(newID,user,LocalDate.now().toString(),book,Boolean.FALSE);
             borrowing.put(newID,borrow);
-            connectDB.requestInsertDB(STR."INSERT into borrowing (id, userId,borrowDate,returnDate,bookIsbn,restored) VALUES ('\{borrow.getId()}', '\{user.getId()}', '\{borrow.getBorrowDate()}', '\{borrow.getReturnDate()}', '\{borrow.getBook().getISBN()}', '\{borrow.getRestore()}');");
-            connectDB.requestInsertDB(STR."UPDATE book SET statue='BORROW' where isbn='\{ISBN}';");
-            System.out.println(STR."\{user.toString()}have borrow\{book.toString()}");
+            connectDB.requestInsertDB("INSERT into borrowing (id, userId,borrowDate,returnDate,bookIsbn,restored) VALUES ('"+borrow.getId()+"', '"+user.getId()+"', '"+borrow.getBorrowDate()+"', '"+borrow.getReturnDate()+"', '"+borrow.getBook().getISBN()+"', '"+borrow.getRestore()+"');");
+            connectDB.requestInsertDB("UPDATE book SET statue='BORROW' where isbn='"+ISBN+"';");
+            System.out.println(user.toString()+" have borrow "+book.toString());
         }
         else{
             throw new BookNotFreeException("Book not free.");
@@ -207,7 +209,7 @@ public class BorrowManager {
     public void returnBook(int ISBN,int borrowId) throws Exception {
         ConnectDB connectDB = new ConnectDB();
         books.get(ISBN).setStatue(TypeStatue.FREE);
-        connectDB.requestInsertDB(STR."UPDATE book SET statue='FREE' WHERE isbn='\{ISBN}'");
+        connectDB.requestInsertDB("UPDATE book SET statue='FREE' WHERE isbn='"+ISBN+"'");
 
         borrowing.get(borrowId).setRestore(Boolean.TRUE);
         borrowing.get(borrowId).setReturnDate(LocalDate.now());
@@ -218,9 +220,9 @@ public class BorrowManager {
             newID+=1;
         }
 
-        connectDB.requestInsertDB(STR."INSERT into history (id, userId,borrowDate,returnDate,bookIsbn,restored) VALUES ('\{newID}', '\{borrowing.get(borrowId).getUser().getId()}', '\{borrowing.get(borrowId).getBorrowDate()}', '\{borrowing.get(borrowId).getReturnDate()}', '\{borrowing.get(borrowId).getBook().getISBN()}', '\{borrowing.get(borrowId).getRestore()}');");
+        connectDB.requestInsertDB("INSERT into history (id, userId,borrowDate,returnDate,bookIsbn,restored) VALUES ('"+newID+"', '"+borrowing.get(borrowId).getUser().getId()+"', '"+borrowing.get(borrowId).getBorrowDate()+"', '"+borrowing.get(borrowId).getReturnDate()+"', '"+borrowing.get(borrowId).getBook().getISBN()+"', '"+borrowing.get(borrowId).getRestore()+"');");
         history.put(newID,borrowing.get(ISBN));
-        connectDB.requestInsertDB(STR."DELETE FROM borrowing WHERE id='\{borrowId}'");
+        connectDB.requestInsertDB("DELETE FROM borrowing WHERE id='"+borrowId+"'");
         borrowing.remove(ISBN);
         System.out.println("Book restored");
     }
@@ -286,7 +288,7 @@ public class BorrowManager {
 
         List<Book> booksFind = new ArrayList<>();
 
-        for(Map.Entry<Integer, Book> entry : books.entrySet()) {
+        for(Map.Entry<Long, Book> entry : books.entrySet()) {
             if (entry.getValue().getTitle().equals(ISBN) | entry.getValue().getTitle().equals(title) | entry.getValue().getAuthor().equals(author)) {
                 booksFind.add(entry.getValue());
             }
@@ -311,7 +313,7 @@ public class BorrowManager {
         return nbborrowperbook;
     }
 
-    public HashMap<Integer, Book> getBooks() {
+    public HashMap<Long, Book> getBooks() {
         return books;
     }
 }

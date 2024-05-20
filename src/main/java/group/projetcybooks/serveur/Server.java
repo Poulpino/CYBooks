@@ -65,11 +65,16 @@ public class Server {
 
                     switch (Integer.parseInt(inputLineSplit[0])) {
 
-                        //ClientISBN //TODO : a modifier avec nouvelle méthode addBook
+                        //ClientBoreowISBN
                         case 105 -> {
-                            Book book = new ConnectApi(inputLineSplit[1]).getBook();
-                            out.println(book.toString());
-                            out.println("201");
+                            try {
+                                Book book = new ConnectApi(inputLineSplit[1]).getBook();
+                                borrowManager.addBook(book);
+                                out.println(book.toString());
+                                out.println("201");
+                            }catch (Exception e){
+                                out.println("400 "+e.getMessage());
+                            }
                         }
 
                         //ClientSendNewUser
@@ -83,7 +88,7 @@ public class Server {
                                     userManager.addUser(user.getLastName(), user.getFirstName(), user.getPhone());
                                     out.println("201");
                                 } catch (Exception f) {
-                                    out.println(STR."400\{f.getMessage()}");
+                                    out.println("400 "+f.getMessage());
                                 }
                             }
                         }
@@ -122,7 +127,7 @@ public class Server {
                                 out.println(e.getMessage());
                             }
                             catch (Exception e){
-                                out.println(STR."400\{e.getMessage()}");
+                                out.println("400" + e.getMessage());
                             }
                         }
 
@@ -141,6 +146,7 @@ public class Server {
                                 out.println(f.getMessage());
                             }
                         }
+
 
                         case 150 ->{
                             System.out.println("Closing Server");

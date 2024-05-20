@@ -64,8 +64,8 @@ public class UserManager {
 
         User User = new User(newID, lastName, firstName, phone);
         users.put(newID, User);
-        connectDB.requestInsertDB(STR."INSERT into User (id,lastName,firstName,phone) VALUES ('\{User.getId()}', '\{User.getLastName()}', '\{User.getFirstName()}', '\{User.getPhone()}');");
-        System.out.println(STR."\{users.get(newID).toString()}added");
+        connectDB.requestInsertDB("INSERT into User (id,lastName,firstName,phone) VALUES ('"+User.getId()+"', '"+User.getLastName()+"', '"+User.getFirstName()+"', '"+User.getPhone()+"');");
+        System.out.println(users.get(newID).toString()+" added");
 
     }
 
@@ -82,10 +82,10 @@ public class UserManager {
         //Check if User restored all book he had borrow
         for(Map.Entry<Integer,Borrow> entry : borrowManager.getBorrowing().entrySet()){
             if(entry.getValue().getUser().getId()==id && entry.getValue().getRestore()!=Boolean.TRUE){
-                throw new BookNotReturnException(STR."The book \{entry.getValue().getBook().getTitle()} have not been restored \n User can't be removed");
+                throw new BookNotReturnException("The book "+entry.getValue().getBook().getTitle()+" have not been restored \n User can't be removed");
             }
         }
-        connectDB.requestInsertDB(STR."DELETE FROM user WHERE id = '\{id}'");
+        connectDB.requestInsertDB("DELETE FROM user WHERE id = '"+id+"'");
         users.remove(id);
         System.out.println("User removed");
     }
@@ -105,18 +105,18 @@ public class UserManager {
         //To give the possibility of changing only one element, we assume that if an element must not be changed it is the empty string
         if (!(users.get(id) == null)) {
             if (!lastName.isEmpty()) {
-                connectDB.requestInsertDB(STR."UPDATE user SET lastName='\{lastName}' WHERE id ='\{id}'");
+                connectDB.requestInsertDB("UPDATE user SET lastName='"+lastName+"' WHERE id ='"+id+"'");
                 users.get(id).setLastName(lastName);
             }
             if (!firstName.isEmpty()) {
-                connectDB.requestInsertDB(STR."UPDATE user SET firstName='\{firstName}' WHERE id ='\{id}'");
+                connectDB.requestInsertDB("UPDATE user SET firstName='"+firstName+"' WHERE id ='"+id+"'");
                 users.get(id).setFirstName(firstName);
             }
             if (!phone.isEmpty()) {
-                connectDB.requestInsertDB(STR."UPDATE user SET phone='\{phone}' WHERE id ='\{id}'");
+                connectDB.requestInsertDB("UPDATE user SET phone='"+phone+"' WHERE id ='"+id+"'");
                 users.get(id).setPhone(phone);
             }
-            System.out.println(STR."\{users.get(id).getLastName()} \{users.get(id).getFirstName()} information's updated");
+            System.out.println(users.get(id).getLastName() +" "+ users.get(id).getFirstName() +"information's updated");
         }
         else{
             throw new UserNotFoundException("User not found so can't update information");
