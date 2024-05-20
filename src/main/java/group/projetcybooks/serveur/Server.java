@@ -2,6 +2,7 @@ package group.projetcybooks.serveur;
 
 import group.projetcybooks.serveur.model.*;
 import group.projetcybooks.serveur.model.exception.BookNotReturnException;
+import group.projetcybooks.serveur.model.exception.NoBorrowForUser;
 import group.projetcybooks.serveur.model.exception.NoLateReturnBook;
 import group.projetcybooks.serveur.model.exception.UserNotFoundException;
 
@@ -64,12 +65,14 @@ public class Server {
 
                     switch (Integer.parseInt(inputLineSplit[0])) {
 
+                        //ClientISBN //TODO : a modifier avec nouvelle méthode addBook
                         case 105 -> {
                             Book book = new ConnectApi(inputLineSplit[1]).getBook();
                             out.println(book.toString());
                             out.println("201");
                         }
 
+                        //ClientSendNewUser
                         case 106 -> {
                             User user = new User(inputLineSplit[1]);
                             try{
@@ -85,6 +88,7 @@ public class Server {
                             }
                         }
 
+                        //ClientUpdateUser
                         case 107 -> {
                             User user = new User(inputLineSplit[1]);
                             String lastName=inputLineSplit[2];
@@ -94,7 +98,21 @@ public class Server {
                             out.println("201");
                         }
 
-                        case 108 ->{
+                        //ClientSearchUser
+                        case 108 -> {
+                            String lastName=inputLineSplit[1];
+                            String firstName=inputLineSplit[2];
+                            String phone=inputLineSplit[3];
+                            try {
+                                List<User> users = userManager.searchUser(lastName, firstName, phone, Boolean.FALSE);
+                                out.println("201"); //TODO : voir quoi return (toString() ?)
+                            }catch (UserNotFoundException e){
+                                out.println(e.getMessage());
+                            }
+                        }
+
+                        //ClientRemoveUser
+                        case 109 ->{
                             User user = new User(inputLineSplit[1]);
 
                             try {
@@ -105,6 +123,22 @@ public class Server {
                             }
                             catch (Exception e){
                                 out.println(STR."400\{e.getMessage()}");
+                            }
+                        }
+
+                        //ClientAskReturnBookList
+                        case 110 ->{
+                            User user = new User(inputLineSplit[1]);
+
+                            try{
+                                List<Borrow> borrows = borrowManager.searchBorrowByUser(user);
+                                out.println(); //TODO : voir return
+                            }
+                            catch (UserNotFoundException e){
+                                out.println(e.getMessage());
+                            }
+                            catch (NoBorrowForUser f){
+                                out.println(f.getMessage());
                             }
                         }
 
