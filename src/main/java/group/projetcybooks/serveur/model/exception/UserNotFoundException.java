@@ -2,6 +2,6 @@ package group.projetcybooks.serveur.model.exception;
 
 public class UserNotFoundException extends Exception{
     public UserNotFoundException(String message) {
-        super(message);
+        super(STR."407\{message}");
     }
 }

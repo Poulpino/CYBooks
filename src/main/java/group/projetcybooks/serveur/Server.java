@@ -1,6 +1,7 @@
 package group.projetcybooks.serveur;
 
 import group.projetcybooks.serveur.model.*;
+import group.projetcybooks.serveur.model.exception.BookNotReturnException;
 import group.projetcybooks.serveur.model.exception.NoLateReturnBook;
 import group.projetcybooks.serveur.model.exception.UserNotFoundException;
 
@@ -73,7 +74,7 @@ public class Server {
                             User user = new User(inputLineSplit[1]);
                             try{
                                 userManager.searchUser(user.getLastName(),user.getFirstName(),user.getPhone(),Boolean.TRUE);
-                                out.println("404 A user already exist");
+                                out.println("401 A user already exist");
                             }catch (UserNotFoundException e) {
                                 try {
                                     userManager.addUser(user.getLastName(), user.getFirstName(), user.getPhone());
@@ -97,12 +98,16 @@ public class Server {
                             User user = new User(inputLineSplit[1]);
 
                             try {
-                                userManager.updateUser(user.getId(),inputLineSplit[2],inputLineSplit[3],inputLineSplit[4]);
+                                userManager.removeUser(user.getId(),borrowManager);
                                 out.println("201");
-                            }catch (Exception e){
+                            }catch (BookNotReturnException e){
+                                out.println(e.getMessage());
+                            }
+                            catch (Exception e){
                                 out.println(STR."400\{e.getMessage()}");
                             }
                         }
+
                         case 150 ->{
                             System.out.println("Closing Server");
                             run = false;

@@ -74,7 +74,7 @@ public class Client {
         return 1;
     }
 
-    public int ClientDeleteUser(User user){
+    public int ClientRemoveUser(User user){
         try (Socket socket = new Socket(host, port);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
