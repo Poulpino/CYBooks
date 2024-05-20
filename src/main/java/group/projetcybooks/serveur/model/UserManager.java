@@ -160,6 +160,23 @@ public class UserManager {
         }
     }
 
+    /**
+     * Checks if a user with the specified ID exists in the collection of users.
+     *
+     * @param id the ID of the user to check
+     * @return boolean if a user with the specified ID exists
+     */
+    public boolean userExiste(int id){
+        List<User> userId = new ArrayList<>();
+        for (Map.Entry<Integer, User> entry : users.entrySet()){
+            if (entry.getValue().getId()==id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     public HashMap<Integer, User> getUsers() {
         return users;
     }

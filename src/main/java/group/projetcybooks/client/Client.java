@@ -12,20 +12,19 @@ public class Client {
 
     public Client(){}
 
-    public Book ClientISBN(String isbn) {
+    public Book ClientISBN(String isbn,User user) {
         Book book =null;
         try (Socket socket = new Socket(host, port);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
-
-            String clientInput = "105 "+isbn;
+            String clientInput = "105 "+isbn + user.toString();
             out.println(clientInput);
             book = new Book(in.readLine());
             System.out.println(Integer.parseInt(in.readLine()));
         } catch (UnknownHostException e) {
-            System.err.println("Don't know about host " + host);
-            return null;
+                System.err.println("Don't know about host " + host);
+                return null;
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
             e.printStackTrace();
