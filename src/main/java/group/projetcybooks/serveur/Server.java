@@ -146,7 +146,27 @@ public class Server {
 
                         //ClientReturnBook
                         case 111 ->{
-
+                            try {
+                                Borrow borrow = new Borrow(inputLineSplit[1]);
+                                borrowManager.returnBook(borrow.getBook().getISBN(), borrow.getId());
+                                out.println("201");
+                            }catch (Exception e){
+                                out.println("401 "+e.getMessage());
+                            }
+                        }
+                        //ClientLateReturn
+                        case  112 ->{
+                            try {
+                                List<Borrow> borrowList = borrowManager.lateReturn();
+                                String output = "";
+                                for (Borrow borrow : borrowList) {
+                                    output+=borrow.toString()+"§";
+                                }
+                                output = output.substring(0, output.length() - 1);
+                                out.println("201"+output);
+                            }catch (Exception e){
+                                out.println("401 "+e.getMessage());
+                            }
                         }
 
                         //ClientAskHistoryBookList
