@@ -216,9 +216,10 @@ public class BorrowManager {
      */
     public void returnBook(long ISBN,int borrowId) throws Exception {
         ConnectDB connectDB = new ConnectDB();
+        System.out.println("ok "+borrowing.get(borrowId).toString());
+
         books.get(ISBN).setStatue(TypeStatue.FREE);
         connectDB.requestInsertDB("UPDATE book SET statue='FREE' WHERE isbn='"+ISBN+"'");
-
         borrowing.get(borrowId).setRestore(Boolean.TRUE);
         borrowing.get(borrowId).setReturnDate(LocalDate.now());
 

@@ -1,13 +1,15 @@
 package group.projetcybooks.serveur;
 
 import group.projetcybooks.serveur.model.*;
-import group.projetcybooks.serveur.model.exception.*;
+import group.projetcybooks.serveur.model.exception.BookNotReturnException;
+import group.projetcybooks.serveur.model.exception.NoBorrowForUser;
+import group.projetcybooks.serveur.model.exception.NoLateReturnBook;
+import group.projetcybooks.serveur.model.exception.UserNotFoundException;
 
 
 import java.io.*;
 import java.net.*;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Do a server and wait client to connect
@@ -86,13 +88,6 @@ public class Server {
                             String lastName=inputLineSplit[2];
                             String firstName=inputLineSplit[3];
                             String phone=inputLineSplit[4];
-                            if (lastName.equals("null")){
-                                lastName=null;
-                            }if (firstName.equals("null")){
-                                firstName=null;
-                            }if (phone.equals("null")){
-                                phone=null;
-                            }
                             userManager.updateUser(user.getId(),lastName,firstName,phone);
                             out.println("201");
                         }
@@ -108,10 +103,10 @@ public class Server {
                                 for (int i = 0; i < users.size(); i++) {
                                     result.append(users.get(i).toString());
                                     if (i < users.size() - 1) {
-                                        result.append("/");
+                                        result.append(";");
                                     }
                                 }
-                                out.println("201 "+result.toString());
+                                out.println("201"+result.toString());
                             }catch (UserNotFoundException e){
                                 out.println(e.getMessage());
                             }
@@ -120,6 +115,7 @@ public class Server {
                         //ClientRemoveUser
                         case 109 ->{
                             User user = new User(inputLineSplit[1]);
+
                             try {
                                 userManager.removeUser(user.getId(),borrowManager);
                                 out.println("201");
@@ -148,6 +144,7 @@ public class Server {
                         case 111 ->{
                             try {
                                 Borrow borrow = new Borrow(inputLineSplit[1]);
+                                System.out.println(borrow.toString());
                                 borrowManager.returnBook(borrow.getBook().getISBN(), borrow.getId());
                                 out.println("201");
                             }catch (Exception e){
@@ -169,27 +166,6 @@ public class Server {
                             }
                         }
 
-                        //ClientAskHistoryBookList
-                        case 113 ->{
-                            User user = new User(inputLineSplit[1]);
-
-                            try{
-                                List<Borrow> history = borrowManager.searchHistoryByUser(user);
-                                StringBuilder result = new StringBuilder();
-                                for (int i = 0; i < history.size(); i++) {
-                                    result.append(history.get(i).toString());
-                                    if (i < history.size() - 1) {
-                                        result.append("/");
-                                    }
-                                }
-                                System.out.println(result.toString());
-                                out.println("201 "+result.toString());
-                            }
-                            catch (NoHistoryForUser e){
-                                out.println(e.getMessage());
-                            }
-                        }
-
                         case 150 ->{
                             System.out.println("Closing Server");
                             run = false;
@@ -204,7 +180,8 @@ public class Server {
             }
             serverSocket.close();
         } catch (IOException e) {
-            System.out.println("Exception caught when trying to listen on port " + port + " or listening for a connection");
+            System.out.println("Exception caught when trying to listen on port "
+                    + port + " or listening for a connection");
             System.out.println(e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);

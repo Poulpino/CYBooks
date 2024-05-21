@@ -36,13 +36,13 @@ public class Client {
         return book;
     }
 
-    public int ClientSendNewUser(String lastName, String firstName, String phone) {
+    public int ClientSendNewUser(User user) {
         try (Socket socket = new Socket(host, port);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "106 "+lastName + ";" + firstName + ";" + phone;
+            String clientInput = "106 "+user.toString();
             out.println(clientInput);
             System.out.println(Integer.parseInt(in.readLine()));
         } catch (UnknownHostException e) {
@@ -143,29 +143,46 @@ public class Client {
             return -1;
         }
         return 1;
-
     }
 
-    public List<Borrow> ClientAskHistoryBookList(User user) {
+    public int clientReturnBook(Borrow borrow){
         try (Socket socket = new Socket(host, port);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "113 "+user.toString();
+            String clientInput = "111 "+borrow.toString();
             out.println(clientInput);
             System.out.println(in.readLine());
-            String inputLine = in.readLine();
-            String[] inputLineSplit = inputLine.split(" ");
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host " + host);
+            return -1;
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for the connection to " + host);
+            e.printStackTrace();
+            return -1;
+        }
+        return 1;
+    }
 
-            List<Borrow> history = new ArrayList<>();
-            String result = inputLineSplit[1];
-            String[] resultSplit = result.split("/");
+    public List<Borrow> clientLateReturn() {
+        List<Borrow> borrowList;
+        try (Socket socket = new Socket(host, port);
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            for (String line : resultSplit) {
-                history.add(new Borrow(line));
+            String clientInput = "112";
+            out.println(clientInput);
+            String s = in.readLine();
+            System.out.println(s);
+            String[] output = s.split("§");
+            borrowList = new ArrayList<>();
+            Borrow borrow;
+            for (String str : output) {
+                borrow = new Borrow(str);
+                borrowList.add(borrow);
             }
-            return history;
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
             return null;
@@ -174,15 +191,12 @@ public class Client {
             e.printStackTrace();
             return null;
         }
+        return borrowList;
     }
 
+
     public static void main(String[] args){
-
-        //System.out.println(new Client().ClientAskHistoryBookList(new User(1,"Hautecourt","Julien","0781287621")));
-        System.out.println(new Client().ClientSendNewUser("Aubert","Michel","0686502589"));
-        // OK System.out.println(new Client().ClientUpdateUser(new User(2,"Marie","Hautecourt","0000000000"),"Hautecourt","Marie",null));
-        //System.out.println(new Client().ClientSearchUser("Hautecourt",null,null));
-        // OK System.out.println(new Client().ClientRemoveUser(new User(0,"Aubert","Michel","0686502589")));
-
-        }
+        List<Borrow> b = new Client().clientLateReturn();
+        System.out.println(new Client().clientReturnBook(b.get(0)));
+    }
 }

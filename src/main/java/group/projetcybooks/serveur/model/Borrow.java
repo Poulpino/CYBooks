@@ -80,7 +80,8 @@ public class Borrow {
         strSplit = strSplit[0].split(";");
         id=Integer.parseInt(strSplit[0]);
         borrowDate= LocalDate.parse(strSplit[1]);
-        if (strSplit.length > 2){
+        restore= Boolean.valueOf(strSplit[2]);
+        if (strSplit.length > 3){
             returnDate= LocalDate.parse(strSplit[2]);
             restore= Boolean.valueOf(strSplit[3]);
         }
@@ -88,11 +89,11 @@ public class Borrow {
 
     @Override
     public String toString() {
-        if (restore){
+        if (restore==true){
             return id+";"+borrowDate+";"+returnDate+";"+restore+"/"+ user.toString()+"/"+book.toString();
         }
         else {
-            return id+";"+borrowDate+"/"+ user.toString()+"/"+book;
+            return id+";"+borrowDate+";"+restore+"/"+ user.toString()+"/"+book.toString();
         }
     }
 
