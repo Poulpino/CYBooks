@@ -87,7 +87,7 @@ public class BorrowManager {
                     String return_date = values[3];
                     Boolean restore = Boolean.parseBoolean(values[5]);
 
-                    int ISBN = Integer.parseInt(values[4]);
+                    long ISBN = Long.parseLong(values[4]);
                     Book book = books.get(ISBN);
                     borrowing.put(id, new Borrow(id, user, borrowDate, return_date, book, restore));
                 } else {
@@ -112,7 +112,7 @@ public class BorrowManager {
                     String borrowDate = values[2];
                     String return_date = values[3];
                     Boolean restore = Boolean.parseBoolean(values[5]);
-                    int ISBN = Integer.parseInt(values[4]);
+                    long ISBN = Long.parseLong(values[4]);
                     Book book = books.get(ISBN);
                     history.put(id, new Borrow(id, user, borrowDate, return_date, book, restore));
                 } else {
@@ -214,7 +214,7 @@ public class BorrowManager {
      * @param borrowId The ID of the borrow record.
      * @throws Exception If an error occurs during the return process.
      */
-    public void returnBook(int ISBN,int borrowId) throws Exception {
+    public void returnBook(long ISBN,int borrowId) throws Exception {
         ConnectDB connectDB = new ConnectDB();
         books.get(ISBN).setStatue(TypeStatue.FREE);
         connectDB.requestInsertDB("UPDATE book SET statue='FREE' WHERE isbn='"+ISBN+"'");
@@ -228,7 +228,7 @@ public class BorrowManager {
             newID+=1;
         }
 
-        connectDB.requestInsertDB("INSERT into history (id, userId,borrowDate,returnDate,bookIsbn,restored) VALUES ('"+newID+"', '"+borrowing.get(borrowId).getUser().getId()+"', '"+borrowing.get(borrowId).getBorrowDate()+"', '"+borrowing.get(borrowId).getReturnDate()+"', '"+borrowing.get(borrowId).getBook().getISBN()+"', '"+borrowing.get(borrowId).getRestore()+"');");
+        connectDB.requestInsertDB("INSERT into history (id, userId,borrowDate,returnDate,bookIsbn,restored) VALUES ('"+newID+"', '"+borrowing.get(borrowId).getUser().getId()+"', '"+borrowing.get(borrowId).getBorrowDate()+"', '"+borrowing.get(borrowId).getReturnDate()+"', '"+ISBN+"', '"+borrowing.get(borrowId).getRestore()+"');");
         history.put(newID,borrowing.get(ISBN));
         connectDB.requestInsertDB("DELETE FROM borrowing WHERE id='"+borrowId+"'");
         borrowing.remove(ISBN);
@@ -261,10 +261,9 @@ public class BorrowManager {
      *
      * @param user The user whose borrows are to be searched.
      * @return A list of borrows associated with the specified user.
-     * @throws UserNotFoundException If the user is not found in the system.
      * @throws NoBorrowForUser If the user has no borrows.
      */
-    public List<Borrow> searchBorrowByUser(User user) throws UserNotFoundException, NoBorrowForUser {
+    public List<Borrow> searchBorrowByUser(User user) throws NoBorrowForUser {
 
         List<Borrow> borrows = new ArrayList<>();
 
@@ -280,6 +279,25 @@ public class BorrowManager {
         }
         else{
             throw new NoBorrowForUser("This user have no borrow");
+        }
+    }
+
+    public List<Borrow> searchHistoryByUser(User user) throws NoHistoryForUser {
+
+        List<Borrow> historys = new ArrayList<>();
+
+        int id = user.getId();
+        for (Map.Entry<Integer, Borrow> entry : history.entrySet()) {
+            Borrow hist = entry.getValue();
+            if (hist.getUser().getId() == id) {
+                historys.add(hist);
+            }
+        }
+        if (!historys.isEmpty()){
+            return historys;
+        }
+        else{
+            throw new NoHistoryForUser("This user have no history");
         }
     }
 

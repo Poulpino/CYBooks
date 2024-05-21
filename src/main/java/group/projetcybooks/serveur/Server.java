@@ -1,15 +1,13 @@
 package group.projetcybooks.serveur;
 
 import group.projetcybooks.serveur.model.*;
-import group.projetcybooks.serveur.model.exception.BookNotReturnException;
-import group.projetcybooks.serveur.model.exception.NoBorrowForUser;
-import group.projetcybooks.serveur.model.exception.NoLateReturnBook;
-import group.projetcybooks.serveur.model.exception.UserNotFoundException;
+import group.projetcybooks.serveur.model.exception.*;
 
 
 import java.io.*;
 import java.net.*;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Do a server and wait client to connect
@@ -31,12 +29,6 @@ public class Server {
             UserManager userManager = new UserManager(connectDB.RequestSelectDB("SELECT * FROM user"));
             BorrowManager borrowManager = new BorrowManager(connectDB.RequestSelectDB("SELECT * FROM borrowing"),connectDB.RequestSelectDB("SELECT * FROM history"), connectDB.RequestSelectDB("SELECT * FROM book"), userManager);
 
-            try {
-                List<Borrow> lateReturn = borrowManager.lateReturn();
-            }catch (NoLateReturnBook e){
-                System.out.println(e.getMessage());
-            }
-
             //waiting client connexion's
             while (run) {
                 Socket clientSocket = serverSocket.accept();
@@ -49,14 +41,6 @@ public class Server {
                 //reading client line's
                 String inputLine;
                 String[] inputLineSplit;
-
-                //Pop up at start to tell there is late return
-                try {
-                    List<Borrow> lateReturn = borrowManager.lateReturn();
-                    out.println("There is late return to check");
-                }catch (NoLateReturnBook e){
-                    System.out.println(e.getMessage());
-                }
 
                 while ((inputLine = in.readLine()) != null) {
                     System.out.println("Reçu du client: " + inputLine);
@@ -102,6 +86,13 @@ public class Server {
                             String lastName=inputLineSplit[2];
                             String firstName=inputLineSplit[3];
                             String phone=inputLineSplit[4];
+                            if (lastName.equals("null")){
+                                lastName=null;
+                            }if (firstName.equals("null")){
+                                firstName=null;
+                            }if (phone.equals("null")){
+                                phone=null;
+                            }
                             userManager.updateUser(user.getId(),lastName,firstName,phone);
                             out.println("201");
                         }
@@ -117,10 +108,10 @@ public class Server {
                                 for (int i = 0; i < users.size(); i++) {
                                     result.append(users.get(i).toString());
                                     if (i < users.size() - 1) {
-                                        result.append(";");
+                                        result.append("/");
                                     }
                                 }
-                                out.println("201"+result.toString());
+                                out.println("201 "+result.toString());
                             }catch (UserNotFoundException e){
                                 out.println(e.getMessage());
                             }
@@ -129,7 +120,6 @@ public class Server {
                         //ClientRemoveUser
                         case 109 ->{
                             User user = new User(inputLineSplit[1]);
-
                             try {
                                 userManager.removeUser(user.getId(),borrowManager);
                                 out.println("201");
@@ -147,10 +137,7 @@ public class Server {
 
                             try{
                                 List<Borrow> borrows = borrowManager.searchBorrowByUser(user);
-                                out.println(); //TODO : voir return
-                            }
-                            catch (UserNotFoundException e){
-                                out.println(e.getMessage());
+                                out.println();
                             }
                             catch (NoBorrowForUser f){
                                 out.println(f.getMessage());
@@ -160,6 +147,27 @@ public class Server {
                         //ClientReturnBook
                         case 111 ->{
 
+                        }
+
+                        //ClientAskHistoryBookList
+                        case 112 ->{
+                            User user = new User(inputLineSplit[1]);
+
+                            try{
+                                List<Borrow> history = borrowManager.searchHistoryByUser(user);
+                                StringBuilder result = new StringBuilder();
+                                for (int i = 0; i < history.size(); i++) {
+                                    result.append(history.get(i).toString());
+                                    if (i < history.size() - 1) {
+                                        result.append("/");
+                                    }
+                                }
+                                System.out.println(result.toString());
+                                out.println("201 "+result.toString());
+                            }
+                            catch (NoHistoryForUser e){
+                                out.println(e.getMessage());
+                            }
                         }
 
                         case 150 ->{
@@ -176,8 +184,7 @@ public class Server {
             }
             serverSocket.close();
         } catch (IOException e) {
-            System.out.println("Exception caught when trying to listen on port "
-                    + port + " or listening for a connection");
+            System.out.println("Exception caught when trying to listen on port " + port + " or listening for a connection");
             System.out.println(e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
