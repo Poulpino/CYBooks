@@ -1,10 +1,7 @@
 package group.projetcybooks.client;
 
 import group.projetcybooks.serveur.ConnectDB;
-import group.projetcybooks.serveur.model.Book;
-import group.projetcybooks.serveur.model.BorrowManager;
-import group.projetcybooks.serveur.model.User;
-import group.projetcybooks.serveur.model.UserManager;
+import group.projetcybooks.serveur.model.*;
 
 import java.io.*;
 import java.net.*;
@@ -17,7 +14,7 @@ public class Client {
 
     public Client(){}
 
-    public Book ClientISBN(String isbn) {
+    public Book clientISBN(String isbn) {
         Book book = null;
         try (Socket socket = new Socket(host, port);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -39,7 +36,7 @@ public class Client {
         return book;
     }
 
-    public int ClientSendNewUser(User user) {
+    public int clientSendNewUser(User user) {
         try (Socket socket = new Socket(host, port);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -59,7 +56,7 @@ public class Client {
         return 1;
     }
 
-    public int ClientUpdateUser(User user, String lastName, String firstName, String phone){
+    public int clientUpdateUser(User user, String lastName, String firstName, String phone){
         try (Socket socket = new Socket(host, port);
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -79,7 +76,7 @@ public class Client {
         return 1;
     }
 
-    public List<User> ClientSearchUser(String lastName, String firstName, String phone) {
+    public List<User> clientSearchUser(String lastName, String firstName, String phone) {
         try (Socket socket = new Socket(host, port);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -108,7 +105,7 @@ public class Client {
         }
     }
 
-    public int ClientRemoveUser(User user) {
+    public int clientRemoveUser(User user) {
         try (Socket socket = new Socket(host, port);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -128,7 +125,7 @@ public class Client {
         return 1;
     }
 
-    public int ClientAskReturnBookList(User user) {
+    public int clientAskReturnBookList(User user) {
         try (Socket socket = new Socket(host, port);
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -149,8 +146,55 @@ public class Client {
 
     }
 
+    public int clientReturnBook(Borrow borrow){
+        try (Socket socket = new Socket(host, port);
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
+
+            String clientInput = "111 "+borrow.toString();
+            out.println(clientInput);
+            System.out.println(Integer.parseInt(in.readLine()));
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host " + host);
+            return -1;
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for the connection to " + host);
+            e.printStackTrace();
+            return -1;
+        }
+        return 1;
+    }
+
+    public List<Borrow> clientLateReturn() {
+        List<Borrow> borrowList;
+        try (Socket socket = new Socket(host, port);
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
+
+            String clientInput = "112";
+            out.println(clientInput);
+            String[] output = in.readLine().split("§");
+            borrowList = new ArrayList<>();
+            Borrow borrow;
+            for (String str : output) {
+                borrow = new Borrow(str);
+                borrowList.add(borrow);
+            }
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host " + host);
+            return null;
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for the connection to " + host);
+            e.printStackTrace();
+            return null;
+        }
+        return borrowList;
+    }
+
     public static void main(String[] args){
-        System.out.println(new Client().ClientSendNewUser(new User(1,"Michel","Aubert", "0686502589")));
-        System.out.println(new Client().ClientUpdateUser(new User(1,"Michel","Aubert", "0686502589"),"Hautecourt","Julien",""));
+        System.out.println(new Client().clientSendNewUser(new User(1,"Michel","Aubert", "0686502589")));
+        System.out.println(new Client().clientUpdateUser(new User(1,"Michel","Aubert", "0686502589"),"Hautecourt","Julien",""));
     }
 }

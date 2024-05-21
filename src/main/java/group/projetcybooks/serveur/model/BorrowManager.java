@@ -214,7 +214,7 @@ public class BorrowManager {
      * @param borrowId The ID of the borrow record.
      * @throws Exception If an error occurs during the return process.
      */
-    public void returnBook(int ISBN,int borrowId) throws Exception {
+    public void returnBook(long ISBN,int borrowId) throws Exception {
         ConnectDB connectDB = new ConnectDB();
         books.get(ISBN).setStatue(TypeStatue.FREE);
         connectDB.requestInsertDB("UPDATE book SET statue='FREE' WHERE isbn='"+ISBN+"'");
@@ -280,6 +280,25 @@ public class BorrowManager {
         }
         else{
             throw new NoBorrowForUser("This user have no borrow");
+        }
+    }
+
+    public List<Borrow> searchBorrowByBook(Book book) throws NoBorrowForBook {
+
+        List<Borrow> borrows = new ArrayList<>();
+
+        long isbn = book.getISBN();
+        for (Map.Entry<Integer, Borrow> entry : borrowing.entrySet()) {
+            Borrow borrow = entry.getValue();
+            if (borrow.getBook().getISBN() == isbn) {
+                borrows.add(borrow);
+            }
+        }
+        if (!borrows.isEmpty()){
+            return borrows;
+        }
+        else{
+            throw new NoBorrowForBook("This book have no borrow");
         }
     }
 
