@@ -170,7 +170,7 @@ public class Server {
                         }
 
                         //ClientAskHistoryBookList
-                        case 112 ->{
+                        case 113 ->{
                             User user = new User(inputLineSplit[1]);
 
                             try{
