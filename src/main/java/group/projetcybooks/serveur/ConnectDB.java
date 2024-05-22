@@ -74,7 +74,7 @@ public class ConnectDB {
     }
 
     public void requestInsertBookDB(Book book) throws Exception{
-        requestInsertDB("INSERT INTO `book` (`isbn`, `statue`, `editor`, `title`,`year`,`genre`) VALUES ('"+book.getISBN()+"', '"+book.getStatue()+"', '"+book.getEditor()+"', '"+book.getTitle()+"','"+book.getYear()+"','"+book.getGenre()+"');");
+        requestInsertDB("INSERT INTO `book` (`isbn`, `statue`, `editor`, `title`,`year`,`genre`) VALUES ('"+book.getISBN()+"', '"+book.getStatue()+"', '"+book.getEditor()+"', '"+book.getTitle()+"','"+book.getYear()+"');");
     }
 
 

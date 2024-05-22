@@ -1,5 +1,6 @@
 package group.projetcybooks.serveur;
 
+import group.projetcybooks.serveur.model.TypeStatue;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -70,7 +71,7 @@ public class ConnectApi {
                 publicationYear = getSubfield(subfields,"d");
             }
         }
-        book = new Book(Long.parseLong(isbn),FREE,editor,title,author,Integer.parseInt(publicationYear),"");
+        book = new Book(Long.parseLong(isbn), FREE,editor,title,author,Integer.parseInt(publicationYear));
     }
 
     private String getSubfield(NodeList subfields, String find){

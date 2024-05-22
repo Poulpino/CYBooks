@@ -80,23 +80,14 @@ public class Borrow {
         strSplit = strSplit[0].split(";");
         id=Integer.parseInt(strSplit[0]);
         borrowDate= LocalDate.parse(strSplit[1]);
-        restore= Boolean.valueOf(strSplit[2]);
-        if (strSplit.length > 3){
-            returnDate= LocalDate.parse(strSplit[2]);
-            restore= Boolean.valueOf(strSplit[3]);
+        returnDate= LocalDate.parse(strSplit[2]);
+        restore= Boolean.valueOf(strSplit[3]);
         }
-    }
 
     @Override
     public String toString() {
-        if (restore==true){
-            return id+";"+borrowDate+";"+returnDate+";"+restore+"/"+ user.toString()+"/"+book.toString();
-        }
-        else {
-            return id+";"+borrowDate+";"+restore+"/"+ user.toString()+"/"+book.toString();
-        }
+        return id + ";" + borrowDate + ";" + returnDate + ";" + restore + "/" + user.toString() + "/" + book.toString();
     }
-
     //Getter
     public int getId() {
         return id;
@@ -138,13 +129,5 @@ public class Borrow {
     }
 
     public static void main(String[] args){
-        try {
-            Borrow b = new Borrow(2,new User(1,"Maestri","Adrien","06578595575"),"2024-05-10","2024-05-20", new Book(8008,TypeStatue.FREE,"lalalal","okokokok","atior",2000,"M"),true);
-            Borrow a = new Borrow(b.toString());
-            System.out.println(a.toString());
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
+           }
 }

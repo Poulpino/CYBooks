@@ -8,8 +8,8 @@ public class Book extends Artwork{
     private TypeStatue statue;
     private String editor;
 
-    public Book(long ISBN, TypeStatue statue, String editor, String title, String author, int year, String genre) {
-        super(title,author,year,genre);
+    public Book(long ISBN, TypeStatue statue, String editor, String title, String author, int year) {
+        super(title,author,year);
         this.ISBN = ISBN;
         this.statue = statue;
         this.editor = editor;
@@ -20,10 +20,15 @@ public class Book extends Artwork{
         super.setTitle(strSplit[3]);
         super.setAuthor(strSplit[4]);
         super.setYear(Integer.parseInt(strSplit[5]));
-        super.setGenre(strSplit[6]);
         this.ISBN = Long.parseLong(strSplit[0]);
         //TODO insere le bon statue
-        this.statue = TypeStatue.FREE;
+        String statue = strSplit[1];
+        if (statue.equals("FREE")){
+            this.statue = TypeStatue.FREE;
+        }
+        else {
+            this.statue = TypeStatue.BORROW;
+        }
         this.editor = strSplit[2];
     }
     //Getter
@@ -56,12 +61,11 @@ public class Book extends Artwork{
                 ", title=" + super.getTitle() +
                 ", author=" + super.getAuthor() +
                 ", year=" + super.getYear() +
-                ", year=" + super.getYear() +
                 '}';
     }
 
     @Override
     public String toString(){
-        return  ISBN +";"+ statue +";"+ editor +";"+ super.getTitle() +";"+ super.getAuthor() +";" + super.getYear() +";"+ super.getYear();
+        return  ISBN +";"+ statue +";"+ editor +";"+ super.getTitle() +";"+ super.getAuthor() +";" + super.getYear();
     }
 }
