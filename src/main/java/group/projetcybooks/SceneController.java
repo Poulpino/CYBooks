@@ -97,8 +97,8 @@ public class SceneController {
         stage.show();
     }
 
-    public void switchToLateReturn(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("LateReturn.fxml"));
+    public void switchToLateReturnMain(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("LateReturnMain.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
