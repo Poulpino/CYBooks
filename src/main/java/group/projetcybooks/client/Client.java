@@ -2,6 +2,7 @@ package group.projetcybooks.client;
 
 import group.projetcybooks.serveur.ConnectDB;
 import group.projetcybooks.serveur.model.*;
+import group.projetcybooks.SceneController;
 
 import java.io.*;
 import java.net.*;
@@ -38,9 +39,11 @@ public class Client {
             //System.out.println(Integer.parseInt(in.readLine()));
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
+            SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
             return null;
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
+            SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -66,9 +69,11 @@ public class Client {
             System.out.println(Integer.parseInt(in.readLine()));
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
+            SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
             return -1;
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
+            SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
             e.printStackTrace();
             return -1;
         }
@@ -94,9 +99,11 @@ public class Client {
             System.out.println(Integer.parseInt(in.readLine()));
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
+            SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
             return -1;
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
+            SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
             e.printStackTrace();
             return -1;
         }
@@ -124,9 +131,11 @@ public class Client {
             System.out.println(Integer.parseInt(in.readLine()));
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
+            SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
             return -1;
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
+            SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
             e.printStackTrace();
             return -1;
         }
@@ -164,9 +173,11 @@ public class Client {
 
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
+            SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
             return null;
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
+            SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -189,9 +200,11 @@ public class Client {
             System.out.println(Integer.parseInt(in.readLine()));
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
+            SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
             return -1;
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
+            SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
             e.printStackTrace();
             return -1;
         }
@@ -225,9 +238,11 @@ public class Client {
             return borrows;
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
+            SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
             return null;
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
+            SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -250,9 +265,11 @@ public class Client {
             System.out.println(in.readLine());
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
+            SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
             return -1;
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
+            SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
             e.printStackTrace();
             return -1;
         }
@@ -287,9 +304,11 @@ public class Client {
 
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
+            SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
             return null;
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
+            SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -325,9 +344,11 @@ public class Client {
 
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
+            SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
             return null;
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
+            SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
             e.printStackTrace();
             return null;
         }

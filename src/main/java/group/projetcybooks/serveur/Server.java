@@ -2,7 +2,7 @@ package group.projetcybooks.serveur;
 
 import group.projetcybooks.serveur.model.*;
 import group.projetcybooks.serveur.model.exception.*;
-
+import group.projetcybooks.SceneController;
 
 import java.io.*;
 import java.net.*;
@@ -79,7 +79,7 @@ public class Server {
                                     out.println("201");
                                 }
                             }catch (Exception e){
-                                out.println("400 "+e.getMessage());
+                                SceneController.showError("Server Error", "400: " + e.getMessage());
                             }
                         }
 
@@ -94,7 +94,7 @@ public class Server {
                                     userManager.addUser(user.getLastName(), user.getFirstName(), user.getPhone());
                                     out.println("201");
                                 } catch (Exception f) {
-                                    out.println("400 "+f.getMessage());
+                                    SceneController.showError("Server Error", "400: " + f.getMessage());
                                 }
                             }
                         }
@@ -136,7 +136,7 @@ public class Server {
                                 }
                                 out.println("201 "+result.toString());
                             }catch (UserNotFoundException e){
-                                out.println(e.getMessage());
+                                SceneController.showError("Server Error", e.getMessage());
                             }
                         }
 
@@ -148,10 +148,10 @@ public class Server {
                                 userManager.removeUser(user.getId(),borrowManager);
                                 out.println("201");
                             }catch (BookNotReturnException e){
-                                out.println(e.getMessage());
+                                SceneController.showError("Server Error", e.getMessage());
                             }
                             catch (Exception e){
-                                out.println("400" + e.getMessage());
+                                SceneController.showError("Server Error", "400: " + e.getMessage());
                             }
                         }
 
@@ -171,7 +171,7 @@ public class Server {
                                 out.println("201 "+result.toString());
                             }
                             catch (NoBorrowForUser f){
-                                out.println(f.getMessage());
+                                SceneController.showError("Server Error", f.getMessage());
                             }
                         }
 
@@ -182,7 +182,7 @@ public class Server {
                                 borrowManager.returnBook(borrow.getBook().getISBN(), borrow.getId());
                                 out.println("201");
                             }catch (Exception e){
-                                out.println("401 "+e.getMessage());
+                                SceneController.showError("Server Error", "401: " + e.getMessage());
                             }
                         }
 
@@ -197,7 +197,7 @@ public class Server {
                                 output = output.substring(0, output.length() - 1);
                                 out.println("201 "+output);
                             }catch (Exception e){
-                                out.println("401 "+e.getMessage());
+                                SceneController.showError("Server Error", "401: " + e.getMessage());
                             }
                         }
 
@@ -217,7 +217,7 @@ public class Server {
                                 out.println("201 "+result.toString());
                             }
                             catch (NoHistoryForUser e){
-                                out.println(e.getMessage());
+                                SceneController.showError("Server Error", e.getMessage());
                             }
                         }
                         case 150 ->{
@@ -234,9 +234,7 @@ public class Server {
             }
             serverSocket.close();
         } catch (IOException e) {
-            System.out.println("Exception caught when trying to listen on port "
-                    + port + " or listening for a connection");
-            System.out.println(e.getMessage());
+            SceneController.showError("Server Error", "Exception caught when trying to listen on port: " + port + " or listening for a connection" + e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
