@@ -6,7 +6,7 @@ package group.projetcybooks.serveur.model;
 public class Artwork {
     private String title;
     private String author;
-    private int year;
+    private String year;
 
     /**
      * Constructs a new Artwork object with the specified parameters.
@@ -15,7 +15,7 @@ public class Artwork {
      * @param author The author/creator of the artwork.
      * @param year   The year of creation/publication of the artwork.
      */
-    public Artwork(String title, String author, int year) {
+    public Artwork(String title, String author, String year) {
         this.title = title;
         this.author = author;
         this.year = year;
@@ -30,7 +30,7 @@ public class Artwork {
     public String getAuthor() {
         return author;
     }
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
@@ -41,7 +41,7 @@ public class Artwork {
     public void setAuthor(String author) {
         this.author = author;
     }
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 

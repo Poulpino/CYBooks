@@ -50,23 +50,31 @@ public class Server {
 
                         //clientSearchBook NOT WORKING
                         case 104 -> {
-                            String isbn = inputLineSplit[1];
+                            String idBnf = inputLineSplit[1];
                             String title = inputLineSplit[2];
-                            String editor = inputLineSplit[3];
-                            if (isbn.equals("null")){
-                                isbn=null;
+                            String autor = inputLineSplit[3];
+                            if (idBnf.equals("null")){
+                                idBnf=null;
                             }if (title.equals("null")){
                                 title=null;
-                            }if (editor.equals("null")){
-                                editor=null;
+                            }if (autor.equals("null")){
+                                autor=null;
                             }
-                            /*TODO : Je veux que connectApi.getBook(isbn,title,editor) renvoie une List<Book> de
+                            /*TODO : Je veux que connectApi.getBook(idBnf,title,editor) renvoie une List<Book> de
                               TODO tout les livres qui correspond à la description. Si l'un des argument est null alors
                               TODO il n'effectue pas la recherche par rapport à cette argument mais seulement les autres
                              */
-                            //ConnectApi connectApi = new ConnectApi();
-                            //String result = connectApi.getBook(isbn,title,editor)
-
+                            try {
+                                List<Book> bookList = new ConnectApi(idBnf,title,autor).getBooks();
+                                String output = "";
+                                for (Book book : bookList) {
+                                    output+=book.toString()+"/";
+                                }
+                                output = output.substring(0, output.length() - 1);
+                                out.println("201 "+output);
+                            }catch (Exception e){
+                                out.println("401 "+e.getMessage());
+                            }
                         }
                         //clientBorrowBook WORKING
                         case 105 -> {
@@ -75,7 +83,7 @@ public class Server {
                                 User user = new User(inputLineSplit[2]);
                                 if (userManager.userExiste(user.getId())){
                                     borrowManager.addBook(book);
-                                    borrowManager.borrowBook(book.getISBN(),user.getId(),userManager);
+                                    borrowManager.borrowBook(book.getidBnf(),user.getId(),userManager);
                                     out.println("201");
                                 }
                             }catch (Exception e){
@@ -179,7 +187,7 @@ public class Server {
                         case 111 ->{
                             try {
                                 Borrow borrow = new Borrow(inputLineSplit[1]);
-                                borrowManager.returnBook(borrow.getBook().getISBN(), borrow.getId());
+                                borrowManager.returnBook(borrow.getBook().getidBnf(), borrow.getId());
                                 out.println("201");
                             }catch (Exception e){
                                 out.println("401 "+e.getMessage());

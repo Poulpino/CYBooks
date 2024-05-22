@@ -22,13 +22,13 @@ public class BorrowManager {
      * Constructs a BorrowManager and populates the books, borrowing, and history maps based on the input request strings.
      *
      * @param requestBorrow  A string containing borrow data,
-     *                       example "id;userId;borrowDate;returnDate;ISBN;restore".
+     *                       example "id;userId;borrowDate;returnDate;idBnf;restore".
      *
      * @param requestHistory A string containing history data,
-     *                       example "id;userId;borrowDate;returnDate;ISBN;restore".
+     *                       example "id;userId;borrowDate;returnDate;idBnf;restore".
      *
      * @param requestBook    A string containing book data,
-     *                       example "ISBN;statue;editor;title;author;year".
+     *                       example "idBnf;statue;editor;title;author;year".
      *
      * @param userManager    An instance of UserManager that provides access to user data.
      * @throws IllegalArgumentException If any line in the input strings does not contain the expected number of values.
@@ -47,7 +47,7 @@ public class BorrowManager {
 
                 if(bookValues.length==6)
                 {
-                    Long ISBN = Long.parseLong(bookValues[0]);
+                    Long idBnf = Long.parseLong(bookValues[0]);
                     String stringStatue = bookValues[1];
                     TypeStatue statue;
                     if(stringStatue.equals("FREE")){
@@ -58,9 +58,9 @@ public class BorrowManager {
                     String editor = bookValues[2];
                     String title = bookValues[3];
                     String author = bookValues[4];
-                    int year = Integer.parseInt(bookValues[5]);
-                    Book book = new Book(ISBN,statue,editor,title,author,year);
-                    books.put(ISBN,book);
+                    String year = bookValues[5];
+                    Book book = new Book(idBnf,statue,editor,title,author,year);
+                    books.put(idBnf,book);
                 }
                 else{
                     throw new IllegalArgumentException("The line doesn't have all the values wanted: " + line);
@@ -86,8 +86,8 @@ public class BorrowManager {
                     String return_date = values[3];
                     Boolean restore = Boolean.parseBoolean(values[5]);
 
-                    long ISBN = Long.parseLong(values[4]);
-                    Book book = books.get(ISBN);
+                    long idBnf = Long.parseLong(values[4]);
+                    Book book = books.get(idBnf);
                     borrowing.put(id, new Borrow(id, user, borrowDate, return_date, book, restore));
                 } else {
                     throw new IllegalArgumentException("The line doesn't have all the values wanted: " + line);
@@ -112,8 +112,8 @@ public class BorrowManager {
                     String borrowDate = values[2];
                     String return_date = values[3];
                     Boolean restore = Boolean.parseBoolean(values[5]);
-                    long ISBN = Long.parseLong(values[4]);
-                    Book book = books.get(ISBN);
+                    long idBnf = Long.parseLong(values[4]);
+                    Book book = books.get(idBnf);
                     history.put(id, new Borrow(id, user, borrowDate, return_date, book, restore));
                 } else {
                     throw new IllegalArgumentException("The line doesn't have all the values wanted: " + line);
@@ -145,7 +145,7 @@ public class BorrowManager {
     /**
      * Adds a new book to the system.
      *
-     * @param ISBN    The ISBN of the book.
+     * @param idBnf    The idBnf of the book.
      * @param statue  The status of the book (e.g., FREE or BORROW).
      * @param editor  The editor of the book.
      * @param title   The title of the book.
@@ -154,13 +154,13 @@ public class BorrowManager {
      * @throws Exception If there's an error whit DB connection.
      */
     //TODO Faire les verifs que le livre n'existe pas deja
-    public void addBook(Long ISBN,TypeStatue statue,String editor,String title, String author,int year) throws Exception {
+    public void addBook(Long idBnf,TypeStatue statue,String editor,String title, String author,String year) throws Exception {
         ConnectDB connectDB = new ConnectDB();
 
-        Book book = new Book(ISBN,statue,editor,title,author,year);
-        books.put(ISBN, book);
-        connectDB.requestInsertDB("INSERT into book (isbn,statue,editor,title,author,year) VALUES ('"+book.getISBN()+"', '"+book.getStatue()+"', '"+book.getEditor()+"', '"+book.getTitle()+"', '"+book.getAuthor()+"', '"+book.getYear()+"');");
-        System.out.println(books.get(ISBN).toString() +" added");
+        Book book = new Book(idBnf,statue,editor,title,author,year);
+        books.put(idBnf, book);
+        connectDB.requestInsertDB("INSERT into book (idBnf,statue,editor,title,author,year) VALUES ('"+book.getidBnf()+"', '"+book.getStatue()+"', '"+book.getEditor()+"', '"+book.getTitle()+"', '"+book.getAuthor()+"', '"+book.getYear()+"');");
+        System.out.println(books.get(idBnf).toString() +" added");
     }
 
     /**
@@ -170,19 +170,19 @@ public class BorrowManager {
      * @throws Exception If there's an error whit DB connection.
      */
     public void addBook(Book book) throws Exception {
-        addBook(book.getISBN(),book.getStatue(),book.getEditor(),book.getTitle(),book.getAuthor(),book.getYear());
+        addBook(book.getidBnf(),book.getStatue(),book.getEditor(),book.getTitle(),book.getAuthor(),book.getYear());
     }
     /**
      * This method permits to borrow a book for a specific user
      *
-     * @param ISBN         The ISBN of the book to be borrowed.
+     * @param idBnf         The idBnf of the book to be borrowed.
      * @param userID       The ID of the user borrowing the book.
      * @param userManager  An instance of UserManager that provides access to user data.
      * @throws Exception   If an error occurs during the borrowing process.
      */
-    public void borrowBook(long ISBN,int userID,UserManager userManager) throws Exception {
+    public void borrowBook(long idBnf,int userID,UserManager userManager) throws Exception {
         ConnectDB connectDB = new ConnectDB();
-        Book book = books.get(ISBN);
+        Book book = books.get(idBnf);
 
         if(book.getStatue().equals(TypeStatue.FREE)){
             book.setStatue(TypeStatue.BORROW);
@@ -196,8 +196,8 @@ public class BorrowManager {
 
             Borrow borrow = new Borrow(newID,user,LocalDate.now().toString(),book,Boolean.FALSE);
             borrowing.put(newID,borrow);
-            connectDB.requestInsertDB("INSERT into borrowing (id, userId,borrowDate,returnDate,bookIsbn,restored) VALUES ('"+borrow.getId()+"', '"+user.getId()+"', '"+borrow.getBorrowDate()+"', '"+borrow.getReturnDate()+"', '"+borrow.getBook().getISBN()+"', '"+borrow.getRestore()+"');");
-            connectDB.requestInsertDB("UPDATE book SET statue='BORROW' where isbn='"+ISBN+"';");
+            connectDB.requestInsertDB("INSERT into borrowing (id, userId,borrowDate,returnDate,bookidBnf,restored) VALUES ('"+borrow.getId()+"', '"+user.getId()+"', '"+borrow.getBorrowDate()+"', '"+borrow.getReturnDate()+"', '"+borrow.getBook().getidBnf()+"', '"+borrow.getRestore()+"');");
+            connectDB.requestInsertDB("UPDATE book SET statue='BORROW' where idBnf='"+idBnf+"';");
             System.out.println(user.toString()+" have borrow "+book.toString());
         }
         else{
@@ -208,16 +208,16 @@ public class BorrowManager {
     /**
      * This method permits to return a book from a user.
      *
-     * @param ISBN     The ISBN of the book being returned.
+     * @param idBnf     The idBnf of the book being returned.
      * @param borrowId The ID of the borrow record.
      * @throws Exception If an error occurs during the return process.
      */
-    public void returnBook(long ISBN,int borrowId) throws Exception {
+    public void returnBook(long idBnf,int borrowId) throws Exception {
         ConnectDB connectDB = new ConnectDB();
         System.out.println("ok "+borrowing.get(borrowId).toString());
 
-        books.get(ISBN).setStatue(TypeStatue.FREE);
-        connectDB.requestInsertDB("DELETE FROM book WHERE isbn='"+ISBN+"'");
+        books.get(idBnf).setStatue(TypeStatue.FREE);
+        connectDB.requestInsertDB("DELETE FROM book WHERE idBnf='"+idBnf+"'");
         borrowing.get(borrowId).setRestore(Boolean.TRUE);
         borrowing.get(borrowId).setReturnDate(LocalDate.now());
 
@@ -227,10 +227,10 @@ public class BorrowManager {
             newID+=1;
         }
 
-        connectDB.requestInsertDB("INSERT into history (id, userId,borrowDate,returnDate,bookIsbn,restored) VALUES ('"+newID+"', '"+borrowing.get(borrowId).getUser().getId()+"', '"+borrowing.get(borrowId).getBorrowDate()+"', '"+borrowing.get(borrowId).getReturnDate()+"', '"+ISBN+"', '"+borrowing.get(borrowId).getRestore()+"');");
-        history.put(newID,borrowing.get(ISBN));
+        connectDB.requestInsertDB("INSERT into history (id, userId,borrowDate,returnDate,bookidBnf,restored) VALUES ('"+newID+"', '"+borrowing.get(borrowId).getUser().getId()+"', '"+borrowing.get(borrowId).getBorrowDate()+"', '"+borrowing.get(borrowId).getReturnDate()+"', '"+idBnf+"', '"+borrowing.get(borrowId).getRestore()+"');");
+        history.put(newID,borrowing.get(idBnf));
         connectDB.requestInsertDB("DELETE FROM borrowing WHERE id='"+borrowId+"'");
-        borrowing.remove(ISBN);
+        borrowing.remove(idBnf);
         System.out.println("Book restored");
     }
 
@@ -304,10 +304,10 @@ public class BorrowManager {
 
         List<Borrow> borrows = new ArrayList<>();
 
-        long isbn = book.getISBN();
+        long idBnf = book.getidBnf();
         for (Map.Entry<Integer, Borrow> entry : borrowing.entrySet()) {
             Borrow borrow = entry.getValue();
-            if (borrow.getBook().getISBN() == isbn) {
+            if (borrow.getBook().getidBnf() == idBnf) {
                 borrows.add(borrow);
             }
         }
@@ -322,18 +322,18 @@ public class BorrowManager {
     /**
      * Searches for a book by its title or author.
      *
-     * @param ISBN   The ISBN of the book to search for.
+     * @param idBnf   The idBnf of the book to search for.
      * @param title  The title of the book to search for.
      * @param author The author of the book to search for.
      * @return A list of books matching the search criteria.
      * @throws BookNotFoundException If no books are found matching the search criteria.
      */
-    public List<Book> searchBook(String ISBN, String title, String author) throws BookNotFoundException {
+    public List<Book> searchBook(String idBnf, String title, String author) throws BookNotFoundException {
 
         List<Book> booksFind = new ArrayList<>();
 
         for(Map.Entry<Long, Book> entry : books.entrySet()) {
-            if (entry.getValue().getTitle().equals(ISBN) | entry.getValue().getTitle().equals(title) | entry.getValue().getAuthor().equals(author)) {
+            if (entry.getValue().getTitle().equals(idBnf) | entry.getValue().getTitle().equals(title) | entry.getValue().getAuthor().equals(author)) {
                 booksFind.add(entry.getValue());
             }
         }
