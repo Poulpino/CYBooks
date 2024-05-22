@@ -28,7 +28,8 @@ public class Server {
             //Init objets
             ConnectDB connectDB = new ConnectDB();
             UserManager userManager = new UserManager(connectDB.RequestSelectDB("SELECT * FROM user"));
-            BorrowManager borrowManager = new BorrowManager(connectDB.RequestSelectDB("SELECT * FROM borrowing"),connectDB.RequestSelectDB("SELECT * FROM history"), connectDB.RequestSelectDB("SELECT * FROM book"), userManager);
+            BookManager bookManager = new BookManager(connectDB.RequestSelectDB("SELECT * FROM book"));
+            BorrowManager borrowManager = new BorrowManager(connectDB.RequestSelectDB("SELECT * FROM borrowing"),connectDB.RequestSelectDB("SELECT * FROM history"), userManager,bookManager);
 
             //waiting client connexion's
             while (run) {
@@ -84,8 +85,8 @@ public class Server {
                                 Book book = new Book(inputLineSplit[1]);
                                 User user = new User(inputLineSplit[2]);
                                 if (userManager.userExiste(user.getId())){
-                                    borrowManager.addBook(book);
-                                    borrowManager.borrowBook(book.getidBnf(),user.getId(),userManager);
+                                    bookManager.addBook(book);
+                                    borrowManager.borrowBook(book.getidBnf(),user.getId(),userManager,bookManager);
                                     out.println("201");
                                 }
                             }catch (Exception e){
@@ -189,7 +190,7 @@ public class Server {
                         case 111 ->{
                             try {
                                 Borrow borrow = new Borrow(inputLineSplit[1]);
-                                borrowManager.returnBook(borrow.getBook().getidBnf(), borrow.getId());
+                                borrowManager.returnBook(borrow.getBook().getidBnf(), borrow.getId(),bookManager);
                                 out.println("201");
                             }catch (Exception e){
                                 SceneController.showError("Server Error", "401: " + e.getMessage());

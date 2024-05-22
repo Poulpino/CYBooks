@@ -19,7 +19,6 @@ public class BorrowManager {
     private HashMap<Integer,Borrow> borrowing;
     private HashMap<Integer,Borrow> history;
     private HashMap<Book,Integer> nbborrowperbook;
-    private HashMap<Long,Book> books;
 
     /**
      * Constructs a BorrowManager and populates the books, borrowing, and history maps based on the input request strings.
@@ -30,46 +29,12 @@ public class BorrowManager {
      * @param requestHistory A string containing history data,
      *                       example "id;userId;borrowDate;returnDate;idBnf;restore".
      *
-     * @param requestBook    A string containing book data,
-     *                       example "idBnf;statue;editor;title;author;year".
-     *
      * @param userManager    An instance of UserManager that provides access to user data.
      * @throws IllegalArgumentException If any line in the input strings does not contain the expected number of values.
      * @throws Exception;
      */
-    public BorrowManager(String requestBorrow,String requestHistory,String requestBook, UserManager userManager) throws Exception {
+    public BorrowManager(String requestBorrow,String requestHistory, UserManager userManager,BookManager books) throws Exception {
         this.nbborrowperbook= new HashMap<>();
-
-        this.books = new HashMap<>();
-
-        if (!requestBook.isEmpty()) {
-            String[] booksLines = requestBook.split("/");
-            for(String line : booksLines)
-            {
-                String[] bookValues = line.split(";");
-
-                if(bookValues.length==6)
-                {
-                    Long idBnf = Long.parseLong(bookValues[0]);
-                    String stringStatue = bookValues[1];
-                    TypeStatue statue;
-                    if(stringStatue.equals("FREE")){
-                        statue=TypeStatue.FREE;
-                    }else{
-                        statue=TypeStatue.BORROW;}
-
-                    String editor = bookValues[2];
-                    String title = bookValues[3];
-                    String author = bookValues[4];
-                    String year = bookValues[5];
-                    Book book = new Book(idBnf,statue,editor,title,author,year);
-                    books.put(idBnf,book);
-                }
-                else{
-                    throw new IllegalArgumentException("The line doesn't have all the values wanted: " + line);
-                }
-            }
-        }
 
 
         this.borrowing = new HashMap<>();
@@ -90,7 +55,7 @@ public class BorrowManager {
                     Boolean restore = Boolean.parseBoolean(values[5]);
 
                     long idBnf = Long.parseLong(values[4]);
-                    Book book = books.get(idBnf);
+                    Book book = books.getBook(idBnf);
                     borrowing.put(id, new Borrow(id, user, borrowDate, return_date, book, restore));
                 } else {
                     throw new IllegalArgumentException("The line doesn't have all the values wanted: " + line);
@@ -116,7 +81,7 @@ public class BorrowManager {
                     String return_date = values[3];
                     Boolean restore = Boolean.parseBoolean(values[5]);
                     long idBnf = Long.parseLong(values[4]);
-                    Book book = books.get(idBnf);
+                    Book book = books.getBook(idBnf);
                     history.put(id, new Borrow(id, user, borrowDate, return_date, book, restore));
                 } else {
                     throw new IllegalArgumentException("The line doesn't have all the values wanted: " + line);
@@ -146,36 +111,6 @@ public class BorrowManager {
     }
 
     /**
-     * Adds a new book to the system.
-     *
-     * @param idBnf    The idBnf of the book.
-     * @param statue  The status of the book (e.g., FREE or BORROW).
-     * @param editor  The editor of the book.
-     * @param title   The title of the book.
-     * @param author  The author of the book.
-     * @param year    The publication year of the book.
-     * @throws Exception If there's an error whit DB connection.
-     */
-    //TODO Faire les verifs que le livre n'existe pas deja
-    public void addBook(Long idBnf,TypeStatue statue,String editor,String title, String author,String year) throws Exception {
-        ConnectDB connectDB = new ConnectDB();
-
-        Book book = new Book(idBnf,statue,editor,title,author,year);
-        books.put(idBnf, book);
-        connectDB.requestInsertDB("INSERT into book (idBnf,statue,editor,title,author,year) VALUES ('"+book.getidBnf()+"', '"+book.getStatue()+"', '"+book.getEditor()+"', '"+book.getTitle()+"', '"+book.getAuthor()+"', '"+book.getYear()+"');");
-        System.out.println(books.get(idBnf).toString() +" added");
-    }
-
-    /**
-     * Adds a new book to the system.
-     *
-     * @param book Book you want to add
-     * @throws Exception If there's an error whit DB connection.
-     */
-    public void addBook(Book book) throws Exception {
-        addBook(book.getidBnf(),book.getStatue(),book.getEditor(),book.getTitle(),book.getAuthor(),book.getYear());
-    }
-    /**
      * This method permits to borrow a book for a specific user
      *
      * @param idBnf         The idBnf of the book to be borrowed.
@@ -183,9 +118,9 @@ public class BorrowManager {
      * @param userManager  An instance of UserManager that provides access to user data.
      * @throws Exception   If an error occurs during the borrowing process.
      */
-    public void borrowBook(long idBnf,int userID,UserManager userManager) throws Exception {
+    public void borrowBook(long idBnf,int userID,UserManager userManager,BookManager books) throws Exception {
         ConnectDB connectDB = new ConnectDB();
-        Book book = books.get(idBnf);
+        Book book = books.getBook(idBnf);
 
         if(book.getStatue().equals(TypeStatue.FREE)){
             book.setStatue(TypeStatue.BORROW);
@@ -215,11 +150,11 @@ public class BorrowManager {
      * @param borrowId The ID of the borrow record.
      * @throws Exception If an error occurs during the return process.
      */
-    public void returnBook(long idBnf,int borrowId) throws Exception {
+    public void returnBook(long idBnf,int borrowId,BookManager books) throws Exception {
         ConnectDB connectDB = new ConnectDB();
         System.out.println("ok "+borrowing.get(borrowId).toString());
 
-        books.get(idBnf).setStatue(TypeStatue.FREE);
+        books.getBook(idBnf).setStatue(TypeStatue.FREE);
         connectDB.requestInsertDB("DELETE FROM book WHERE idBnf='"+idBnf+"'");
         borrowing.get(borrowId).setRestore(Boolean.TRUE);
         borrowing.get(borrowId).setReturnDate(LocalDate.now());
@@ -322,32 +257,6 @@ public class BorrowManager {
         }
     }
 
-    /**
-     * Searches for a book by its title or author.
-     *
-     * @param idBnf   The idBnf of the book to search for.
-     * @param title  The title of the book to search for.
-     * @param author The author of the book to search for.
-     * @return A list of books matching the search criteria.
-     * @throws BookNotFoundException If no books are found matching the search criteria.
-     */
-    public List<Book> searchBook(String idBnf, String title, String author) throws BookNotFoundException {
-
-        List<Book> booksFind = new ArrayList<>();
-
-        for(Map.Entry<Long, Book> entry : books.entrySet()) {
-            if (entry.getValue().getTitle().equals(idBnf) | entry.getValue().getTitle().equals(title) | entry.getValue().getAuthor().equals(author)) {
-                booksFind.add(entry.getValue());
-            }
-        }
-        if (!booksFind.isEmpty()){
-            return booksFind;
-        }
-        else{
-            throw new BookNotFoundException("No book find with given details.");
-        }
-    }
-
     public HashMap<Integer, Borrow> getBorrowing() {
         return borrowing;
     }
@@ -360,7 +269,4 @@ public class BorrowManager {
         return nbborrowperbook;
     }
 
-    public HashMap<Long, Book> getBooks() {
-        return books;
-    }
 }
