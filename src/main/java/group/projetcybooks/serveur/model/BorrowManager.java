@@ -28,7 +28,7 @@ public class BorrowManager {
      *                       example "id;userId;borrowDate;returnDate;ISBN;restore".
      *
      * @param requestBook    A string containing book data,
-     *                       example "ISBN;statue;editor;title;author;year;genre".
+     *                       example "ISBN;statue;editor;title;author;year".
      *
      * @param userManager    An instance of UserManager that provides access to user data.
      * @throws IllegalArgumentException If any line in the input strings does not contain the expected number of values.
@@ -45,7 +45,7 @@ public class BorrowManager {
             {
                 String[] bookValues = line.split(";");
 
-                if(bookValues.length==7)
+                if(bookValues.length==6)
                 {
                     Long ISBN = Long.parseLong(bookValues[0]);
                     String stringStatue = bookValues[1];
@@ -59,8 +59,7 @@ public class BorrowManager {
                     String title = bookValues[3];
                     String author = bookValues[4];
                     int year = Integer.parseInt(bookValues[5]);
-                    String genre = bookValues[6];
-                    Book book = new Book(ISBN,statue,editor,title,author,year,genre);
+                    Book book = new Book(ISBN,statue,editor,title,author,year);
                     books.put(ISBN,book);
                 }
                 else{
@@ -94,6 +93,7 @@ public class BorrowManager {
                     throw new IllegalArgumentException("The line doesn't have all the values wanted: " + line);
                 }
             }
+
         }
 
         //On fait la même chose pour history
@@ -129,14 +129,13 @@ public class BorrowManager {
     public List<Borrow> lateReturn() throws NoLateReturnBook {
 
         List<Borrow> lateReturnBook = new ArrayList<>();
-
         for (Map.Entry<Integer, Borrow> entry : borrowing.entrySet()) {
             Borrow borrow = entry.getValue();
-            if (borrow.getReturnDate().isAfter(LocalDate.now())) {
+            if (!borrow.getReturnDate().isAfter(LocalDate.now())) {
                 lateReturnBook.add(borrow);
             }
         }
-        if (!lateReturnBook.isEmpty())
+        if (!(lateReturnBook.isEmpty()))
             return lateReturnBook;
         else {
             throw new NoLateReturnBook("No late return book");
@@ -152,16 +151,15 @@ public class BorrowManager {
      * @param title   The title of the book.
      * @param author  The author of the book.
      * @param year    The publication year of the book.
-     * @param genre   The genre of the book.
      * @throws Exception If there's an error whit DB connection.
      */
     //TODO Faire les verifs que le livre n'existe pas deja
-    public void addBook(Long ISBN,TypeStatue statue,String editor,String title, String author,int year,String genre) throws Exception {
+    public void addBook(Long ISBN,TypeStatue statue,String editor,String title, String author,int year) throws Exception {
         ConnectDB connectDB = new ConnectDB();
 
-        Book book = new Book(ISBN,statue,editor,title,author,year,genre);
+        Book book = new Book(ISBN,statue,editor,title,author,year);
         books.put(ISBN, book);
-        connectDB.requestInsertDB("INSERT into book (isbn,statue,editor,title,author,year,genre) VALUES ('"+book.getISBN()+"', '"+book.getStatue()+"', '"+book.getEditor()+"', '"+book.getTitle()+"', '"+book.getAuthor()+"', '"+book.getYear()+"', '"+book.getGenre()+"');");
+        connectDB.requestInsertDB("INSERT into book (isbn,statue,editor,title,author,year) VALUES ('"+book.getISBN()+"', '"+book.getStatue()+"', '"+book.getEditor()+"', '"+book.getTitle()+"', '"+book.getAuthor()+"', '"+book.getYear()+"');");
         System.out.println(books.get(ISBN).toString() +" added");
     }
 
@@ -172,7 +170,7 @@ public class BorrowManager {
      * @throws Exception If there's an error whit DB connection.
      */
     public void addBook(Book book) throws Exception {
-        addBook(book.getISBN(),book.getStatue(),book.getEditor(),book.getTitle(),book.getAuthor(),book.getYear(),book.getGenre());
+        addBook(book.getISBN(),book.getStatue(),book.getEditor(),book.getTitle(),book.getAuthor(),book.getYear());
     }
     /**
      * This method permits to borrow a book for a specific user
@@ -219,7 +217,7 @@ public class BorrowManager {
         System.out.println("ok "+borrowing.get(borrowId).toString());
 
         books.get(ISBN).setStatue(TypeStatue.FREE);
-        connectDB.requestInsertDB("UPDATE book SET statue='FREE' WHERE isbn='"+ISBN+"'");
+        connectDB.requestInsertDB("DELETE FROM book WHERE isbn='"+ISBN+"'");
         borrowing.get(borrowId).setRestore(Boolean.TRUE);
         borrowing.get(borrowId).setReturnDate(LocalDate.now());
 

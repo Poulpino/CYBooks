@@ -7,7 +7,6 @@ public class Artwork {
     private String title;
     private String author;
     private int year;
-    private String genre;
 
     /**
      * Constructs a new Artwork object with the specified parameters.
@@ -15,13 +14,11 @@ public class Artwork {
      * @param title  The title of the artwork.
      * @param author The author/creator of the artwork.
      * @param year   The year of creation/publication of the artwork.
-     * @param genre  The genre/category of the artwork.
      */
-    public Artwork(String title, String author, int year, String genre) {
+    public Artwork(String title, String author, int year) {
         this.title = title;
         this.author = author;
         this.year = year;
-        this.genre = genre;
     }
 
     public Artwork(){}
@@ -36,9 +33,6 @@ public class Artwork {
     public int getYear() {
         return year;
     }
-    public String getGenre() {
-        return genre;
-    }
 
     //Setter
     public void setTitle(String title) {
@@ -50,7 +44,5 @@ public class Artwork {
     public void setYear(int year) {
         this.year = year;
     }
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
+
 }
