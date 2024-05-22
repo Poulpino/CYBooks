@@ -11,6 +11,9 @@ import java.util.Map;
 
 /**
  * This class manages user-related operations.
+ * Attributes :
+ *  HashMap<Integer, User> <b> users</b> List of users; Key : id of a user;
+ *                                                     Values : users
  */
 public class UserManager {
 

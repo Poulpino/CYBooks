@@ -9,7 +9,9 @@ import java.net.*;
 import java.util.List;
 
 /**
- * Do a server and wait client to connect
+ * This class sets up a server and waits for clients to connect.
+ * Attribute:
+ *      int <b>port</b> The port on which the server listens.
  */
 public class Server {
     private static final int port = 5543;

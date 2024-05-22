@@ -9,7 +9,12 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+/**
+ * Client class for handling server communication.
+ * Attributes :
+ *      String <b>host</b>    The hostname of the server to connect to.
+ *      String <b>port</b>    The port number of the server to connect to.
+ */
 public class Client {
     private static final String host = "localhost";
     private static final int port = 5543;

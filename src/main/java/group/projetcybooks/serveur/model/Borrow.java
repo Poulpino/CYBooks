@@ -6,6 +6,12 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * Represents a borrow instance in the system.
+ * Attributes :
+ *      int <b>id</b>                  The ID of the borrow.
+ *      User <b>user</b>               The user who borrowed the book.
+ *      LocalDate <b>borrowDate</b>    The date the book was borrowed.
+ *      LocalDate <b>book</b>          The book that was borrowed.
+ *      Boolean <b>restore</b>         A boolean value indicating whether the book has been restored.
  */
 public class Borrow {
     private int id;
@@ -18,18 +24,18 @@ public class Borrow {
     /**
      * Constructs a new Borrow object, check if the format of borrowDate is "dd/MM/yyyy" and affect the returnDate 1 month after
      *
-     * @param id              The ID of the borrow.
-     * @param user            The user who borrowed the book.
-     * @param borrowDate      The date the book was borrowed.
-     * @param book            The book that was borrowed.
-     * @param restore         A boolean value indicating whether the book has been restored.
+     * @param id         The ID of the borrow.
+     * @param user       The user who borrowed the book.
+     * @param borrowDate The date the book was borrowed.
+     * @param book       The book that was borrowed.
+     * @param restore    A boolean value indicating whether the book has been restored.
      * @throws ParseException If there is an error in the date format.
      */
-    public Borrow(int id, User user, String borrowDate, Book book,Boolean restore) throws ParseException {
+    public Borrow(int id, User user, String borrowDate, Book book, Boolean restore) throws ParseException {
         this.id = id;
         this.user = user;
         this.book = book;
-        this.restore= restore;
+        this.restore = restore;
 
         // Force the format of borrowDate to "yyyy-MM-dd"
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -46,19 +52,19 @@ public class Borrow {
     /**
      * Constructs a new Borrow object if returnDate already fixed, check if the format of borrowDate is "dd/MM/yyyy"
      *
-     * @param id              The ID of the borrow.
-     * @param user            The user who borrowed the book.
-     * @param borrowDate      The date the book was borrowed.
-     * @param returnDate      The date the book is expected to be returned.
-     * @param book            The book that was borrowed.
-     * @param restore         A boolean value indicating whether the book has been restored.
+     * @param id         The ID of the borrow.
+     * @param user       The user who borrowed the book.
+     * @param borrowDate The date the book was borrowed.
+     * @param returnDate The date the book is expected to be returned.
+     * @param book       The book that was borrowed.
+     * @param restore    A boolean value indicating whether the book has been restored.
      * @throws ParseException If there is an error in the date format.
      */
-    public Borrow(int id, User user, String borrowDate, String returnDate,Book book,Boolean restore) throws ParseException {
-        this.id=id;
-        this.user= user;
-        this.book=book;
-        this.restore=restore;
+    public Borrow(int id, User user, String borrowDate, String returnDate, Book book, Boolean restore) throws ParseException {
+        this.id = id;
+        this.user = user;
+        this.book = book;
+        this.restore = restore;
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
@@ -73,38 +79,49 @@ public class Borrow {
         }
     }
 
-    public Borrow(String str){
+    /**
+     * Constructs a new Borrow object with a string
+     *
+     * @param str format : id;borrowDate;returnDate;restore/user.toString()/book.toString()
+     */
+    public Borrow(String str) {
         String[] strSplit = str.split("/");
         user = new User(strSplit[1]);
         book = new Book(strSplit[2]);
         strSplit = strSplit[0].split(";");
-        id=Integer.parseInt(strSplit[0]);
-        borrowDate= LocalDate.parse(strSplit[1]);
-        returnDate= LocalDate.parse(strSplit[2]);
-        restore= Boolean.valueOf(strSplit[3]);
-        }
+        id = Integer.parseInt(strSplit[0]);
+        borrowDate = LocalDate.parse(strSplit[1]);
+        returnDate = LocalDate.parse(strSplit[2]);
+        restore = Boolean.valueOf(strSplit[3]);
+    }
 
     @Override
     public String toString() {
         return id + ";" + borrowDate + ";" + returnDate + ";" + restore + "/" + user.toString() + "/" + book.toString();
     }
+
     //Getter
     public int getId() {
         return id;
     }
+
     public User getUser() {
         return user;
     }
+
     public LocalDate getBorrowDate() {
         return borrowDate;
     }
+
     public Book getBook() {
         return book;
     }
+
     public LocalDate getReturnDate() {
         return returnDate;
     }
-    public Boolean getRestore(){
+
+    public Boolean getRestore() {
         return restore;
     }
 
@@ -112,22 +129,24 @@ public class Borrow {
     public void setUser(User User) {
         this.user = User;
     }
+
     public void setBorrowDate(LocalDate borrowDate) {
         this.borrowDate = borrowDate;
     }
+
     public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
     }
+
     public void setBook(Book book) {
         this.book = book;
     }
+
     public void setId(int id) {
-    this.id = id;
-    }
-    public void setRestore(Boolean restore){
-        this.restore=restore;
+        this.id = id;
     }
 
-    public static void main(String[] args){
-           }
+    public void setRestore(Boolean restore) {
+        this.restore = restore;
+    }
 }

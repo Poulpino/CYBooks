@@ -10,6 +10,9 @@ import java.util.*;
 
 /**
  * This class permits to manage all borrow
+ * Attributes :
+ *     HashMap<Integer,Borrow> <b>borrowing</b>          List of current borrow ;
+ *     HashMap<Integer,Borrow> <b>history</b>            List of old borrow;
  */
 public class BorrowManager {
 

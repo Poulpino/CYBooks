@@ -19,6 +19,9 @@ import java.util.List;
 
 import static group.projetcybooks.serveur.model.TypeStatue.FREE;
 
+/**
+ * Handles connections and queries to the BNF API.
+ */
 public class ConnectApi {
     private final static String apiUrl = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve";
     private Book book;
