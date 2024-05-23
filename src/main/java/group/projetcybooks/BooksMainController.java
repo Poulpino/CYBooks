@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class BooksMainController {
+public class BooksMainController extends SceneController {
 
     private Stage stage;
     private Scene scene;
@@ -17,26 +17,8 @@ public class BooksMainController {
         this.stage = stage;
     }
 
-
-
-    public void switchToMain(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("MainScene.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load(), 1080, 720);
-        stage.setScene(scene);
-        stage.show();
-    }
-
     public void switchToMostBorrowed(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("MostBorrowed.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load(), 1080, 720);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void switchToBorrowBook2(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("BorrowBook2.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(fxmlLoader.load(), 1080, 720);
         stage.setScene(scene);

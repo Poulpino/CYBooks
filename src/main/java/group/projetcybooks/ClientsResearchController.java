@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ClientsResearchController {
+public class ClientsResearchController extends SceneController{
 
     private Stage stage;
     private Scene scene;
@@ -33,11 +33,4 @@ public class ClientsResearchController {
         stage.show();
     }
 
-    public void switchToClientsMain(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsMain.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load(), 1080, 720);
-        stage.setScene(scene);
-        stage.show();
-    }
 }
