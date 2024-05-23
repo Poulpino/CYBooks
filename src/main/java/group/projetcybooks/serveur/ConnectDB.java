@@ -84,14 +84,4 @@ public class ConnectDB {
         stmt.close();
         conn.close();
     }
-
-    /**
-     * Inserts a book into the database.
-     *
-     * @param book The book to be inserted.
-     * @throws Exception If an error occurs while inserting the book.
-     */
-    public void requestInsertBookDB(Book book) throws Exception {
-        requestInsertDB("INSERT INTO `book` (`idBnf`, `statue`, `editor`, `title`,`year`,`genre`) VALUES ('" + book.getidBnf() + "', '" + book.getStatue() + "', '" + book.getEditor() + "', '" + book.getTitle() + "','" + book.getYear() + "');");
-    }
 }

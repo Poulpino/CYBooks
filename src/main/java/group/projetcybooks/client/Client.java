@@ -332,7 +332,7 @@ public class Client {
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "113 "+user.toString();
+            String clientInput = "113 " + user.toString();
             out.println(clientInput);
 
             List<Borrow> history = new ArrayList<>();
@@ -359,6 +359,39 @@ public class Client {
         }
     }
 
+        public List<Book> clientAskPopularBook(){
+            try (Socket socket = new Socket(host, port);
+                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                 BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
+
+                String clientInput = "103 ";
+                out.println(clientInput);
+
+                List<Borrow> history = new ArrayList<>();
+                String result = in.readLine();
+                String[] resultSplit = result.split(" ");
+                System.out.println(resultSplit[0]);
+
+                for (int i = 1; i < resultSplit.length; i++) {
+                    String line = resultSplit[i];
+                    history.add(new Borrow(line));
+                }
+
+                return null;
+
+            } catch (UnknownHostException e) {
+                System.err.println("Don't know about host " + host);
+                SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
+                return null;
+            } catch (IOException e) {
+                System.err.println("Couldn't get I/O for the connection to " + host);
+                SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
+                e.printStackTrace();
+                return null;
+            }
+    }
+
     public static void main(String[] args){
         // OK System.out.println(new Client().clientAskReturnBookList(new User(1,"Hautecourt","Julien","0781287621")));
         // OK System.out.println(new Client().clientAskLateReturn());
@@ -367,8 +400,8 @@ public class Client {
         Borrow test2 = test.getFirst();
         OK System.out.println(new Client().clientReturnBook(test));
         */
-        System.out.println(new Client().clientAskHistoryBookList(new User(0,"Aubert","Michel","0686502589")));
-        // OK System.out.println(new Client().clientSendNewUser("Hautecourt","Marie","0000000000"));
+        //System.out.println(new Client().clientAskHistoryBookList(new User(0,"Aubert","Michel","0686502589")));
+        System.out.println(new Client().clientSendNewUser("","Marie","0000000000"));
         // OK System.out.println(new Client().clientUpdateUser(new User(2,"Marie","Hautecourt","0000000000"),"Hautecourt","Marie",null));
         // OK System.out.println(new Client().clientSearchUser("Hautecourt",null,null));
         // OK System.out.println(new Client().clientRemoveUser(new User(0,"Aubert","Michel","0686502589")));

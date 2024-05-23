@@ -174,8 +174,10 @@ public class BorrowManager {
 
     /**
      * This method return a list of the book with more borrow
+     *
+     * @return ArrayList
      */
-    public void getPopularBook() {
+    public ArrayList<Map.Entry<Book, Integer>> getPopularBook() {
         // Establish a Hashmap with key : Book , value : number of Borrow
         for (Integer key : history.keySet()) {
             Borrow borrow = history.get(key);
@@ -186,13 +188,9 @@ public class BorrowManager {
         // Create a list and sort that list by value decreasing
         ArrayList<Map.Entry<Book, Integer>> list = new ArrayList<>(nbborrowperbook.entrySet());
         list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
-
-        //TODO : voir format a rendre javaFX
-        System.out.println("Most popular book : ");
-        for (Map.Entry<Book, Integer> entry : list) {
-            System.out.println(entry.getKey() + " - Borrow number : " + entry.getValue());
-        }
+        return list;
     }
+
     /**
      * Searches for borrows by a user.
      *
