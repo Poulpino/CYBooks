@@ -1,32 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.projetcybooks.SceneController">
-<children>
-   <VBox layoutX="100.0" layoutY="50.0" spacing="20.0" alignment="CENTER">
-      <children>
-         <Label text="Clients">
-            <font>
-               <Font size="66.0" />
-            </font>
-         </Label>
-         <Button mnemonicParsing="false" onAction="#switchToClientsSignUp" text="Sign Up" prefWidth="150.0"/>
-         <Button mnemonicParsing="false" onAction="#switchToClientsResearch" text="Search Profile" prefWidth="150.0"/>
-         <Button mnemonicParsing="false" onAction="#switchToMain" text="Main" prefWidth="150.0">
-            <VBox.margin>
-               <Insets top="20.0"/>
-            </VBox.margin>
-         </Button>
-      </children>
-      <padding>
-         <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
-      </padding>
-   </VBox>
-</children>
-</AnchorPane>
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.projetcybooks.ClientsMainController">
+   <center>
+      <GridPane alignment="BOTTOM_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="100.0" minWidth="300.0" prefHeight="1080.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="100.0" maxWidth="900.0" minHeight="20.0" minWidth="100.0" mnemonicParsing="false" onAction="#switchToClientsSignUp" text="Sign up" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <font>
+                  <Font size="45.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="100.0" maxWidth="900.0" minHeight="20.0" minWidth="100.0" mnemonicParsing="false" onAction="#switchToClientsResearch" text="Search profile" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <font>
+                  <Font size="45.0" />
+               </font>
+            </Button>
+         </children>
+      </GridPane>
+   </center>
+   <top>
+      <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <items>
+            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" text="            Clients" textAlignment="CENTER">
+               <font>
+                  <Font size="60.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#switchToMain" prefHeight="94.0" prefWidth="195.0" text="Back">
+               <font>
+                  <Font size="45.0" />
+               </font>
+            </Button>
+         </items>
+      </SplitPane>
+   </top>
+</BorderPane>

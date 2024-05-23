@@ -22,7 +22,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="100.0" maxWidth="900.0" minHeight="20.0" minWidth="100.0" mnemonicParsing="false" onAction="#switchToClientsMain" text="Client" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+            <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="100.0" maxWidth="900.0" minHeight="20.0" minWidth="100.0" mnemonicParsing="false" onAction="#switchToClientsMain" text="Clients" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <font>
                   <Font size="45.0" />
                </font></Button>

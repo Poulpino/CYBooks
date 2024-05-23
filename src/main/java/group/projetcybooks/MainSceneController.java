@@ -20,7 +20,7 @@ public class MainSceneController {
     public void switchToClientsMain(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsMain.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
+        scene = new Scene(fxmlLoader.load(), 1080, 720);
         stage.setScene(scene);
         stage.show();
     }
@@ -28,7 +28,7 @@ public class MainSceneController {
     public void switchToBorrowMain(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("BorrowMain.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
+        scene = new Scene(fxmlLoader.load(), 1080, 720);
         stage.setScene(scene);
         stage.show();
     }
@@ -36,15 +36,15 @@ public class MainSceneController {
     public void switchToBooksMain(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("BooksMain.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
+        scene = new Scene(fxmlLoader.load(), 1080, 720);
         stage.setScene(scene);
         stage.show();
     }
 
     public void switchToLateReturnMain(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("LateReturnMain.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("LateReturn.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
+        scene = new Scene(fxmlLoader.load(), 1080, 720);
         stage.setScene(scene);
         stage.show();
     }
