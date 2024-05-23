@@ -1,14 +1,13 @@
 package group.projetcybooks.client;
 
-import group.projetcybooks.serveur.ConnectDB;
 import group.projetcybooks.serveur.model.*;
 import group.projetcybooks.SceneController;
 
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.ParseException;
+import java.util.*;
+
 /**
  * Client class for handling server communication.
  * Attributes :
@@ -49,7 +48,6 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
             SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
-            e.printStackTrace();
             return null;
         }
         return null;
@@ -79,7 +77,6 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
             SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
-            e.printStackTrace();
             return -1;
         }
         return 1;
@@ -109,7 +106,6 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
             SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
-            e.printStackTrace();
             return -1;
         }
         return 1;
@@ -136,12 +132,11 @@ public class Client {
             System.out.println(Integer.parseInt(in.readLine()));
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
-            SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
+            SceneController.showError("Client Error", "Unknown host problem: " + host + e.getMessage());
             return -1;
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
             SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
-            e.printStackTrace();
             return -1;
         }
         return 1;
@@ -183,7 +178,6 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
             SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
-            e.printStackTrace();
             return null;
         }
     }
@@ -210,7 +204,6 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
             SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
-            e.printStackTrace();
             return -1;
         }
         return 1;
@@ -220,7 +213,6 @@ public class Client {
      * The client provides a user instance return the list of books to be returned by a user.
      *
      * @param user the user who borrowed the books
-     * @return
      */
     public List<Borrow> clientAskReturnBookList(User user) {
         try (Socket socket = new Socket(host, port);
@@ -248,7 +240,6 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
             SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
-            e.printStackTrace();
             return null;
         }
     }
@@ -275,7 +266,6 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
             SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
-            e.printStackTrace();
             return -1;
         }
         return 1;
@@ -314,7 +304,6 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
             SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
-            e.printStackTrace();
             return null;
         }
         return borrowList;
@@ -354,12 +343,16 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
             SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
-            e.printStackTrace();
             return null;
         }
     }
-
-        public List<Book> clientAskPopularBook(){
+    /**
+     * Requests the server for the most popular books and their borrow counts.
+     *
+     * @return A HashMap containing Book objects as keys and their borrow counts as values sorted by borrow counts,
+     *         or null if there was a problem with the connection to the server.
+     */
+        public HashMap<Book, Integer> clientAskPopularBook(){
             try (Socket socket = new Socket(host, port);
                  PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                  BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -368,17 +361,17 @@ public class Client {
                 String clientInput = "103 ";
                 out.println(clientInput);
 
-                List<Borrow> history = new ArrayList<>();
-                String result = in.readLine();
-                String[] resultSplit = result.split(" ");
-                System.out.println(resultSplit[0]);
+                HashMap<Book, Integer> popularBooks = new HashMap<>();
 
-                for (int i = 1; i < resultSplit.length; i++) {
-                    String line = resultSplit[i];
-                    history.add(new Borrow(line));
+                String result = in.readLine().replace("[","").replace("]","").replace(" ", "");
+                String[] resultSplit = result.split(",");
+
+                for (String line : resultSplit) {
+                    String[] resultSplit2 = line.split("=");
+                    Book book = new Book(resultSplit2[0]);
+                    popularBooks.put(book,Integer.parseInt(resultSplit2[1]));
                 }
-
-                return null;
+                return popularBooks;
 
             } catch (UnknownHostException e) {
                 System.err.println("Don't know about host " + host);
@@ -387,12 +380,13 @@ public class Client {
             } catch (IOException e) {
                 System.err.println("Couldn't get I/O for the connection to " + host);
                 SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
-                e.printStackTrace();
                 return null;
             }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws ParseException {
+        System.out.println(new Client().clientAskPopularBook());
+        //System.out.println(new Client().clientReturnBook(new Borrow(1,new User(1,"Hautecourt","Julien","0781287621"),"2024-03-21","2024-04-21",new Book(1,TypeStatue.BORROW,"c","c","c","2020"),false)));
         // OK System.out.println(new Client().clientAskReturnBookList(new User(1,"Hautecourt","Julien","0781287621")));
         // OK System.out.println(new Client().clientAskLateReturn());
         /*
@@ -401,7 +395,7 @@ public class Client {
         OK System.out.println(new Client().clientReturnBook(test));
         */
         //System.out.println(new Client().clientAskHistoryBookList(new User(0,"Aubert","Michel","0686502589")));
-        System.out.println(new Client().clientSendNewUser("","Marie","0000000000"));
+        // OK System.out.println(new Client().clientSendNewUser("","Marie","0000000000"));
         // OK System.out.println(new Client().clientUpdateUser(new User(2,"Marie","Hautecourt","0000000000"),"Hautecourt","Marie",null));
         // OK System.out.println(new Client().clientSearchUser("Hautecourt",null,null));
         // OK System.out.println(new Client().clientRemoveUser(new User(0,"Aubert","Michel","0686502589")));

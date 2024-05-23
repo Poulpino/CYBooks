@@ -41,7 +41,7 @@ public class Server {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                SceneController.showError("Server Error", "400: " + e.getMessage());
             }
 
             //Init objets
@@ -71,8 +71,9 @@ public class Server {
 
                         case 103 -> {
                             try {
-                                ArrayList<Map.Entry<Book, Integer>> poupularBooks = borrowManager.getPopularBook();
-                                System.out.println(poupularBooks.toString());
+                                ArrayList<Map.Entry<Book, Integer>> popularBooks = borrowManager.getPopularBook();
+                                out.println(popularBooks.toString());
+
                             } catch (Exception e) {
                                 SceneController.showError("Server Error", "400: " + e.getMessage());
                             }
@@ -83,22 +84,22 @@ public class Server {
                         case 104 -> {
                             String idBnf = inputLineSplit[1];
                             String title = inputLineSplit[2];
-                            String autor = inputLineSplit[3];
+                            String author = inputLineSplit[3];
                             if (idBnf.equals("null")) {
                                 idBnf = null;
                             }
                             if (title.equals("null")) {
                                 title = null;
                             }
-                            if (autor.equals("null")) {
-                                autor = null;
+                            if (author.equals("null")) {
+                                author = null;
                             }
                             /*TODO : Je veux que connectApi.getBook(idBnf,title,editor) renvoie une List<Book> de
                               TODO tout les livres qui correspond à la description. Si l'un des argument est null alors
                               TODO il n'effectue pas la recherche par rapport à cette argument mais seulement les autres
                              */
                             try {
-                                List<Book> bookList = new ConnectApi(idBnf, title, autor).getBooks();
+                                List<Book> bookList = new ConnectApi(idBnf, title, author).getBooks();
                                 String output = "";
                                 for (Book book : bookList) {
                                     output += book.toString() + "/";
@@ -106,7 +107,7 @@ public class Server {
                                 output = output.substring(0, output.length() - 1);
                                 out.println("201 " + output);
                             } catch (Exception e) {
-                                out.println("401 " + e.getMessage());
+                                SceneController.showError("Server Error", "400: " + e.getMessage());
                             }
                         }
                         //clientBorrowBook WORKING
@@ -233,7 +234,8 @@ public class Server {
                                 borrowManager.returnBook(borrow.getBook().getidBnf(), borrow.getId(), bookManager);
                                 out.println("201");
                             } catch (Exception e) {
-                                SceneController.showError("Server Error", "401: " + e.getMessage());
+                                SceneController.showError("Server Error", "400: " + e.getMessage());
+                                //SceneController.showError("Server Error", "401: " + e.getMessage());
                             }
                         }
 

@@ -59,9 +59,10 @@ public class BookManager {
         ConnectDB connectDB = new ConnectDB();
 
         Book book = new Book(idBnf,statue,editor,title,author,year);
-        books.put(idBnf, book);
-        connectDB.requestInsertDB("INSERT into book (idBnf,statue,editor,title,author,year) VALUES ('"+book.getidBnf()+"', '"+book.getStatue()+"', '"+book.getEditor()+"', '"+book.getTitle()+"', '"+book.getAuthor()+"', '"+book.getYear()+"');");
-        System.out.println(books.get(idBnf).toString() +" added");
+        if(!books.containsKey(book.getidBnf())) {
+            books.put(idBnf, book);
+            connectDB.requestInsertDB("INSERT into book (idBnf,statue,editor,title,author,year) VALUES ('" + book.getidBnf() + "', '" + book.getStatue() + "', '" + book.getEditor() + "', '" + book.getTitle() + "', '" + book.getAuthor() + "', '" + book.getYear() + "');");;
+        }
     }
 
     /**
@@ -71,7 +72,7 @@ public class BookManager {
      * @throws Exception If there's an error whit DB connection.
      */
     public void addBook(Book book) throws Exception {
-        addBook(book.getidBnf(),book.getStatue(),book.getEditor(),book.getTitle(),book.getAuthor(),book.getYear());
+         addBook(book.getidBnf(), book.getStatue(), book.getEditor(), book.getTitle(), book.getAuthor(), book.getYear());
     }
 
     /**

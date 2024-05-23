@@ -152,10 +152,9 @@ public class BorrowManager {
      */
     public void returnBook(long idBnf,int borrowId,BookManager books) throws Exception {
         ConnectDB connectDB = new ConnectDB();
-        System.out.println("ok "+borrowing.get(borrowId).toString());
 
         books.getBook(idBnf).setStatue(TypeStatue.FREE);
-        connectDB.requestInsertDB("DELETE FROM book WHERE idBnf='"+idBnf+"'");
+        connectDB.requestInsertDB("UPDATE book SET statue='FREE' WHERE idBnf = '"+idBnf+"';");
         borrowing.get(borrowId).setRestore(Boolean.TRUE);
         borrowing.get(borrowId).setReturnDate(LocalDate.now());
 
@@ -166,10 +165,9 @@ public class BorrowManager {
         }
 
         connectDB.requestInsertDB("INSERT into history (id, userId,borrowDate,returnDate,bookidBnf,restored) VALUES ('"+newID+"', '"+borrowing.get(borrowId).getUser().getId()+"', '"+borrowing.get(borrowId).getBorrowDate()+"', '"+borrowing.get(borrowId).getReturnDate()+"', '"+idBnf+"', '"+borrowing.get(borrowId).getRestore()+"');");
-        history.put(newID,borrowing.get(idBnf));
+        history.put(newID,borrowing.get(borrowId));
         connectDB.requestInsertDB("DELETE FROM borrowing WHERE id='"+borrowId+"'");
-        borrowing.remove(idBnf);
-        System.out.println("Book restored");
+        borrowing.remove(borrowId);
     }
 
     /**
@@ -183,11 +181,12 @@ public class BorrowManager {
             Borrow borrow = history.get(key);
             Book book = borrow.getBook();
             // Add to the hashmap the number of borrow
-            nbborrowperbook.put(book, nbborrowperbook.getOrDefault(book, 0) + 1);
+            nbborrowperbook.put(book,nbborrowperbook.getOrDefault(book,0) + 1);
         }
         // Create a list and sort that list by value decreasing
         ArrayList<Map.Entry<Book, Integer>> list = new ArrayList<>(nbborrowperbook.entrySet());
         list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+        System.out.println(list);
         return list;
     }
 
