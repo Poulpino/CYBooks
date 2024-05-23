@@ -99,8 +99,32 @@ public class SceneController {
         stage.show();
     }
 
-    public void switchToLateReturnMain(ActionEvent event) throws IOException {
+    public void switchToLateReturn(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("LateReturn.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToClientsBorrowHistory(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("CientsBorrowHistory.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToClientsEdit(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsEdit.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToMostBorrowed(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("MostBorrowed.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
