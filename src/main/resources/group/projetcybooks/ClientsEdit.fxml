@@ -12,97 +12,98 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.projetcybooks.ClientsEditController">
-   <top>
-      <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <items>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" text="                    Edit profile" textAlignment="CENTER">
-               <font>
-                  <Font size="60.0" />
-               </font>
-            </Label>
-            <Button mnemonicParsing="false" onAction="#switchToClientsMain" prefHeight="109.0" prefWidth="328.0" text="Back">
-               <font>
-                  <Font size="45.0" />
-               </font>
-            </Button>
-         </items>
-      </SplitPane>
-   </top>
-   <center>
-      <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <items>
-            <GridPane>
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="956.0" minWidth="10.0" prefWidth="956.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="466.0" minWidth="0.0" prefWidth="0.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label alignment="TOP_LEFT" text="Current name" GridPane.rowIndex="1">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Label>
-                  <Label text="Current last name">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="BASELINE_LEFT" text="Current phone" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets bottom="225.0" />
-               </padding>
-            </GridPane>
-            <GridPane>
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="468.0" minWidth="10.0" prefWidth="288.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="668.0" minWidth="10.0" prefWidth="668.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="New name">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Label>
-                  <Label text="New phone" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Label>
-                  <Label text="New last name" GridPane.rowIndex="1">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Label>
-                  <TextField prefHeight="73.0" prefWidth="628.0" GridPane.columnIndex="1" />
-                  <TextField prefHeight="73.0" prefWidth="628.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField prefHeight="73.0" prefWidth="628.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Button mnemonicParsing="false" onAction="#switchToMain" prefHeight="95.0" prefWidth="668.0" text="Edit" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Button>
-               </children>
-            </GridPane>
-         </items>
-      </SplitPane>
-   </center>
+    <top>
+        <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <items>
+                <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" text="                    Edit profile" textAlignment="CENTER">
+                    <font>
+                        <Font size="60.0" />
+                    </font>
+                </Label>
+                <Button fx:id="backButton" mnemonicParsing="false" onAction="#switchToClientsMain" prefHeight="109.0" prefWidth="328.0" text="Back">
+                    <font>
+                        <Font size="45.0" />
+                    </font>
+                </Button>
+            </items>
+        </SplitPane>
+    </top>
+    <center>
+        <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <items>
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="956.0" minWidth="10.0" prefWidth="956.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="466.0" minWidth="0.0" prefWidth="0.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label alignment="TOP_LEFT" text="Current name" GridPane.rowIndex="1">
+                            <font>
+                                <Font size="40.0" />
+                            </font>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </Label>
+                        <Label text="Current last name">
+                            <font>
+                                <Font size="40.0" />
+                            </font>
+                        </Label>
+                        <Label alignment="BASELINE_LEFT" text="Current phone" GridPane.rowIndex="2">
+                            <font>
+                                <Font size="40.0" />
+                            </font>
+                        </Label>
+                    </children>
+                    <padding>
+                        <Insets bottom="225.0" />
+                    </padding>
+                </GridPane>
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="468.0" minWidth="10.0" prefWidth="288.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="668.0" minWidth="10.0" prefWidth="668.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="New name">
+                            <font>
+                                <Font size="40.0" />
+                            </font>
+                        </Label>
+                        <Label text="New phone" GridPane.rowIndex="2">
+                            <font>
+                                <Font size="40.0" />
+                            </font>
+                        </Label>
+                        <Label text="New last name" GridPane.rowIndex="1">
+                            <font>
+                                <Font size="40.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="newFirstNameField" prefHeight="73.0" prefWidth="628.0" GridPane.columnIndex="1" />
+                        <TextField fx:id="newLastNameField" prefHeight="73.0" prefWidth="628.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="newPhoneField" prefHeight="73.0" prefWidth="628.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Button fx:id="editButton" mnemonicParsing="false" onAction="#handleEdit" prefHeight="95.0" prefWidth="668.0" text="Edit" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                            <font>
+                                <Font size="36.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </GridPane>
+            </items>
+        </SplitPane>
+    </center>
 </BorderPane>
+

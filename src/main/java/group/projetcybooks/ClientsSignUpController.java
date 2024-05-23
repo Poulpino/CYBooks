@@ -1,13 +1,8 @@
 package group.projetcybooks;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import group.projetcybooks.SceneController;
 import group.projetcybooks.client.Client;
 
 import java.io.IOException;
@@ -33,9 +28,9 @@ public class ClientsSignUpController extends SceneController{
         int result = new Client().clientSendNewUser(lastName,firstName,phone);
 
         if (result == 1) {
-            SceneController.showError("Success", "User Registered");
+            showError("Success", "User Registered");
         } else {
-            SceneController.showError("Error", "Failed to register user");
+            showError("Error", "Failed to register user");
         }
     }
 }
