@@ -13,9 +13,9 @@
                         <Font size="48.0" />
                     </font>
                 </Label>
-                <TextField fx:id="firstNameField" promptText="First Name" />
-                <TextField fx:id="lastNameField" promptText="Last Name" />
-                <TextField fx:id="phoneField" promptText="Phone" />
+                <TextField promptText="First Name" />
+                <TextField promptText="Last Name" />
+                <TextField promptText="Phone" />
                 <Button prefWidth="100.0" text="Edit profile" />
                 <Button mnemonicParsing="false" onAction="#switchToClientsMain" text="Back" />
             </children>
