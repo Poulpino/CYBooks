@@ -1,6 +1,11 @@
 package group.projetcybooks.serveur.model;
 /**
  * Represents a user instance in the system.
+ * Attributes :
+ *   int <b>id</b>               The unique identifier of the user.
+ *   String <b>lastName</b>      The last name of the user.
+ *   String <b>firstName</b>     The first name of the user.
+ *   Sting <b>phone</b>          The phone number of the user.
  */
 public class User {
     private final int id;
@@ -62,6 +67,6 @@ public class User {
 
     @Override
     public String toString() {
-        return id+";"+firstName+";"+lastName+";"+phone;
+        return id+";"+lastName+";"+firstName+";"+phone;
     }
 }

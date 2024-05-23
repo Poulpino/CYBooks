@@ -2,33 +2,48 @@ package group.projetcybooks.serveur.model;
 
 /**
  * Represents a book instance in the system.
+ * Attributes:
+ *      long <b>idBnf</b>           The unique identifier from BNF of the book.
+ *      TypeStatue <b>statue</b>    The current status of the book (free, borrowed).
+ *      String <b>editor</b>        The name of the book's editor.
+ *      String <b>title</b>         The title of the book.
+ *      String <b>author</b>        The author of the book.
+ *      String <b>year</b>          The publication year of the book.
  */
-public class Book extends Artwork{
-    private long ISBN;
+public class Book{
+    private long idBnf;
     private TypeStatue statue;
     private String editor;
+    private String title;
+    private String author;
+    private String year;
 
-    public Book(long ISBN, TypeStatue statue, String editor, String title, String author, int year, String genre) {
-        super(title,author,year,genre);
-        this.ISBN = ISBN;
+    public Book(long idBnf, TypeStatue statue, String editor, String title, String author, String year) {
+        this.title = title;
+        this.author = author;
+        this.year = year;
+        this.idBnf = idBnf;
         this.statue = statue;
         this.editor = editor;
     }
     public Book(String str){
-        super();
         String[] strSplit = str.split(";");
-        super.setTitle(strSplit[3]);
-        super.setAuthor(strSplit[4]);
-        super.setYear(Integer.parseInt(strSplit[5]));
-        super.setGenre(strSplit[6]);
-        this.ISBN = Long.parseLong(strSplit[0]);
-        //TODO insere le bon statue
-        this.statue = TypeStatue.FREE;
+        setTitle(strSplit[3]);
+        setAuthor(strSplit[4]);
+        setYear(strSplit[5]);
+        this.idBnf = Long.parseLong(strSplit[0]);
+        String statue = strSplit[1];
+        if (statue.equals("FREE")){
+            this.statue = TypeStatue.FREE;
+        }
+        else {
+            this.statue = TypeStatue.BORROW;
+        }
         this.editor = strSplit[2];
     }
     //Getter
-    public long getISBN() {
-        return ISBN;
+    public long getidBnf() {
+        return idBnf;
     }
     public TypeStatue getStatue() {
         return statue;
@@ -37,9 +52,19 @@ public class Book extends Artwork{
         return editor;
     }
 
+    public String getTitle() {
+        return title;
+    }
+    public String getAuthor() {
+        return author;
+    }
+    public String getYear() {
+        return year;
+    }
+
     //Setter
-    public void setISBN(long ISBN) {
-        this.ISBN = ISBN;
+    public void setidBnf(long idBnf) {
+        this.idBnf = idBnf;
     }
     public void setStatue(TypeStatue statue) {
         this.statue = statue;
@@ -47,21 +72,31 @@ public class Book extends Artwork{
     public void setEditor(String editor) {
         this.editor = editor;
     }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
 
     public String afficher() {
         return "Book{" +
-                "ISBN=" + ISBN +
+                "idBnf=" + idBnf +
                 ", statue=" + statue +
                 ", editor=" + editor +
-                ", title=" + super.getTitle() +
-                ", author=" + super.getAuthor() +
-                ", year=" + super.getYear() +
-                ", year=" + super.getYear() +
+                ", title=" + title +
+                ", author=" + author +
+                ", year=" + year +
                 '}';
     }
 
     @Override
     public String toString(){
-        return  ISBN +";"+ statue +";"+ editor +";"+ super.getTitle() +";"+ super.getAuthor() +";" + super.getYear() +";"+ super.getYear();
+        return  idBnf +";"+ statue +";"+ editor +";"+ title +";"+ author +";" + year;
     }
 }

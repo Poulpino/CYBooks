@@ -11,6 +11,9 @@ import java.util.Map;
 
 /**
  * This class manages user-related operations.
+ * Attributes :
+ *  HashMap<Integer, User> <b> users</b> List of users; Key : id of a user;
+ *                                                     Values : users
  */
 public class UserManager {
 
@@ -86,6 +89,7 @@ public class UserManager {
             }
         }
         connectDB.requestInsertDB("DELETE FROM user WHERE id = '"+id+"'");
+        connectDB.requestInsertDB("DELETE FROM history WHERE userId = '"+id+"'");
         users.remove(id);
         System.out.println("User removed");
     }
@@ -102,17 +106,17 @@ public class UserManager {
      */
     public void updateUser(int id,String lastName, String firstName, String phone) throws Exception {
         ConnectDB connectDB = new ConnectDB();
-        //To give the possibility of changing only one element, we assume that if an element must not be changed it is the empty string
+        //To give the possibility of changing only one element, we assume that if an element must not be changed it is null
         if (!(users.get(id) == null)) {
-            if (!lastName.isEmpty()) {
+            if (!(lastName == null)) {
                 connectDB.requestInsertDB("UPDATE user SET lastName='"+lastName+"' WHERE id ='"+id+"'");
                 users.get(id).setLastName(lastName);
             }
-            if (!firstName.isEmpty()) {
+            if (!(firstName == null)) {
                 connectDB.requestInsertDB("UPDATE user SET firstName='"+firstName+"' WHERE id ='"+id+"'");
                 users.get(id).setFirstName(firstName);
             }
-            if (!phone.isEmpty()) {
+            if (!(phone == null)) {
                 connectDB.requestInsertDB("UPDATE user SET phone='"+phone+"' WHERE id ='"+id+"'");
                 users.get(id).setPhone(phone);
             }
