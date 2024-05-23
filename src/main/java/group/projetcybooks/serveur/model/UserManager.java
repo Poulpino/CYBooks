@@ -68,8 +68,6 @@ public class UserManager {
         User User = new User(newID, lastName, firstName, phone);
         users.put(newID, User);
         connectDB.requestInsertDB("INSERT into User (id,lastName,firstName,phone) VALUES ('"+User.getId()+"', '"+User.getLastName()+"', '"+User.getFirstName()+"', '"+User.getPhone()+"');");
-        System.out.println(users.get(newID).toString()+" added");
-
     }
 
     /**
@@ -91,7 +89,6 @@ public class UserManager {
         connectDB.requestInsertDB("DELETE FROM user WHERE id = '"+id+"'");
         connectDB.requestInsertDB("DELETE FROM history WHERE userId = '"+id+"'");
         users.remove(id);
-        System.out.println("User removed");
     }
 
     /**
@@ -120,7 +117,6 @@ public class UserManager {
                 connectDB.requestInsertDB("UPDATE user SET phone='"+phone+"' WHERE id ='"+id+"'");
                 users.get(id).setPhone(phone);
             }
-            System.out.println(users.get(id).getLastName() +" "+ users.get(id).getFirstName() +"information's updated");
         }
         else{
             throw new UserNotFoundException("User not found so can't update information");

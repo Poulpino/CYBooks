@@ -136,7 +136,6 @@ public class BorrowManager {
             borrowing.put(newID,borrow);
             connectDB.requestInsertDB("INSERT into borrowing (id, userId,borrowDate,returnDate,bookidBnf,restored) VALUES ('"+borrow.getId()+"', '"+user.getId()+"', '"+borrow.getBorrowDate()+"', '"+borrow.getReturnDate()+"', '"+borrow.getBook().getidBnf()+"', '"+borrow.getRestore()+"');");
             connectDB.requestInsertDB("UPDATE book SET statue='BORROW' where idBnf='"+idBnf+"';");
-            System.out.println(user.toString()+" have borrow "+book.toString());
         }
         else{
             throw new BookNotFreeException("Book not free.");
@@ -186,7 +185,6 @@ public class BorrowManager {
         // Create a list and sort that list by value decreasing
         ArrayList<Map.Entry<Book, Integer>> list = new ArrayList<>(nbborrowperbook.entrySet());
         list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
-        System.out.println(list);
         return list;
     }
 

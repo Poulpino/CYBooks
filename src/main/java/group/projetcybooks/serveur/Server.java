@@ -24,7 +24,6 @@ public class Server {
         try {
             //start server
             serverSocket = new ServerSocket(Server.port);
-            System.out.println("Serveur démarré sur le port " + Server.port);
             boolean run = true;
 
             //start wamp for DB
@@ -63,7 +62,6 @@ public class Server {
                 String[] inputLineSplit;
 
                 while ((inputLine = in.readLine()) != null) {
-                    System.out.println("Reçu du client: " + inputLine);
                     inputLineSplit = inputLine.split(" ");
 
                     switch (Integer.parseInt(inputLineSplit[0])) {
@@ -72,7 +70,7 @@ public class Server {
                         case 103 -> {
                             try {
                                 ArrayList<Map.Entry<Book, Integer>> popularBooks = borrowManager.getPopularBook();
-                                out.println(popularBooks.toString());
+                                out.println("201 " + popularBooks.toString());
 
                             } catch (Exception e) {
                                 SceneController.showError("Server Error", "400: " + e.getMessage());
@@ -220,7 +218,6 @@ public class Server {
                                         result.append(" ");
                                     }
                                 }
-                                System.out.println("201 " + result.toString());
                                 out.println("201 " + result.toString());
                             } catch (NoBorrowForUser f) {
                                 SceneController.showError("Server Error", f.getMessage());
@@ -266,14 +263,12 @@ public class Server {
                                         result.append(" ");
                                     }
                                 }
-                                System.out.println("201 " + result.toString());
                                 out.println("201 " + result.toString());
                             } catch (NoHistoryForUser e) {
                                 SceneController.showError("Server Error", e.getMessage());
                             }
                         }
                         case 150 -> {
-                            System.out.println("Closing Server");
                             run = false;
                         }
                     }

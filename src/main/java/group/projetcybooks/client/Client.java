@@ -38,7 +38,6 @@ public class Client {
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
             String clientInput = "104 " + isbn + " " + title + " " + author;
-            out.println(clientInput);
             //book = new Book(in.readLine());
             //System.out.println(Integer.parseInt(in.readLine()));
         } catch (UnknownHostException e) {
@@ -66,10 +65,10 @@ public class Client {
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
-
             String clientInput = "105 "+book.toString() + " " + user.toString();
             out.println(clientInput);
-            System.out.println(Integer.parseInt(in.readLine()));
+            String result = in.readLine();
+
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
             SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
@@ -98,7 +97,8 @@ public class Client {
 
             String clientInput = "106 " + "0;" +lastName + ";" + firstName + ";" + phone;
             out.println(clientInput);
-            System.out.println(Integer.parseInt(in.readLine()));
+            String result = in.readLine();
+
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
             SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
@@ -129,7 +129,8 @@ public class Client {
 
             String clientInput = "107 "+user.toString()+"/"+lastName+ ";"+firstName+";"+phone+";";
             out.println(clientInput);
-            System.out.println(Integer.parseInt(in.readLine()));
+            String result = in.readLine();
+
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
             SceneController.showError("Client Error", "Unknown host problem: " + host + e.getMessage());
@@ -161,9 +162,8 @@ public class Client {
 
             List<User> users = new ArrayList<>();
             String result = in.readLine();
-            System.out.println(result);
             String[] resultSplit = result.split(" ");
-            System.out.println(resultSplit[0]);
+
             for (int i = 1; i < resultSplit.length; i++) {
                 String line = resultSplit[i];
                 users.add(new User(line));
@@ -196,7 +196,8 @@ public class Client {
 
             String clientInput = "109 "+user.toString();
             out.println(clientInput);
-            System.out.println(Integer.parseInt(in.readLine()));
+            String result = in.readLine();
+
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
             SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
@@ -227,7 +228,7 @@ public class Client {
 
             String result = in.readLine();
             String[] resultSplit = result.split(" ");
-            System.out.println(resultSplit[0]);
+
             for (int i = 1; i < resultSplit.length; i++) {
                 String line = resultSplit[i];
                 borrows.add(new Borrow(line));
@@ -258,7 +259,8 @@ public class Client {
 
             String clientInput = "111 "+borrow.toString();
             out.println(clientInput);
-            System.out.println(in.readLine());
+            String result = in.readLine();
+
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
             SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
@@ -287,7 +289,6 @@ public class Client {
             out.println(clientInput);
             String s = in.readLine();
             String[] output = s.split(" ");
-            System.out.println(output[0]);
             String[] output2 = output[1].split("§");
 
             borrowList = new ArrayList<>();
@@ -327,7 +328,6 @@ public class Client {
             List<Borrow> history = new ArrayList<>();
             String result = in.readLine();
             String[] resultSplit = result.split(" ");
-            System.out.println(resultSplit[0]);
 
             for (int i = 1; i < resultSplit.length; i++) {
                 String line = resultSplit[i];
