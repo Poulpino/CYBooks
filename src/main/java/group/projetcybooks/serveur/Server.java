@@ -78,7 +78,7 @@ public class Server {
 
 
                         }
-                        //clientSearchBook NOT WORKING
+                        //clientAskBookList NOT WORKING
                         case 104 -> {
                             String idBnf = inputLineSplit[1];
                             String title = inputLineSplit[2];
@@ -92,12 +92,8 @@ public class Server {
                             if (author.equals("null")) {
                                 author = null;
                             }
-                            /*TODO : Je veux que connectApi.getBook(idBnf,title,editor) renvoie une List<Book> de
-                              TODO tout les livres qui correspond à la description. Si l'un des argument est null alors
-                              TODO il n'effectue pas la recherche par rapport à cette argument mais seulement les autres
-                             */
                             try {
-                                List<Book> bookList = new ConnectApi(idBnf, title, author).getBooks();
+                                List<Book> bookList = bookManager.searchBook(idBnf,title,author);
                                 String output = "";
                                 for (Book book : bookList) {
                                     output += book.toString() + "/";

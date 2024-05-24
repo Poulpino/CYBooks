@@ -394,7 +394,8 @@ public class Client {
     }
 
     public static void main(String[] args) throws ParseException {
-        System.out.println(new Client().clientAskPopularBook());
+        System.out.println(new Client().clientAskListBook(null,"Harry",null));
+            //System.out.println(new Client().clientAskPopularBook());
         //System.out.println(new Client().clientReturnBook(new Borrow(1,new User(1,"Hautecourt","Julien","0781287621"),"2024-03-21","2024-04-21",new Book(1,TypeStatue.BORROW,"c","c","c","2020"),false)));
         // OK System.out.println(new Client().clientAskReturnBookList(new User(1,"Hautecourt","Julien","0781287621")));
         // OK System.out.println(new Client().clientAskLateReturn());
