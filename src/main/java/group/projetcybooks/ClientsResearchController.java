@@ -7,10 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-import group.projetcybooks.client.Client;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,11 +32,15 @@ public class ClientsResearchController extends SceneController{
         String lastName = lastNameField.getText();
         String phone = phoneField.getText();
 
+        if (firstName.isBlank()) {firstName = "NULL"; }
+        if (lastName.isBlank()) {lastName = "NULL"; }
+        if (phone.isBlank()) { phone = "NULL"; }
+
         List<User> users = new Client().clientSearchUser(lastName, firstName, phone);
         if (users != null) {
             userListView.getItems().setAll(users);
-        } else {
-            showError("Error", "Failed to search users.");
+        }else {
+            showError("Error", "Failed to search users");
         }
     }
 
@@ -67,11 +69,21 @@ public class ClientsResearchController extends SceneController{
     }
 
     public void switchToClientsBorrowHistory(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsBorrowHistory.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load(), 1080, 720);
-        stage.setScene(scene);
-        stage.show();
+        User selectedUser = userListView.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsBorrowHistory.fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
+
+            ClientsBorrowHistoryController controller = fxmlLoader.getController();
+            controller.setStage(stage);
+            controller.initializeWithUser(selectedUser);
+
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            showError("Error", "No user selected.");
+        }
     }
 
 }

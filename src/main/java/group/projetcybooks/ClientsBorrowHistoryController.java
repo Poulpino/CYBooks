@@ -1,12 +1,14 @@
 package group.projetcybooks;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+import group.projetcybooks.client.Client;
+import group.projetcybooks.serveur.model.Borrow;
+import group.projetcybooks.serveur.model.User;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.control.ListView;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ClientsBorrowHistoryController extends SceneController{
 
@@ -15,5 +17,21 @@ public class ClientsBorrowHistoryController extends SceneController{
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public ListView<Borrow> borrowHistoryListView;
+    private User user;
+    public void initializeWithUser(User user) {
+        this.user = user;
+        loadBorrowHistory();
+    }
+
+    public void loadBorrowHistory() {
+        List<Borrow> borrowHistory = new Client().clientAskHistoryBookList(user);
+        if (borrowHistory != null) {
+            borrowHistoryListView.getItems().setAll(borrowHistory);
+        } else {
+            showError("History don't Exist", "No Book in borrow history");
+        }
     }
 }
