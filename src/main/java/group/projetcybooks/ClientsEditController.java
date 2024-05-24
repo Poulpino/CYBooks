@@ -1,6 +1,7 @@
 package group.projetcybooks;
 
 import group.projetcybooks.serveur.model.User;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
@@ -22,9 +23,15 @@ public class ClientsEditController extends SceneController{
     public TextField newLastNameField;
 
     public TextField newPhoneField;
+    private User currentUser;
 
-    //Pour finir il faut prendre en paramètre l'user de la recherche
-    private void handleEdit(User currentUser) {
+    public void initializeWithUser(User user) {
+        this.currentUser = user;
+        newFirstNameField.setText(user.getFirstName());
+        newLastNameField.setText(user.getLastName());
+        newPhoneField.setText(user.getPhone());
+    }
+    public void handleEdit() {
         String newFirstName = newFirstNameField.getText();
         String newLastName = newLastNameField.getText();
         String newPhone = newPhoneField.getText();
@@ -36,9 +43,8 @@ public class ClientsEditController extends SceneController{
         int result = new Client().clientUpdateUser(currentUser, newLastName, newFirstName, newPhone);
         if (result == 1) {
             showError("Success", "User updated successfully");
-            //switchToMain(event);
         } else {
-            showError("Success", "User updated successfully");
+            showError("Error", "Failed to update user");
         }
     }
 }

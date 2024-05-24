@@ -8,6 +8,10 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ListView;
+
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,6 +30,14 @@ public class ClientsResearchController extends SceneController{
     public TextArea firstNameField;
     public TextArea phoneField;
     public ListView<User> userListView;
+
+    public void initialize() {
+        userListView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+                handleEditUser(event);
+            }
+        });
+    }
 
     public void handleSearch(ActionEvent event) {
         String firstName = firstNameField.getText();
@@ -60,12 +72,26 @@ public class ClientsResearchController extends SceneController{
         }
     }
 
-    public void switchToClientsEdit(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsEdit.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load(), 1080, 720);
-        stage.setScene(scene);
-        stage.show();
+    private void handleEditUser(MouseEvent event) {
+        User selectedUser = userListView.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsEdit.fxml"));
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(fxmlLoader.load());
+
+                ClientsEditController controller = fxmlLoader.getController();
+                controller.setStage(stage);
+                controller.initializeWithUser(selectedUser);
+
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                showError("Error", "Failed to load edit user scene: " + e.getMessage());
+            }
+        } else {
+            showError("Error", "No user selected.");
+        }
     }
 
     public void switchToClientsBorrowHistory(ActionEvent event) throws IOException {
@@ -73,7 +99,7 @@ public class ClientsResearchController extends SceneController{
         if (selectedUser != null) {
             FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsBorrowHistory.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
+            Scene scene = new Scene(fxmlLoader.load());
 
             ClientsBorrowHistoryController controller = fxmlLoader.getController();
             controller.setStage(stage);
@@ -85,5 +111,4 @@ public class ClientsResearchController extends SceneController{
             showError("Error", "No user selected.");
         }
     }
-
 }
