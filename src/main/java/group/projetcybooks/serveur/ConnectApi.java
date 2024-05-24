@@ -173,7 +173,7 @@ public class ConnectApi {
                     editor = getSubfield(subfields, "c");
                 }
             }
-            if (!idBnf.contains("X")) {
+            if (!idBnf.contains("X") && !author.isEmpty() && !publicationYear.isEmpty()) {
                 book = new Book(Long.parseLong(idBnf.replaceAll("-", "")), FREE, editor, title, author, publicationYear);
                 books.add(book);
             }

@@ -25,21 +25,31 @@ public class Client {
      * Client provides information about the book they want, including ISBN, title, and author.
      * If you don't want to fill in a parameter, enter "null".
      *
-     * @param isbn the ISBN of the book
+     * @param idBnf the ISBN of the book
      * @param title the title of the book
      * @param author the author of the book
      * @return The list of books that match the criteria
      */
-    //TODO : A finir quand API ok
-    public List<Book> clientSearchBook(String isbn, String title, String author){
+    public List<Book> clientAskListBook(String idBnf,String title, String author) {
+        List<Book> booksList;
         try (Socket socket = new Socket(host, port);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "104 " + isbn + " " + title + " " + author;
-            //book = new Book(in.readLine());
-            //System.out.println(Integer.parseInt(in.readLine()));
+            String clientInput = "104 "+idBnf+" "+title+" "+author;
+            out.println(clientInput);
+            String s = in.readLine();
+            String s2 = s.substring(4);
+            String[] output = s2.split("/");
+
+            booksList = new ArrayList<>();
+            Book book;
+            for (String str : output) {
+                book = new Book(str);
+                booksList.add(book);
+            }
+
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
             SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
@@ -47,10 +57,10 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
             SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
+            e.printStackTrace();
             return null;
         }
-        return null;
-
+        return booksList;
     }
 
     /**
@@ -385,7 +395,8 @@ public class Client {
     }
 
     public static void main(String[] args) throws ParseException {
-        System.out.println(new Client().clientAskPopularBook());
+        System.out.println(new Client().clientAskListBook(null,"harry",null));
+            //System.out.println(new Client().clientAskPopularBook());
         //System.out.println(new Client().clientReturnBook(new Borrow(1,new User(1,"Hautecourt","Julien","0781287621"),"2024-03-21","2024-04-21",new Book(1,TypeStatue.BORROW,"c","c","c","2020"),false)));
         // OK System.out.println(new Client().clientAskReturnBookList(new User(1,"Hautecourt","Julien","0781287621")));
         // OK System.out.println(new Client().clientAskLateReturn());
