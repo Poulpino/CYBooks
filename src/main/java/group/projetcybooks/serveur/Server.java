@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import java.awt.Toolkit;
+
 /**
  * This class sets up a server and waits for clients to connect.
  * Attribute:
@@ -93,7 +95,7 @@ public class Server {
                                 author = null;
                             }
                             try {
-                                List<Book> bookList = bookManager.searchBook(idBnf,title,author);
+                                List<Book> bookList = bookManager.searchBoookApi(idBnf,title,author);
                                 String output = "";
                                 for (Book book : bookList) {
                                     output += book.toString() + "/";
