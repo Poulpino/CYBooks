@@ -6,6 +6,6 @@ module group.projetcybooks {
     requires java.desktop;
 
 
-    opens group.projetcybooks to javafx.fxml;
-    exports group.projetcybooks;
+    opens group.projetcybooks.client.scene to javafx.fxml;
+    exports group.projetcybooks.client.scene;
 }

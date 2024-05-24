@@ -1,7 +1,7 @@
 package group.projetcybooks.client;
 
 import group.projetcybooks.serveur.model.*;
-import group.projetcybooks.SceneController;
+import group.projetcybooks.client.scene.SceneController;
 
 import java.io.*;
 import java.net.*;

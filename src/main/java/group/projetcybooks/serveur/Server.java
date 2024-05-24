@@ -2,15 +2,16 @@ package group.projetcybooks.serveur;
 
 import group.projetcybooks.serveur.model.*;
 import group.projetcybooks.serveur.model.exception.*;
-import group.projetcybooks.SceneController;
+import group.projetcybooks.client.scene.SceneController;
+import group.projetcybooks.serveur.model.manager.BookManager;
+import group.projetcybooks.serveur.model.manager.BorrowManager;
+import group.projetcybooks.serveur.model.manager.UserManager;
 
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import java.awt.Toolkit;
 
 /**
  * This class sets up a server and waits for clients to connect.
