@@ -101,7 +101,7 @@
             <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                <items>
                   <ListView fx:id="userListView" prefHeight="200.0" prefWidth="200.0" />
-                  <Button mnemonicParsing="false" onAction="#switchToClientsBorrowHistory" prefHeight="117.0" prefWidth="598.0" text="Display borrow history">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToClientsBorrowHistory" prefHeight="117.0" prefWidth="598.0" text="Display borrow history">
                      <font>
                         <Font size="40.0" />
                      </font>
