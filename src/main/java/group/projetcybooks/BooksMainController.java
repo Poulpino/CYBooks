@@ -22,6 +22,7 @@ public class BooksMainController extends SceneController {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(fxmlLoader.load(), 1080, 720);
         stage.setScene(scene);
+        stage.setFullScreen(true);
         stage.show();
     }
 }

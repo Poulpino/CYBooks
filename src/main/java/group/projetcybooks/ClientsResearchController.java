@@ -44,9 +44,9 @@ public class ClientsResearchController extends SceneController{
         String lastName = lastNameField.getText();
         String phone = phoneField.getText();
 
-        if (firstName.isBlank()) {firstName = "NULL"; }
-        if (lastName.isBlank()) {lastName = "NULL"; }
-        if (phone.isBlank()) { phone = "NULL"; }
+        if (firstName.isBlank()) {firstName = null; }
+        if (lastName.isBlank()) {lastName = null; }
+        if (phone.isBlank()) { phone = null; }
 
         List<User> users = new Client().clientSearchUser(lastName, firstName, phone);
         if (users != null) {
@@ -85,6 +85,7 @@ public class ClientsResearchController extends SceneController{
                 controller.initializeWithUser(selectedUser);
 
                 stage.setScene(scene);
+                stage.setFullScreen(true);
                 stage.show();
             } catch (IOException e) {
                 showError("Error", "Failed to load edit user scene: " + e.getMessage());
@@ -106,6 +107,7 @@ public class ClientsResearchController extends SceneController{
             controller.initializeWithUser(selectedUser);
 
             stage.setScene(scene);
+            stage.setFullScreen(true);
             stage.show();
         } else {
             showError("Error", "No user selected.");

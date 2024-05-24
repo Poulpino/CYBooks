@@ -1,5 +1,6 @@
 package group.projetcybooks;
 
+import group.projetcybooks.serveur.Server;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,11 +15,13 @@ public class MainFX extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 1920, 1010);
         stage.setTitle("CY Books");
         stage.setScene(scene);
+        stage.setFullScreen(true);
         stage.show();
 
     }
 
     public static void main(String[] args) {
+        // Démarrez l'application JavaFX
         launch();
     }
 }

@@ -1,18 +1,14 @@
 package group.projetcybooks;
 
 import group.projetcybooks.serveur.model.Book;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import group.projetcybooks.client.Client;
 
@@ -28,54 +24,65 @@ public class BorrowBooks1Controller extends SceneController {
     @FXML
     TextArea titleTextField;
     @FXML
-    ListView<Book> bookListView;
+    ListView<Book> booksListView;
 
-    Book selectedBook;
+    Book selectedBook = null;
 
     Stage stage;
     Scene scene;
+    Parent root;
 
-    public void searchBooks(ActionEvent event) throws IOException {
+    public void searchBooks() {
 
         String isbn = isbnTextField.getText();
         String author = authorTextField.getText();
         String title = titleTextField.getText();
 
-        if (isbn.isBlank()) { isbn = "NULL"; }
-        if (author.isBlank()) { author = "NULL"; }
-        if (title.isBlank()) { title = "NULL"; }
+        if (isbn.isBlank()) { isbn = null; }
+        if (author.isBlank()) { author = null; }
+        if (title.isBlank()) { title = null; }
 
-        ObservableList<Book> listOfBooks = FXCollections.observableList(new Client().clientSearchBook(isbn, author, title));
+        List<Book> books = new Client().clientAskListBook(isbn, author, title);
 
-        bookListView.setItems(listOfBooks);
+        if (books == null){
+            showError("Error", "Failed to search books.");
+        }
+        else{
+            booksListView.getItems().setAll(books);
+        }
     }
 
-    public void bookSelected(ActionEvent event) {
-        bookListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Book>() {
-
-            @Override
-            public void changed(ObservableValue<? extends Book> observableValue, Book book, Book t1) {
-
-                selectedBook = bookListView.getSelectionModel().getSelectedItem();
-
-
-
-            }
-        });
+    public void bookSelected() {
+        selectedBook = booksListView.getSelectionModel().getSelectedItem();
+        System.out.println(selectedBook);
     }
+
 
     @Override
     public void switchToBorrowBook2 (ActionEvent event) throws IOException {
 
+        if (selectedBook != null) {
             FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("BorrowBook2.fxml"));
+            root = fxmlLoader.load();
+            BorrowBooks2Controller controller = fxmlLoader.getController();
+            controller.setBookToBorrow(selectedBook);
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(fxmlLoader.load());
+            scene = new Scene(root);
             stage.setScene(scene);
+            stage.setFullScreen(true);
             stage.show();
+        }
+        else{
+            showError("Error", "No book selected.");
+        }
+
+
 
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+
 }
