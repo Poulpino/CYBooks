@@ -16,7 +16,7 @@
    <top>
       <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" text="                     Return a book" textAlignment="CENTER">
+            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" text="                     Search Client" textAlignment="CENTER">
                <font>
                   <Font size="60.0" />
                </font>
@@ -60,14 +60,14 @@
                               <Font size="54.0" />
                            </font>
                         </Label>
-                        <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
-                        <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextArea fx:id="firstNameField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                        <TextArea fx:id="lastNameField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextArea fx:id="phoneField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                   <SplitPane dividerPositions="0.5, 0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                      <items>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="153.0" prefWidth="552.0" text="Search" textAlignment="CENTER">
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleSearch" prefHeight="153.0" prefWidth="552.0" text="Search" textAlignment="CENTER">
                            <font>
                               <Font size="40.0" />
                            </font>
@@ -75,7 +75,7 @@
                               <Insets bottom="50.0" />
                            </opaqueInsets>
                         </Button>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="153.0" prefWidth="552.0" text="Delete profile" textAlignment="CENTER">
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleDelete" prefHeight="153.0" prefWidth="552.0" text="Delete profile" textAlignment="CENTER">
                            <font>
                               <Font size="40.0" />
                            </font>
@@ -100,7 +100,7 @@
             </SplitPane>
             <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                <items>
-                  <ListView prefHeight="200.0" prefWidth="200.0" />
+                  <ListView fx:id="userListView" prefHeight="200.0" prefWidth="200.0" />
                   <Button mnemonicParsing="false" onAction="#switchToClientsBorrowHistory" prefHeight="117.0" prefWidth="598.0" text="Display borrow history">
                      <font>
                         <Font size="40.0" />
