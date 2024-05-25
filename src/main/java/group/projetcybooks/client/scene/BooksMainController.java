@@ -1,14 +1,5 @@
 package group.projetcybooks.client.scene;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-
-public class BooksMainController extends SceneControllerpackage group.projetcybooks.client.scene;
 
 import group.projetcybooks.serveur.model.Book;
 import javafx.event.ActionEvent;
