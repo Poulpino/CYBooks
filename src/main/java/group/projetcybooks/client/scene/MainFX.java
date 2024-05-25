@@ -1,5 +1,6 @@
 package group.projetcybooks.client.scene;
 
+import group.projetcybooks.serveur.Server;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,6 +21,15 @@ public class MainFX extends Application {
     }
 
     public static void main(String[] args) {
+
+        new Thread(() -> {
+            try {
+                Server.main(args);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
         // Démarrez l'application JavaFX
         launch();
     }

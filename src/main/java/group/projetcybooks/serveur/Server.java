@@ -64,7 +64,7 @@ public class Server {
                 String[] inputLineSplit;
 
                 while ((inputLine = in.readLine()) != null) {
-                    inputLineSplit = inputLine.split(" ");
+                    inputLineSplit = inputLine.split("#");
 
                     switch (Integer.parseInt(inputLineSplit[0])) {
 
@@ -111,11 +111,14 @@ public class Server {
                         //clientBorrowBook WORKING
                         case 105 -> {
                             try {
+                                System.out.println("Requête demandée");
                                 Book book = new Book(inputLineSplit[1]);
                                 User user = new User(inputLineSplit[2]);
                                 if (userManager.userExiste(user.getId())) {
                                     bookManager.addBook(book);
+                                    System.out.println("Livre ajouté");
                                     borrowManager.borrowBook(book.getidBnf(), user.getId(), userManager, bookManager);
+                                    System.out.println("Emprunt effectué");
                                     out.println("201");
                                 }
                             } catch (Exception e) {

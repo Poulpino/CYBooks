@@ -29,9 +29,9 @@ public class BorrowBooks2Controller extends SceneController {
     @FXML
     ListView<User> usersListView;
 
-    private Book bookToBorrow = null;
+    private Book bookToBorrow;
 
-    User userBorrowing = null;
+    User userBorrowing;
 
     public void setBookToBorrow(Book bookToBorrow) {
         this.bookToBorrow = bookToBorrow;
