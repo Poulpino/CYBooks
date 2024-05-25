@@ -2,7 +2,6 @@ package group.projetcybooks.serveur;
 
 import group.projetcybooks.serveur.model.*;
 import group.projetcybooks.serveur.model.exception.*;
-import group.projetcybooks.client.scene.SceneController;
 import group.projetcybooks.serveur.model.manager.BookManager;
 import group.projetcybooks.serveur.model.manager.BorrowManager;
 import group.projetcybooks.serveur.model.manager.UserManager;
@@ -43,7 +42,7 @@ public class Server {
                     }
                 }
             } catch (Exception e) {
-                SceneController.showError("Server Error", "400: " + e.getMessage());
+                System.out.println("400: " + e.getMessage());
             }
 
             //Init objets
@@ -76,7 +75,8 @@ public class Server {
                                 out.println("201 " + popularBooks.toString());
 
                             } catch (Exception e) {
-                                SceneController.showError("Server Error", "400: " + e.getMessage());
+                                System.out.println("400: " + e.getMessage());
+                                out.println("null");
                             }
 
 
@@ -104,7 +104,8 @@ public class Server {
                                 output = output.substring(0, output.length() - 1);
                                 out.println("201 " + output);
                             } catch (Exception e) {
-                                SceneController.showError("Server Error", "400: " + e.getMessage());
+                                System.out.println("400: " + e.getMessage());
+                                out.println("null");
                             }
                         }
                         //clientBorrowBook WORKING
@@ -118,7 +119,8 @@ public class Server {
                                     out.println("201");
                                 }
                             } catch (Exception e) {
-                                SceneController.showError("Server Error", "400: " + e.getMessage());
+                                System.out.println("400: " + e.getMessage());
+                                out.println("null");
                             }
                         }
 
@@ -134,40 +136,46 @@ public class Server {
                                 }
                                 User user = new User(0, lastName, firsName, phone);
                                 userManager.searchUser(user.getLastName(), user.getFirstName(), user.getPhone(), Boolean.TRUE);
-                                SceneController.showError("Server Error", "401 : User already exist");
-                            } catch (IllegalArgumentException e) {
-                                SceneController.showError("Server Error", "400: " + e.getMessage());
+                                System.out.println("401 : User already exist");
                             } catch (UserNotFoundException e) {
                                 try {
                                     User user = new User(inputLineSplit[1]);
                                     userManager.addUser(user.getLastName(), user.getFirstName(), user.getPhone());
                                     out.println("201");
                                 } catch (Exception f) {
-                                    SceneController.showError("Server Error", "400: " + f.getMessage());
+                                    System.out.println("400: " + e.getMessage());
                                 }
+                            } catch (Exception e) {
+                                System.out.println("400: " + e.getMessage());
+                                out.println("null");
                             }
                         }
 
                         //clientUpdateUser WORKING
                         case 107 -> {
-                            String[] inputLineSplit2 = inputLineSplit[1].split("/");
-                            User user = new User(inputLineSplit2[0]);
-                            String[] inputLineSplit3 = inputLineSplit2[1].split(";");
-                            String lastName = inputLineSplit3[0];
-                            String firstName = inputLineSplit3[1];
-                            String phone = inputLineSplit3[2];
+                            try {
+                                String[] inputLineSplit2 = inputLineSplit[1].split("/");
+                                User user = new User(inputLineSplit2[0]);
+                                String[] inputLineSplit3 = inputLineSplit2[1].split(";");
+                                String lastName = inputLineSplit3[0];
+                                String firstName = inputLineSplit3[1];
+                                String phone = inputLineSplit3[2];
 
-                            if (lastName.equals("null")) {
-                                lastName = null;
+                                if (lastName.equals("null")) {
+                                    lastName = null;
+                                }
+                                if (firstName.equals("null")) {
+                                    firstName = null;
+                                }
+                                if (phone.equals("null")) {
+                                    phone = null;
+                                }
+                                userManager.updateUser(user.getId(), lastName, firstName, phone);
+                                out.println("201");
+                            } catch (Exception e) {
+                                System.out.println("400: " + e.getMessage());
+                                out.println("null");
                             }
-                            if (firstName.equals("null")) {
-                                firstName = null;
-                            }
-                            if (phone.equals("null")) {
-                                phone = null;
-                            }
-                            userManager.updateUser(user.getId(), lastName, firstName, phone);
-                            out.println("201");
                         }
 
                         //clientSearchUser WORKING
@@ -186,8 +194,9 @@ public class Server {
                                     }
                                 }
                                 out.println("201 " + result.toString());
-                            } catch (UserNotFoundException e) {
-                                SceneController.showError("Server Error", e.getMessage());
+                            } catch (Exception e) {
+                                System.out.println("400: " + e.getMessage());
+                                out.println("null");
                             }
                         }
 
@@ -198,10 +207,9 @@ public class Server {
                             try {
                                 userManager.removeUser(user.getId(), borrowManager);
                                 out.println("201");
-                            } catch (BookNotReturnException e) {
-                                SceneController.showError("Server Error", e.getMessage());
                             } catch (Exception e) {
-                                SceneController.showError("Server Error", "400: " + e.getMessage());
+                                System.out.println("400: " + e.getMessage());
+                                out.println("null");
                             }
                         }
 
@@ -218,8 +226,9 @@ public class Server {
                                     }
                                 }
                                 out.println("201 " + result.toString());
-                            } catch (NoBorrowForUser f) {
-                                SceneController.showError("Server Error", f.getMessage());
+                            } catch (Exception e) {
+                                System.out.println("400: " + e.getMessage());
+                                out.println("null");
                             }
                         }
 
@@ -230,8 +239,8 @@ public class Server {
                                 borrowManager.returnBook(borrow.getBook().getidBnf(), borrow.getId(), bookManager);
                                 out.println("201");
                             } catch (Exception e) {
-                                SceneController.showError("Server Error", "400: " + e.getMessage());
-                                //SceneController.showError("Server Error", "401: " + e.getMessage());
+                                System.out.println("400: " + e.getMessage());
+                                out.println("null");
                             }
                         }
 
@@ -246,7 +255,8 @@ public class Server {
                                 output = output.substring(0, output.length() - 1);
                                 out.println("201 " + output);
                             } catch (Exception e) {
-                                SceneController.showError("Server Error", "401: " + e.getMessage());
+                                System.out.println("400: " + e.getMessage());
+                                out.println("null");
                             }
                         }
 
@@ -263,8 +273,9 @@ public class Server {
                                     }
                                 }
                                 out.println("201 " + result.toString());
-                            } catch (NoHistoryForUser e) {
-                                SceneController.showError("Server Error", e.getMessage());
+                            } catch (Exception e) {
+                                System.out.println("400: " + e.getMessage());
+                                out.println("null");
                             }
                         }
                         case 150 -> {
@@ -280,9 +291,9 @@ public class Server {
             }
             serverSocket.close();
         } catch (IOException e) {
-            SceneController.showError("Server Error", "Exception caught when trying to listen on port: " + port + " or listening for a connection" + e.getMessage());
+            System.out.println("Exception caught when trying to listen on port: " + port + " or listening for a connection" + e.getMessage());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println("400: " + e.getMessage());
         }
     }
 
