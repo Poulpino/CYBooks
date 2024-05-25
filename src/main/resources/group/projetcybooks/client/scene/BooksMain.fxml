@@ -67,7 +67,7 @@
                   </GridPane>
                   <SplitPane dividerPositions="0.2857142857142857" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                      <items>
-                        <Button mnemonicParsing="false" prefHeight="153.0" prefWidth="552.0" text="Search" textAlignment="CENTER">
+                        <Button mnemonicParsing="false" onAction="#searchBooks" prefHeight="153.0" prefWidth="552.0" text="Search" textAlignment="CENTER">
                            <font>
                               <Font size="40.0" />
                            </font>
@@ -92,7 +92,7 @@
             </SplitPane>
             <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                <items>
-                  <ListView prefHeight="200.0" prefWidth="200.0" />
+                  <ListView fx:id="bookListView" onMouseClicked="#bookSelected" prefHeight="200.0" prefWidth="200.0" />
                   <Button mnemonicParsing="false" onAction="#switchToBorrowBook2" prefHeight="117.0" prefWidth="494.0" text="Select a book to borrow">
                      <font>
                         <Font size="40.0" />
