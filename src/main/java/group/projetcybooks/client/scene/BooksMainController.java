@@ -94,16 +94,6 @@ public class BooksMainController extends SceneController {
         this.stage = stage;
     }
 
-
-} {
-
-    private Stage stage;
-    private Scene scene;
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
     public void switchToMostBorrowed(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("MostBorrowed.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
