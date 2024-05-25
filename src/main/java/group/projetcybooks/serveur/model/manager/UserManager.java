@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static group.projetcybooks.client.scene.SceneController.showError;
+
 /**
  * This class manages user-related operations.
  * Attributes :
@@ -148,7 +150,6 @@ public class UserManager {
 
         } else if (bool.equals(Boolean.FALSE)) {
             for (Map.Entry<Integer, User> entry : users.entrySet()){
-                System.out.println("Dans le for map");
                 if (entry.getValue().getLastName().contains(lastName) | entry.getValue().getFirstName().contains(firstName) | entry.getValue().getPhone().contains(phone)){
                     userId.add(entry.getValue());
                 }
@@ -159,7 +160,8 @@ public class UserManager {
             return userId;
         }
         else{
-            throw new UserNotFoundException("User not found with given details.");
+            showError("Error","No such user was found");
+            return userId;
         }
     }
 

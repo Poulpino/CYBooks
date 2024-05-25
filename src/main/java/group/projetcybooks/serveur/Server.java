@@ -179,11 +179,12 @@ public class Server {
                             try {
                                 List<User> users = userManager.searchUser(lastName, firstName, phone, Boolean.FALSE);
                                 StringBuilder result = new StringBuilder();
+                                System.out.println("Dans le try avant le for, taille de user :" + users.size());
 
                                 for (int i = 0; i < users.size(); i++) {
                                     result.append(users.get(i).toString());
                                     if (i < users.size() - 1) {
-                                        result.append(" ");
+                                        result.append("#");
                                     }
                                 }
                                 out.println("201#" + result.toString());
