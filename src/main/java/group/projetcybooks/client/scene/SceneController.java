@@ -82,15 +82,6 @@ public class SceneController {
         stage.show();
     }
 
-    public void switchToReturnBook2(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ReturnBook2.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
-    }
-
     public void switchToClientsResearch(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsResearch.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

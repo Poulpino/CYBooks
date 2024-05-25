@@ -42,7 +42,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Label alignment="TOP_LEFT" text="Current name" GridPane.rowIndex="1">
+                        <Label fx:id="currentLastName" alignment="TOP_LEFT" text="Current last name" GridPane.rowIndex="1">
                             <font>
                                 <Font size="40.0" />
                             </font>
@@ -50,16 +50,19 @@
                                 <Insets />
                             </opaqueInsets>
                         </Label>
-                        <Label text="Current last name">
+                        <Label fx:id="currentFirstName" text="Current first name">
                             <font>
                                 <Font size="40.0" />
                             </font>
                         </Label>
-                        <Label alignment="BASELINE_LEFT" text="Current phone" GridPane.rowIndex="2">
+                        <Label fx:id="currentPhone" alignment="BASELINE_LEFT" text="Current phone" GridPane.rowIndex="6">
                             <font>
                                 <Font size="40.0" />
                             </font>
                         </Label>
+                        <TextField fx:id="currentLastNameField" prefHeight="73.0" prefWidth="628.0" GridPane.columnIndex="1" />
+                        <TextField fx:id="currentFirstNameField" prefHeight="73.0" prefWidth="628.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="currentPhoneField" prefHeight="73.0" prefWidth="628.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                     </children>
                     <padding>
                         <Insets bottom="225.0" />

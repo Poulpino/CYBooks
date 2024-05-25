@@ -34,7 +34,7 @@ public class ClientsResearchController extends SceneController{
     public void initialize() {
         userListView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
-                handleEditUser(event);
+                switchToClientsEdit(event);
             }
         });
     }
@@ -72,7 +72,30 @@ public class ClientsResearchController extends SceneController{
         }
     }
 
-    private void handleEditUser(MouseEvent event) {
+    public void switchToClientsEdit(ActionEvent event) {
+        User selectedUser = userListView.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsEdit.fxml"));
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(fxmlLoader.load());
+
+                ClientsEditController controller = fxmlLoader.getController();
+                controller.setStage(stage);
+                controller.initializeWithUser(selectedUser);
+
+                stage.setScene(scene);
+                stage.setFullScreen(true);
+                stage.show();
+            } catch (IOException e) {
+                showError("Error", "Failed to load edit user scene: " + e.getMessage());
+            }
+        } else {
+            showError("Error", "No user selected.");
+        }
+    }
+
+    public void switchToClientsEdit(MouseEvent event) {
         User selectedUser = userListView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
             try {

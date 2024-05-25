@@ -16,17 +16,18 @@ public class ClientsEditController extends SceneController{
     }
 
     public TextField newFirstNameField;
-
     public TextField newLastNameField;
-
     public TextField newPhoneField;
+    public TextField currentFirstNameField;
+    public TextField currentLastNameField;
+    public TextField currentPhoneField;
     private User currentUser;
 
     public void initializeWithUser(User user) {
         this.currentUser = user;
-        newFirstNameField.setText(user.getFirstName());
-        newLastNameField.setText(user.getLastName());
-        newPhoneField.setText(user.getPhone());
+        currentFirstNameField.setText(user.getFirstName());
+        currentLastNameField.setText(user.getLastName());
+        currentPhoneField.setText(user.getPhone());
     }
     public void handleEdit() {
         String newFirstName = newFirstNameField.getText();
