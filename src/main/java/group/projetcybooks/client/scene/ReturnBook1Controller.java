@@ -44,30 +44,26 @@ public class ReturnBook1Controller extends SceneController{
             showError("Error", "Failed to search users");
         }
     }
+
     public void switchToReturnBook2(ActionEvent event) {
         User selectedUser = userListView.getSelectionModel().getSelectedItem();
-        List<Borrow> borrows = new Client().clientAskReturnBookList(selectedUser);
         if (selectedUser != null) {
-            if (!borrows.isEmpty()) {
-                try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ReturnBook2.fxml"));
-                    Parent root = fxmlLoader.load();
-                    ReturnBook2Controller controller = fxmlLoader.getController();
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ReturnBook2.fxml"));
 
-                    controller.initializeWithUser(selectedUser);
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.show();
-                } catch (IOException e) {
-                    showError("Error", "Failed to load ReturnBook2 scene: " + e.getMessage());
-                }
+                Parent root = fxmlLoader.load();
+                ReturnBook2Controller controller = fxmlLoader.getController();
+                controller.initializeWithUser(selectedUser);
+
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setFullScreen(true);
+                stage.show();
+            } catch (IOException e) {
+                showError("Error", "Failed to load ReturnBook2 scene: " + e.getMessage());
             }
-            else {
-                showError("Error", "No borrow history found for user: " + selectedUser.getFirstName());
-            }
-        }
-        else {
+        } else {
             showError("Error", "No user selected.");
         }
-    }
-}
+}}
