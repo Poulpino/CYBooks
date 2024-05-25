@@ -67,7 +67,7 @@
                   </GridPane>
                   <SplitPane dividerPositions="0.2857142857142857" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                      <items>
-                        <Button mnemonicParsing="false" prefHeight="153.0" prefWidth="552.0" text="Search" textAlignment="CENTER">
+                        <Button mnemonicParsing="false" onAction="#searchBook" prefHeight="153.0" prefWidth="552.0" text="Search" textAlignment="CENTER">
                            <font>
                               <Font size="40.0" />
                            </font>
