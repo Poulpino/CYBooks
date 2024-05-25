@@ -37,7 +37,7 @@ public class Client {
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "104 "+idBnf+" "+title+" "+author;
+            String clientInput = "104#"+idBnf+"#"+title+"#"+author;
             out.println(clientInput);
             String s = in.readLine();
             String s2 = s.substring(4);
@@ -75,7 +75,7 @@ public class Client {
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
-            String clientInput = "105 "+book.toString() + " " + user.toString();
+            String clientInput = "105#"+book.toString() + "#" + user.toString();
             out.println(clientInput);
             String result = in.readLine();
 
@@ -105,7 +105,7 @@ public class Client {
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "106 " + "0;" +lastName + ";" + firstName + ";" + phone;
+            String clientInput = "106#" + "0;" +lastName + ";" + firstName + ";" + phone;
             out.println(clientInput);
             String result = in.readLine();
 
@@ -137,7 +137,7 @@ public class Client {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "107 "+user.toString()+"/"+lastName+ ";"+firstName+";"+phone+";";
+            String clientInput = "107#"+user.toString()+"/"+lastName+ ";"+firstName+";"+phone+";";
             out.println(clientInput);
             String result = in.readLine();
 
@@ -167,12 +167,12 @@ public class Client {
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "108 " + lastName + " " + firstName + " " + phone;
+            String clientInput = "108#" + lastName + "#" + firstName + "#" + phone;
             out.println(clientInput);
 
             List<User> users = new ArrayList<>();
             String result = in.readLine();
-            String[] resultSplit = result.split(" ");
+            String[] resultSplit = result.split("#");
 
             for (int i = 1; i < resultSplit.length; i++) {
                 String line = resultSplit[i];
@@ -204,7 +204,7 @@ public class Client {
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "109 "+user.toString();
+            String clientInput = "109#"+user.toString();
             out.println(clientInput);
             String result = in.readLine();
 
@@ -231,13 +231,13 @@ public class Client {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "110 "+user.toString();
+            String clientInput = "110#"+user.toString();
             out.println(clientInput);
 
             List<Borrow> borrows = new ArrayList<>();
 
             String result = in.readLine();
-            String[] resultSplit = result.split(" ");
+            String[] resultSplit = result.split("#");
 
             for (int i = 1; i < resultSplit.length; i++) {
                 String line = resultSplit[i];
@@ -267,7 +267,7 @@ public class Client {
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "111 "+borrow.toString();
+            String clientInput = "111#"+borrow.toString();
             out.println(clientInput);
             String result = in.readLine();
 
@@ -298,7 +298,7 @@ public class Client {
             String clientInput = "112";
             out.println(clientInput);
             String s = in.readLine();
-            String[] output = s.split(" ");
+            String[] output = s.split("#");
             String[] output2 = output[1].split("§");
 
             borrowList = new ArrayList<>();
@@ -332,12 +332,12 @@ public class Client {
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "113 " + user.toString();
+            String clientInput = "113#" + user.toString();
             out.println(clientInput);
 
             List<Borrow> history = new ArrayList<>();
             String result = in.readLine();
-            String[] resultSplit = result.split(" ");
+            String[] resultSplit = result.split("#");
 
             for (int i = 1; i < resultSplit.length; i++) {
                 String line = resultSplit[i];
@@ -368,7 +368,7 @@ public class Client {
                  BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                  BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-                String clientInput = "103 ";
+                String clientInput = "103#";
                 out.println(clientInput);
 
                 HashMap<Book, Integer> popularBooks = new HashMap<>();

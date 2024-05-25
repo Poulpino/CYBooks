@@ -141,14 +141,15 @@ public class UserManager {
         List<User> userId = new ArrayList<>();
         if(bool.equals(Boolean.TRUE)) {
             for(Map.Entry<Integer, User> entry : users.entrySet()){
-                if (entry.getValue().getLastName().equals(lastName) && entry.getValue().getFirstName().equals(firstName) && entry.getValue().getPhone().equals(phone)){
+                if (entry.getValue().getLastName().contains(lastName) && entry.getValue().getFirstName().contains(firstName) && entry.getValue().getPhone().contains(phone)){
                     userId.add(entry.getValue());
                 }
             }
 
         } else if (bool.equals(Boolean.FALSE)) {
             for (Map.Entry<Integer, User> entry : users.entrySet()){
-                if (entry.getValue().getLastName().equals(lastName) | entry.getValue().getFirstName().equals(firstName) | entry.getValue().getPhone().equals(phone)){
+                System.out.println("Dans le for map");
+                if (entry.getValue().getLastName().contains(lastName) | entry.getValue().getFirstName().contains(firstName) | entry.getValue().getPhone().contains(phone)){
                     userId.add(entry.getValue());
                 }
             }

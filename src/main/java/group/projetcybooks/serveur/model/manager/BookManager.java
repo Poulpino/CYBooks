@@ -91,7 +91,7 @@ public class BookManager {
         List<Book> booksFind = new ArrayList<>();
 
         for(Map.Entry<Long, Book> entry : books.entrySet()) {
-            if (entry.getValue().getTitle().equals(idBnf) | entry.getValue().getTitle().equals(title) | entry.getValue().getAuthor().equals(author)) {
+            if (entry.getValue().getTitle().contains(idBnf) | entry.getValue().getTitle().contains(title) | entry.getValue().getAuthor().contains(author)) {
                 booksFind.add(entry.getValue());
             }
         }

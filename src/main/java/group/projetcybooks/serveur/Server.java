@@ -65,7 +65,7 @@ public class Server {
                 String[] inputLineSplit;
 
                 while ((inputLine = in.readLine()) != null) {
-                    inputLineSplit = inputLine.split(" ");
+                    inputLineSplit = inputLine.split("#");
 
                     switch (Integer.parseInt(inputLineSplit[0])) {
 
@@ -179,13 +179,14 @@ public class Server {
                             try {
                                 List<User> users = userManager.searchUser(lastName, firstName, phone, Boolean.FALSE);
                                 StringBuilder result = new StringBuilder();
+
                                 for (int i = 0; i < users.size(); i++) {
                                     result.append(users.get(i).toString());
                                     if (i < users.size() - 1) {
                                         result.append(" ");
                                     }
                                 }
-                                out.println("201 " + result.toString());
+                                out.println("201#" + result.toString());
                             } catch (UserNotFoundException e) {
                                 SceneController.showError("Server Error", e.getMessage());
                             }
