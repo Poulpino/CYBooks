@@ -55,7 +55,7 @@ public class User {
     }
 
     //Setter
-     public void setLastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
     public void setFirstName(String firstName) {

@@ -333,7 +333,7 @@ public class Server {
         }
         return false;
     }
-        private static boolean isPortInUse() {
+    private static boolean isPortInUse() {
         try (Socket socket = new Socket()) {
             socket.connect(new InetSocketAddress("localhost", 3308), 2000);
             return true;

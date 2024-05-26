@@ -8,18 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/**
- * Main class for the JavaFX client application.
- * This class starts the JavaFX application and initializes the main scene.
- */
 public class MainFX extends Application {
-
-    /**
-     * Starts the JavaFX application by loading the main scene.
-     *
-     * @param stage the primary stage for the JavaFX application
-     * @throws IOException if an I/O error occurs during loading the FXML file
-     */
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("MainScene.fxml"));
@@ -28,16 +17,11 @@ public class MainFX extends Application {
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();
+
     }
 
-    /**
-     * Main method to launch the JavaFX application.
-     * Starts the server in a separate thread and launches the JavaFX application.
-     *
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // Start the server in a separate thread
+
         new Thread(() -> {
             try {
                 Server.main(args);
@@ -46,7 +30,8 @@ public class MainFX extends Application {
             }
         }).start();
 
-        // Launch the JavaFX application
+        // Démarrez l'application JavaFX
         launch();
     }
 }
+

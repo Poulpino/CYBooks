@@ -74,7 +74,7 @@ public class BookManager {
      * @throws Exception If there's an error whit DB connection.
      */
     public void addBook(Book book) throws Exception {
-         addBook(book.getidBnf(), book.getStatue(), book.getEditor(), book.getTitle(), book.getAuthor(), book.getYear());
+        addBook(book.getidBnf(), book.getStatue(), book.getEditor(), book.getTitle(), book.getAuthor(), book.getYear());
     }
 
     /**
