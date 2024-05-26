@@ -13,17 +13,14 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.projetcybooks.client.scene.BooksMainController">
-   <!-- Top section with a title and back button -->
    <top>
       <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <!-- Title label -->
             <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" text="                Books" textAlignment="CENTER">
                <font>
                   <Font size="60.0" />
                </font>
             </Label>
-            <!-- Back button -->
             <Button mnemonicParsing="false" onAction="#switchToMain" prefHeight="109.0" prefWidth="328.0" text="Back">
                <font>
                   <Font size="45.0" />
@@ -32,14 +29,11 @@
          </items>
       </SplitPane>
    </top>
-   <!-- Center section with search form and book list -->
    <center>
       <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <!-- Left split pane with search form -->
             <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
               <items>
-                  <!-- GridPane for search form -->
                   <GridPane>
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="10.0" prefWidth="330.0" />
@@ -51,36 +45,28 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <!-- ISBN Label -->
                         <Label text="ISBN" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <font>
                               <Font size="54.0" />
                            </font>
                         </Label>
-                        <!-- Author Label -->
                         <Label text="Author" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                            <font>
                               <Font size="54.0" />
                            </font>
                         </Label>
-                        <!-- Title Label -->
                         <Label text="Title" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                            <font>
                               <Font size="54.0" />
                            </font>
                         </Label>
-                        <!-- ISBN TextArea -->
-                        <TextArea fx:id="isbnTextField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
-                        <!-- Author TextArea -->
-                        <TextArea fx:id="authorTextField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <!-- Title TextArea -->
-                        <TextArea fx:id="titleTextField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                        <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
-                  <!-- SplitPane for search and show most borrowed buttons -->
                   <SplitPane dividerPositions="0.2857142857142857" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                      <items>
-                        <!-- Search Button -->
                         <Button mnemonicParsing="false" onAction="#searchBooks" prefHeight="153.0" prefWidth="552.0" text="Search" textAlignment="CENTER">
                            <font>
                               <Font size="40.0" />
@@ -89,7 +75,6 @@
                               <Insets bottom="50.0" />
                            </opaqueInsets>
                         </Button>
-                        <!-- Show Most Borrowed Books Button -->
                         <Button mnemonicParsing="false" onAction="#switchToMostBorrowed" prefHeight="182.0" prefWidth="556.0" text="Show most borrowed books">
                            <font>
                               <Font size="40.0" />
@@ -105,12 +90,9 @@
                   </SplitPane>
               </items>
             </SplitPane>
-            <!-- Right split pane with book list and action button -->
             <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                <items>
-                  <!-- ListView to display books -->
-                  <ListView fx:id="booksListView" onMouseClicked="#bookSelected" prefHeight="200.0" prefWidth="200.0" />
-                  <!-- Button to select a book to borrow -->
+                  <ListView fx:id="bookListView" onMouseClicked="#bookSelected" prefHeight="200.0" prefWidth="200.0" />
                   <Button mnemonicParsing="false" onAction="#switchToBorrowBook2" prefHeight="117.0" prefWidth="494.0" text="Select a book to borrow">
                      <font>
                         <Font size="40.0" />
