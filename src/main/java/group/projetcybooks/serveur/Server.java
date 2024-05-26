@@ -2,7 +2,6 @@ package group.projetcybooks.serveur;
 
 import group.projetcybooks.serveur.model.*;
 import group.projetcybooks.serveur.model.exception.*;
-import group.projetcybooks.client.scene.SceneController;
 import group.projetcybooks.serveur.model.manager.BookManager;
 import group.projetcybooks.serveur.model.manager.BorrowManager;
 import group.projetcybooks.serveur.model.manager.UserManager;
@@ -141,10 +140,11 @@ public class Server {
                                 }
                                 User user = new User(0, lastName, firsName, phone);
                                 userManager.searchUser(user.getLastName(), user.getFirstName(), user.getPhone(), Boolean.TRUE);
-                                System.out.println("User Already Exist");
-                            } catch (IllegalArgumentException e) {
+                                out.println("400");
+                                throw new UserAlreadyExist("This user already exist");
+                            }catch (IllegalArgumentException e) {
                                 System.out.println("400" + e.getMessage());
-                            } catch (UserNotFoundException e) {
+                            }catch (UserNotFoundException e) {
                                 try {
                                     User user = new User(inputLineSplit[1]);
                                     userManager.addUser(user.getLastName(), user.getFirstName(), user.getPhone());
@@ -153,6 +153,9 @@ public class Server {
                                     out.println("400");
                                     System.out.println("400" + e.getMessage());
                                 }
+                            }catch (Exception e){
+                                System.out.println("400" + e.getMessage());
+                                out.println("400");
                             }
                         }
 
@@ -230,7 +233,8 @@ public class Server {
                                         result.append(" ");
                                     }
                                 }
-                                out.println("201 " + result.toString());
+                                System.out.println(result);
+                                out.println("201#" + result.toString());
                             } catch (NoBorrowForUser f) {
                                 out.println("400");
                                 System.out.println("400" + f.getMessage());
@@ -296,7 +300,7 @@ public class Server {
             }
             serverSocket.close();
         } catch (IOException e) {
-            SceneController.showError("Server Error", "Exception caught when trying to listen on port: " + port + " or listening for a connection" + e.getMessage());
+            System.out.println("Exception caught when trying to listen on port: " + port + " or listening for a connection" + e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static group.projetcybooks.client.scene.SceneController.showError;
-
 /**
  * This class manages user-related operations.
  * Attributes :
@@ -160,8 +158,7 @@ public class UserManager {
             return userId;
         }
         else{
-            showError("Error","No such user was found");
-            return userId;
+            throw new UserNotFoundException("No user found");
         }
     }
 

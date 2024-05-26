@@ -18,26 +18,27 @@ public class Client {
     private static final String host = "localhost";
     private static final int port = 5543;
 
-    public Client(){}
+    public Client() {
+    }
 
 
     /**
      * Client provides information about the book they want, including ISBN, title, and author.
      * If you don't want to fill in a parameter, enter "null".
      *
-     * @param idBnf the ISBN of the book
-     * @param title the title of the book
+     * @param idBnf  the ISBN of the book
+     * @param title  the title of the book
      * @param author the author of the book
      * @return The list of books that match the criteria
      */
-    public List<Book> clientAskListBook(String idBnf,String title, String author) {
+    public List<Book> clientAskListBook(String idBnf, String title, String author) {
         List<Book> booksList;
         try (Socket socket = new Socket(host, port);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "104#"+idBnf+"#"+title+"#"+author;
+            String clientInput = "104#" + idBnf + "#" + title + "#" + author;
             out.println(clientInput);
             String s = in.readLine();
             String s2 = s.substring(4);
@@ -70,12 +71,12 @@ public class Client {
      * @param user the user who wants to borrow the book
      * @return 1 if the operation is successful, -1 otherwise
      */
-    public int clientBorrowBook(Book book,User user) {
+    public int clientBorrowBook(Book book, User user) {
         try (Socket socket = new Socket(host, port);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
-            String clientInput = "105#"+book.toString() + "#" + user.toString();
+            String clientInput = "105#" + book.toString() + "#" + user.toString();
             out.println(clientInput);
             String result = in.readLine();
 
@@ -94,9 +95,9 @@ public class Client {
     /**
      * The client provides the details of a new user and the method creates a user on the server.
      *
-     * @param lastName the last name of the user
+     * @param lastName  the last name of the user
      * @param firstName the first name of the user
-     * @param phone the phone number of the user
+     * @param phone     the phone number of the user
      * @return 1 if the operation is successful, -1 otherwise
      */
     public int clientSendNewUser(String lastName, String firstName, String phone) {
@@ -105,7 +106,7 @@ public class Client {
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "106#" + "0;" +lastName + ";" + firstName + ";" + phone;
+            String clientInput = "106#" + "0;" + lastName + ";" + firstName + ";" + phone;
             out.println(clientInput);
             String result = in.readLine();
 
@@ -125,19 +126,19 @@ public class Client {
      * The client provides an instance of the user they want to modify and the changes they want to make.
      * If you don't want to fill in a parameter, enter "null".
      *
-     * @param user the user to be updated
-     * @param lastName the new last name of the user
+     * @param user      the user to be updated
+     * @param lastName  the new last name of the user
      * @param firstName the new first name of the user
-     * @param phone the new phone number of the user
+     * @param phone     the new phone number of the user
      * @return 1 if the operation is successful, -1 otherwise
      */
-    public int clientUpdateUser(User user, String lastName, String firstName, String phone){
+    public int clientUpdateUser(User user, String lastName, String firstName, String phone) {
         try (Socket socket = new Socket(host, port);
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "107#"+user.toString()+"/"+lastName+ ";"+firstName+";"+phone+";";
+            String clientInput = "107#" + user.toString() + "/" + lastName + ";" + firstName + ";" + phone + ";";
             out.println(clientInput);
             String result = in.readLine();
 
@@ -156,9 +157,9 @@ public class Client {
     /**
      * The client provides search criteria. If you don't want to fill in a parameter, enter "null".
      *
-     * @param lastName the last name of the user
+     * @param lastName  the last name of the user
      * @param firstName the first name of the user
-     * @param phone the phone number of the user
+     * @param phone     the phone number of the user
      * @return List of users matching the criteria
      */
     public List<User> clientSearchUser(String lastName, String firstName, String phone) {
@@ -204,7 +205,7 @@ public class Client {
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "109#"+user.toString();
+            String clientInput = "109#" + user.toString();
             out.println(clientInput);
             String result = in.readLine();
 
@@ -227,17 +228,17 @@ public class Client {
      */
     public List<Borrow> clientAskReturnBookList(User user) {
         try (Socket socket = new Socket(host, port);
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "110#"+user.toString();
+            String clientInput = "110#" + user.toString();
             out.println(clientInput);
 
             List<Borrow> borrows = new ArrayList<>();
 
             String result = in.readLine();
-            String[] resultSplit = result.split(" ");
+            String[] resultSplit = result.split("#");
             for (int i = 1; i < resultSplit.length; i++) {
                 String line = resultSplit[i];
                 borrows.add(new Borrow(line));
@@ -260,13 +261,13 @@ public class Client {
      * @param borrow the borrow instance to be returned
      * @return 1 if the operation is successful, -1 otherwise
      */
-    public int clientReturnBook(Borrow borrow){
+    public int clientReturnBook(Borrow borrow) {
         try (Socket socket = new Socket(host, port);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            String clientInput = "111#"+borrow.toString();
+            String clientInput = "111#" + borrow.toString();
             out.println(clientInput);
             String result = in.readLine();
 
@@ -355,60 +356,42 @@ public class Client {
             return null;
         }
     }
+
     /**
      * Requests the server for the most popular books and their borrow counts.
      *
      * @return A HashMap containing Book objects as keys and their borrow counts as values sorted by borrow counts,
-     *         or null if there was a problem with the connection to the server.
+     * or null if there was a problem with the connection to the server.
      */
-        public HashMap<Book, Integer> clientAskPopularBook(){
-            try (Socket socket = new Socket(host, port);
-                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                 BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
+    public HashMap<Book, Integer> clientAskPopularBook() {
+        try (Socket socket = new Socket(host, port);
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-                String clientInput = "103#";
-                out.println(clientInput);
+            String clientInput = "103#";
+            out.println(clientInput);
 
-                HashMap<Book, Integer> popularBooks = new HashMap<>();
+            HashMap<Book, Integer> popularBooks = new HashMap<>();
 
-                String result = in.readLine().replace("[","").replace("]","").replace(" ", "");
-                String[] resultSplit = result.split(",");
+            String result = in.readLine().replace("[", "").replace("]", "").replace(" ", "");
+            String[] resultSplit = result.split(",");
 
-                for (String line : resultSplit) {
-                    String[] resultSplit2 = line.split("=");
-                    Book book = new Book(resultSplit2[0]);
-                    popularBooks.put(book,Integer.parseInt(resultSplit2[1]));
-                }
-                return popularBooks;
-
-            } catch (UnknownHostException e) {
-                System.err.println("Don't know about host " + host);
-                SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
-                return null;
-            } catch (IOException e) {
-                System.err.println("Couldn't get I/O for the connection to " + host);
-                SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
-                return null;
+            for (String line : resultSplit) {
+                String[] resultSplit2 = line.split("=");
+                Book book = new Book(resultSplit2[0]);
+                popularBooks.put(book, Integer.parseInt(resultSplit2[1]));
             }
-    }
+            return popularBooks;
 
-    public static void main(String[] args) throws ParseException {
-        //System.out.println(new Client().clientAskListBook(null,"harry",null));
-            //System.out.println(new Client().clientAskPopularBook());
-        //System.out.println(new Client().clientReturnBook(new Borrow(1,new User(1,"Hautecourt","Julien","0781287621"),"2024-03-21","2024-04-21",new Book(1,TypeStatue.BORROW,"c","c","c","2020"),false)));
-        System.out.println(new Client().clientAskReturnBookList(new User(1,"Hautecourt","Julien","0781287621")));
-        // OK System.out.println(new Client().clientAskLateReturn());
-        /*
-        List<Borrow> test = (new Client().clientAskReturnBookList(new User(1,"Hautecourt","Julien","0781287621")));
-        Borrow test2 = test.getFirst();
-        OK System.out.println(new Client().clientReturnBook(test));
-        */
-        //System.out.println(new Client().clientAskHistoryBookList(new User(0,"Aubert","Michel","0686502589")));
-        // OK System.out.println(new Client().clientSendNewUser("","Marie","0000000000"));
-        // OK System.out.println(new Client().clientUpdateUser(new User(2,"Marie","Hautecourt","0000000000"),"Hautecourt","Marie",null));
-        // OK System.out.println(new Client().clientSearchUser("Hautecourt",null,null));
-        // OK System.out.println(new Client().clientRemoveUser(new User(0,"Aubert","Michel","0686502589")));
-        //System.out.println(new Client().clientBorrowBook(new Book(0,TypeStatue.FREE,"test","test","test",2020),new User(1,"Hautecourt","Julien","0781287621")));
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host " + host);
+            SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
+            return null;
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for the connection to " + host);
+            SceneController.showError("Client Error", "Couldn't get I/O for the connection to: " + host + e.getMessage());
+            return null;
+        }
     }
 }
