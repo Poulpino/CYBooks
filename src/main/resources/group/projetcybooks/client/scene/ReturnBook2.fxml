@@ -44,38 +44,8 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
-                     <children>
-                        <Label text="ISBN" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <font>
-                              <Font size="54.0" />
-                           </font>
-                        </Label>
-                        <Label text="Author" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                           <font>
-                              <Font size="54.0" />
-                           </font>
-                        </Label>
-                        <Label text="Title" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                           <font>
-                              <Font size="54.0" />
-                           </font>
-                        </Label>
-                        <TextArea fx:id="isbnTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
-                        <TextArea fx:id="authorTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextArea fx:id="titleTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                     </children>
                   </GridPane>
                   <SplitPane orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
-                     <items>
-                        <Button mnemonicParsing="false" onAction="#searchBooks" prefHeight="153.0" prefWidth="552.0" text="Search" textAlignment="CENTER">
-                           <font>
-                              <Font size="40.0" />
-                           </font>
-                           <opaqueInsets>
-                              <Insets bottom="50.0" />
-                           </opaqueInsets>
-                        </Button>
-                     </items>
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -88,7 +58,7 @@
             <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                <items>
                   <ListView fx:id="booksListView" prefHeight="200.0" prefWidth="200.0" />
-                  <Button mnemonicParsing="false" onAction="#handleConfirmReturn" prefHeight="50.0" prefWidth="150.0" text="Confirm Return">
+                  <Button mnemonicParsing="false" onAction="#ConfirmReturn" prefHeight="50.0" prefWidth="150.0" text="Confirm Return">
                      <font>
                         <Font size="20.0" />
                      </font>

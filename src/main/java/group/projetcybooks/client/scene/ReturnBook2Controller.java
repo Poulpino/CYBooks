@@ -29,38 +29,19 @@ public class ReturnBook2Controller extends SceneController {
 
     public void initializeWithUser(User user) {
         this.selectedUser = user;
-        //loadBorrowList(user);
+        loadBorrowList(user);
     }
 
-    private void loadBorrowList(User user) {
+    public void loadBorrowList(User user) {
         List<Borrow> borrows = new Client().clientAskReturnBookList(user);
-        if (borrows != null && !borrows.isEmpty()) {
+        if (!borrows.isEmpty()) {
             borrowListView.getItems().addAll(borrows);
         } else {
-            SceneController.showError("Error", "No borrow found for this user: " + user.getFirstName());
+            SceneController.showError("Error", "No borrow found for this user: " + user.getFirstName() + user.getLastName());
         }
     }
 
-    public void searchBooks() {
-        String isbn = isbnTextArea.getText();
-        String author = authorTextArea.getText();
-        String title = titleTextArea.getText();
-
-        if (isbn.isBlank()) { isbn = null; }
-        if (author.isBlank()) { author = null; }
-        if (title.isBlank()) { title = null; }
-
-        List<Book> books = new Client().clientAskListBook(isbn, author, title);
-
-        if (books == null){
-            showError("Error", "Failed to search books.");
-        }
-        else{
-            booksListView.getItems().setAll(books);
-        }
-    }
-
-    public void handleConfirmReturn() {
+    public void ConfirmReturn() {
         Borrow selectedBorrow = borrowListView.getSelectionModel().getSelectedItem();
         if (selectedBorrow != null) {
             Client client = new Client();
