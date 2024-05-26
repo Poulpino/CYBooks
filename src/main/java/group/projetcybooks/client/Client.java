@@ -289,7 +289,7 @@ public class Client {
      * @return List of late borrowings
      */
     public List<Borrow> clientAskLateReturn() {
-        List<Borrow> borrowList;
+        List<Borrow> borrowList = new ArrayList<>();
         try (Socket socket = new Socket(host, port);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -299,16 +299,13 @@ public class Client {
             out.println(clientInput);
             String s = in.readLine();
             String[] output = s.split("#");
-            System.out.println(output[0]);
-            String[] output2 = output[1].split("§");
-
-            borrowList = new ArrayList<>();
-            Borrow borrow;
-            for (String str : output2) {
-                borrow = new Borrow(str);
-                borrowList.add(borrow);
+            if (output.length >= 2){ String[] output2 = output[1].split("§");
+                Borrow borrow;
+                for (String str : output2) {
+                    borrow = new Borrow(str);
+                    borrowList.add(borrow);
+                }
             }
-
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
             SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
