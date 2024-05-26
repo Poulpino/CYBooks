@@ -22,11 +22,11 @@ import java.util.List;
 public class BooksMainController extends SceneController {
 
     @FXML
-    TextArea isbnTextField;
+    TextArea isbnTextArea;
     @FXML
-    TextArea authorTextField;
+    TextArea authorTextArea;
     @FXML
-    TextArea titleTextField;
+    TextArea titleTextArea;
     @FXML
     ListView<Book> booksListView;
 
@@ -41,9 +41,9 @@ public class BooksMainController extends SceneController {
      * Retrieves a list of books from the server and displays them in the ListView.
      */
     public void searchBooks() {
-        String isbn = isbnTextField.getText();
-        String author = authorTextField.getText();
-        String title = titleTextField.getText();
+        String isbn = isbnTextArea.getText();
+        String author = authorTextArea.getText();
+        String title = titleTextArea.getText();
 
         if (isbn.isBlank()) {
             isbn = null;

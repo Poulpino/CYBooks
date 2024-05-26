@@ -230,7 +230,7 @@ public class Server {
                                 for (int i = 0; i < borrows.size(); i++) {
                                     result.append(borrows.get(i).toString());
                                     if (i < borrows.size() - 1) {
-                                        result.append(" ");
+                                        result.append("#");
                                     }
                                 }
                                 System.out.println(result);
@@ -261,8 +261,9 @@ public class Server {
                                 for (Borrow borrow : borrowList) {
                                     output += borrow.toString() + "§";
                                 }
+
                                 output = output.substring(0, output.length() - 1);
-                                out.println("201 " + output);
+                                out.println("201#" + output);
                             } catch (Exception e) {
                                 out.println("400");
                                 System.out.println("400" + e.getMessage());

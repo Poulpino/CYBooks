@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import group.projetcybooks.client.Client;
 
-public class ClientsSignUpController extends SceneController{
+public class UserSignUpController extends SceneController{
 
     public TextField lastNameField;
     public TextField firstNameField;

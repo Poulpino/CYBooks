@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
-public class ClientsResearchController extends SceneController{
+public class UserResearchController extends SceneController{
 
     private Stage stage;
     private Scene scene;
@@ -93,11 +93,11 @@ public class ClientsResearchController extends SceneController{
         User selectedUser = userListView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsEdit.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("UsersEdit.fxml"));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(fxmlLoader.load());
 
-                ClientsEditController controller = fxmlLoader.getController();
+                UserEditController controller = fxmlLoader.getController();
                 controller.setStage(stage);
                 controller.initializeWithUser(selectedUser);
 
@@ -120,11 +120,11 @@ public class ClientsResearchController extends SceneController{
         User selectedUser = userListView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsEdit.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("UsersEdit.fxml"));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(fxmlLoader.load());
 
-                ClientsEditController controller = fxmlLoader.getController();
+                UserEditController controller = fxmlLoader.getController();
                 controller.setStage(stage);
                 controller.initializeWithUser(selectedUser);
 
@@ -146,11 +146,11 @@ public class ClientsResearchController extends SceneController{
     public void switchToClientsBorrowHistory(ActionEvent event) throws IOException {
         User selectedUser = userListView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsBorrowHistory.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("UsersBorrowHistory.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(fxmlLoader.load());
 
-            ClientsBorrowHistoryController controller = fxmlLoader.getController();
+            UserBorrowHistoryController controller = fxmlLoader.getController();
             controller.setStage(stage);
             controller.initializeWithUser(selectedUser);
 
