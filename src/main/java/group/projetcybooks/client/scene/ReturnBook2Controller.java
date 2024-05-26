@@ -5,7 +5,9 @@ import group.projetcybooks.serveur.model.Book;
 import group.projetcybooks.serveur.model.Borrow;
 import group.projetcybooks.serveur.model.User;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
@@ -18,6 +20,13 @@ public class ReturnBook2Controller extends SceneController {
     private Stage stage;
     private Scene scene;
     private List<Borrow> borrowList = new ArrayList<>(); // Initialisation de borrowList
+
+    @FXML
+    Label firstNameLabel;
+    @FXML
+    Label lastNameLabel;
+    @FXML
+    Label phoneLabel;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -37,6 +46,9 @@ public class ReturnBook2Controller extends SceneController {
      */
     public void initializeWithUser(User user) {
         this.selectedUser = user;
+        lastNameLabel.setText("Last name : " + selectedUser.getLastName());
+        firstNameLabel.setText("First name : " + selectedUser.getFirstName());
+        phoneLabel.setText("Phone : " + selectedUser.getPhone());
         loadBorrowList(user);
     }
 

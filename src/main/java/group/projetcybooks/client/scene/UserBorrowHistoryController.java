@@ -3,6 +3,7 @@ package group.projetcybooks.client.scene;
 import group.projetcybooks.client.Client;
 import group.projetcybooks.serveur.model.Borrow;
 import group.projetcybooks.serveur.model.User;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.ListView;
@@ -18,11 +19,14 @@ public class UserBorrowHistoryController extends SceneController{
         this.stage = stage;
     }
 
-    public ListView<Borrow> borrowHistoryListView;
+    @FXML
+    ListView<Borrow> borrowHistoryListView;
     private User user;
 
     public void initializeWithUser(User user) {
+
         this.user = user;
+        loadBorrowHistory();
     }
 
     /**

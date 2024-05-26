@@ -277,10 +277,10 @@ public class Server {
                                 for (int i = 0; i < history.size(); i++) {
                                     result.append(history.get(i).toString());
                                     if (i < history.size() - 1) {
-                                        result.append(" ");
+                                        result.append("#");
                                     }
                                 }
-                                out.println("201 " + result.toString());
+                                out.println("201#" + result.toString());
                             } catch (NoHistoryForUser e) {
                                 out.println("400");
                                 System.out.println("400" + e.getMessage());
