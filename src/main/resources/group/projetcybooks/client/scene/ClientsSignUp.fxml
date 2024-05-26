@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+<!-- 
+    FXML file describing the user interface of the client sign-up view.
+    This view allows users to create a new client profile by entering their first name, last name, and phone number.
+-->
 
 <BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.projetcybooks.client.scene.ClientsSignUpController">
+
+   <!-- Top of the BorderPane -->
    <top>
+      <!-- SplitPane to arrange elements at the top -->
       <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" text="                    Sign Up profile" textAlignment="CENTER">
+            <!-- Title of the view -->
+            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" 
+                   minHeight="10.0" minWidth="10.0" text="                    Sign Up profile" textAlignment="CENTER">
                <font>
                   <Font size="60.0" />
                </font>
             </Label>
+            <!-- Back button -->
             <Button mnemonicParsing="false" onAction="#switchToClientsMain" prefHeight="109.0" prefWidth="328.0" text="Back">
                <font>
                   <Font size="45.0" />
@@ -28,9 +28,13 @@
          </items>
       </SplitPane>
    </top>
+   
+   <!-- Center of the BorderPane -->
    <center>
+      <!-- SplitPane to arrange elements at the center -->
       <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
          <items>
+            <!-- GridPane for input fields -->
             <GridPane>
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -42,56 +46,56 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
+                  <!-- Labels for input fields -->
                   <Label alignment="CENTER_RIGHT" text="Phone" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
                      <font>
                         <Font size="45.0" />
                      </font>
+                     <!-- Set right margin -->
                      <GridPane.margin>
                         <Insets right="50.0" />
                      </GridPane.margin>
                   </Label>
                   <Label alignment="CENTER_RIGHT" text="Last name" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
                      <font>
                         <Font size="45.0" />
                      </font>
+                     <!-- Set right margin -->
                      <GridPane.margin>
                         <Insets right="50.0" />
                      </GridPane.margin>
                   </Label>
                   <Label alignment="CENTER_RIGHT" text="First name" GridPane.halignment="RIGHT">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
                      <font>
                         <Font size="45.0" />
                      </font>
+                     <!-- Set right margin -->
                      <GridPane.margin>
                         <Insets right="50.0" />
                      </GridPane.margin>
                   </Label>
+                  <!-- TextFields for entering user information -->
                   <TextField fx:id="lastNameField" prefHeight="93.0" prefWidth="959.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <!-- Set right margin -->
                      <GridPane.margin>
                         <Insets right="100.0" />
                      </GridPane.margin>
                   </TextField>
                   <TextField fx:id="firstNameField" prefHeight="93.0" prefWidth="959.0" GridPane.columnIndex="1">
+                     <!-- Set right margin -->
                      <GridPane.margin>
                         <Insets right="100.0" />
                      </GridPane.margin>
                   </TextField>
                   <TextField fx:id="phoneField" prefHeight="93.0" prefWidth="959.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <!-- Set right margin -->
                      <GridPane.margin>
                         <Insets right="100.0" />
                      </GridPane.margin>
                   </TextField>
                </children>
             </GridPane>
+            <!-- Button for signing up -->
             <Button mnemonicParsing="false" onAction="#handleSignUp" prefHeight="115.0" prefWidth="494.0" text="Sign up">
                <font>
                   <Font size="40.0" />
@@ -101,4 +105,3 @@
       </SplitPane>
    </center>
 </BorderPane>
-
