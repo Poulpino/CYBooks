@@ -15,6 +15,10 @@ import group.projetcybooks.client.Client;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controller class for the BorrowBooks1 scene.
+ * This class handles the interaction with the search fields and the list of books.
+ */
 public class BorrowBooks1Controller extends SceneController {
 
     @FXML
@@ -32,6 +36,10 @@ public class BorrowBooks1Controller extends SceneController {
     Scene scene;
     Parent root;
 
+    /**
+     * Searches for books based on the input fields for ISBN, author, and title.
+     * The search results are displayed in the ListView.
+     */
     public void searchBooks() {
 
         String isbn = isbnTextField.getText();
@@ -52,8 +60,15 @@ public class BorrowBooks1Controller extends SceneController {
         }
     }
 
+    /**
+     * Switches to the BorrowBook2 scene when a book is selected.
+     * The selected book is passed to the next scene's controller.
+     *
+     * @param event the action event triggered by the user interaction
+     * @throws IOException if an I/O error occurs during loading the FXML file
+     */
     @Override
-    public void switchToBorrowBook2 (ActionEvent event) throws IOException {
+    public void switchToBorrowBook2(ActionEvent event) throws IOException {
         selectedBook = booksListView.getSelectionModel().getSelectedItem();
         if (selectedBook != null) {
             FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("BorrowBook2.fxml"));
@@ -71,14 +86,14 @@ public class BorrowBooks1Controller extends SceneController {
         else{
             showError("Error", "No book selected.");
         }
-
-
-
     }
 
+    /**
+     * Sets the stage for this controller.
+     *
+     * @param stage the stage to set
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
-
 }

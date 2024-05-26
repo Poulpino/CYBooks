@@ -15,6 +15,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controller class for the BorrowBooks2 scene.
+ * This class handles the user interaction for selecting a user to borrow a book.
+ */
 public class BorrowBooks2Controller extends SceneController {
 
     private Stage stage;
@@ -33,10 +37,21 @@ public class BorrowBooks2Controller extends SceneController {
 
     User userBorrowing;
 
+    /**
+     * Sets the book to be borrowed.
+     *
+     * @param bookToBorrow the book to be borrowed
+     */
     public void setBookToBorrow(Book bookToBorrow) {
         this.bookToBorrow = bookToBorrow;
     }
 
+    /**
+     * Handles the search for users based on the input fields for first name, last name, and phone.
+     * The search results are displayed in the ListView.
+     *
+     * @param event the action event triggered by the user interaction
+     */
     public void handleSearch(ActionEvent event) {
         String firstName = firstNameTextField.getText();
         String lastName = lastNameTextField.getText();
@@ -56,11 +71,22 @@ public class BorrowBooks2Controller extends SceneController {
         }
     }
 
+    /**
+     * Handles the selection of a user from the ListView.
+     * The selected user is stored in the userBorrowing field.
+     */
     public void userSelected() {
         userBorrowing = usersListView.getSelectionModel().getSelectedItem();
         System.out.println(userBorrowing);
-    };
+    }
 
+    /**
+     * Handles the borrowing of the book by the selected user.
+     * If successful, switches back to the main scene.
+     *
+     * @param event the action event triggered by the user interaction
+     * @throws IOException if an I/O error occurs during loading the FXML file
+     */
     public void borrowBook(ActionEvent event) throws IOException {
         int borrow = new Client().clientBorrowBook(bookToBorrow, userBorrowing);
         if (borrow == 1){
@@ -76,10 +102,12 @@ public class BorrowBooks2Controller extends SceneController {
         }
     }
 
-
-
+    /**
+     * Sets the stage for this controller.
+     *
+     * @param stage the stage to set
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
 }
