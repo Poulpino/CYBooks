@@ -1,12 +1,17 @@
 package group.projetcybooks.client.scene;
 
 import group.projetcybooks.serveur.model.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import group.projetcybooks.client.Client;
+
+import java.io.IOException;
 
 public class UserEditController extends SceneController{
 
@@ -43,11 +48,8 @@ public class UserEditController extends SceneController{
 
     /**
      * Modifies the information of the current user.
-     * @param newFirstName
-     * @param newLastName
-     * @param newPhone
      */
-    public void handleEdit() {
+    public void handleEdit(ActionEvent event) throws IOException {
         String newFirstName = newFirstNameField.getText();
         String newLastName = newLastNameField.getText();
         String newPhone = newPhoneField.getText();
@@ -59,6 +61,12 @@ public class UserEditController extends SceneController{
         int result = new Client().clientUpdateUser(currentUser, newLastName, newFirstName, newPhone);
         if (result == 1) {
             showError("Success", "User updated successfully");
+            FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("MainScene.fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(fxmlLoader.load());
+            stage.setScene(scene);
+            stage.setFullScreen(true);
+            stage.show();
         } else {
             showError("Error", "Failed to update user");
         }

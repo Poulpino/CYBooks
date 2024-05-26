@@ -69,7 +69,7 @@ public class UserResearchController extends SceneController{
      * Handles the delete action triggered by the user.
      * @param event the action event triggered by the user
      */
-    public void handleDelete(ActionEvent event) {
+    public void handleDelete(ActionEvent event) throws IOException {
         User selectedUser = userListView.getSelectionModel().getSelectedItem();
 
         if (selectedUser != null) {
@@ -77,6 +77,12 @@ public class UserResearchController extends SceneController{
             if (result == 1) {
                 showError("Success", "User deleted successfully.");
                 userListView.getItems().remove(selectedUser);
+                FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("MainScene.fxml"));
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                scene = new Scene(fxmlLoader.load());
+                stage.setScene(scene);
+                stage.setFullScreen(true);
+                stage.show();
             } else {
                 showError("Error", "Failed to delete user.");
             }
