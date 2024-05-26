@@ -4,6 +4,7 @@ import group.projetcybooks.client.Client;
 import group.projetcybooks.serveur.model.Book;
 import group.projetcybooks.serveur.model.Borrow;
 import group.projetcybooks.serveur.model.User;
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -12,16 +13,26 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.event.ActionEvent;
+import javafx.scene.Scene;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ReturnBook2Controller extends SceneController {
 
     private Stage stage;
     private Scene scene;
+    private List<Borrow> borrowList = new ArrayList<>(); // Initialisation de borrowList
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    public ListView<Borrow> borrowListView;
 
-    public ListView<Object> booksListView;
+    public ListView<Borrow> borrowListView;
+    public ListView<Book> booksListView;
     public User selectedUser;
     public TextArea ISBN;
     public TextArea isbnTextArea;
@@ -34,10 +45,10 @@ public class ReturnBook2Controller extends SceneController {
     }
 
     public void loadBorrowList(User user) {
-        List<Borrow> borrows = new Client().clientAskReturnBookList(user);
+        borrowList = new Client().clientAskReturnBookList(user);
         List<Book> books = new ArrayList<>();
 
-        for (Borrow borrow : borrows) {
+        for (Borrow borrow : borrowList) {
             books.add(borrow.getBook());
         }
 
@@ -48,20 +59,32 @@ public class ReturnBook2Controller extends SceneController {
         }
     }
 
+    public void ConfirmReturn(ActionEvent event) {
+        Book selectedBook = booksListView.getSelectionModel().getSelectedItem();
+        if (selectedBook != null) {
+            Borrow selectedBorrow = null;
+            for (Borrow borrow : borrowList) {
+                if (borrow.getBook().equals(selectedBook)) {
+                    selectedBorrow = borrow;
+                    break;
+                }
+            }
 
-    public void ConfirmReturn() {
-        Borrow selectedBorrow = borrowListView.getSelectionModel().getSelectedItem();
-        if (selectedBorrow != null) {
-            Client client = new Client();
-            int result = client.clientReturnBook(selectedBorrow);
-            if (result == 1) {
-                showError("Success", "The book has been successfully returned.");
-                borrowListView.getItems().remove(selectedBorrow);
+            if (selectedBorrow != null) {
+                int result = new Client().clientReturnBook(selectedBorrow);
+                if (result == 1) {
+                    SceneController.showError("Success", "The book has been successfully returned.");
+                    booksListView.getItems().remove(selectedBook);
+                } else {
+                    SceneController.showError("Error", "Failed to return the book.");
+                }
             } else {
-                showError("Error", "Failed to return the book.");
+                SceneController.showError("Error", "No matching borrow found.");
             }
         } else {
-            showError("Error", "No borrow selected.");
+            SceneController.showError("Error", "No book selected.");
         }
     }
 }
+
+
