@@ -1,101 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+<!-- 
+    FXML file describing the user interface of the return book form.
+    This view allows users to return a book, providing fields for user information and options to search for users and select one for returning a book.
+-->
 
 <BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.projetcybooks.client.scene.ReturnBook1Controller">
-   <top>
-      <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <items>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" text="                     Return a book" textAlignment="CENTER">
-               <font>
-                  <Font size="60.0" />
-               </font>
-            </Label>
-            <Button mnemonicParsing="false" onAction="#switchToBooksMain" prefHeight="109.0" prefWidth="328.0" text="Back">
-               <font>
-                  <Font size="45.0" />
-               </font>
-            </Button>
-         </items>
-      </SplitPane>
-   </top>
-   <center>
-      <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <items>
-            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
-               <items>
-                  <GridPane>
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="10.0" prefWidth="330.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="692.0" minWidth="10.0" prefWidth="626.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Label text="First name" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <font>
-                              <Font size="54.0" />
-                           </font>
-                        </Label>
-                        <Label text="Last name" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                           <font>
-                              <Font size="54.0" />
-                           </font>
-                        </Label>
-                        <Label text="Phone" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                           <font>
-                              <Font size="54.0" />
-                           </font>
-                        </Label>
-                        <TextArea fx:id="firstNameField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
-                        <TextArea fx:id="lastNameField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextArea fx:id="phoneField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                     </children>
-                  </GridPane>
-                  <SplitPane orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
-                     <items>
+
+    <!-- Top section of the BorderPane -->
+    <top>
+        <!-- SplitPane to arrange title label and back button -->
+        <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <items>
+                <!-- Label for the title -->
+                <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" text="Return a book" textAlignment="CENTER">
+                    <font>
+                        <Font size="60.0" />
+                    </font>
+                </Label>
+                <!-- Button to navigate back to the main books section -->
+                <Button mnemonicParsing="false" onAction="#switchToBooksMain" prefHeight="109.0" prefWidth="328.0" text="Back">
+                    <font>
+                        <Font size="45.0" />
+                    </font>
+                </Button>
+            </items>
+        </SplitPane>
+    </top>
+
+    <!-- Center section of the BorderPane -->
+    <center>
+        <!-- SplitPane to arrange user information and search/select options -->
+        <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <items>
+                <!-- SplitPane for arranging user information and search button -->
+                <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                    <items>
+                        <!-- GridPane to arrange user information fields -->
+                        <GridPane>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="10.0" prefWidth="330.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="692.0" minWidth="10.0" prefWidth="626.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <!-- Labels and TextAreas for user information -->
+                            <children>
+                                <Label text="First name" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                    <font>
+                                        <Font size="54.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Last name" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                    <font>
+                                        <Font size="54.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Phone" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                    <font>
+                                        <Font size="54.0" />
+                                    </font>
+                                </Label>
+                                <TextArea fx:id="firstNameField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                                <TextArea fx:id="lastNameField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <TextArea fx:id="phoneField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            </children>
+                        </GridPane>
+                        <!-- Button to search for users -->
                         <Button mnemonicParsing="false" onAction="#handleSearch" prefHeight="153.0" prefWidth="552.0" text="Search" textAlignment="CENTER">
-                           <font>
-                              <Font size="40.0" />
-                           </font>
-                           <opaqueInsets>
-                              <Insets bottom="50.0" />
-                           </opaqueInsets>
+                            <font>
+                                <Font size="40.0" />
+                            </font>
+                            <!-- Insets to add space between the button and the next SplitPane -->
+                            <opaqueInsets>
+                                <Insets bottom="50.0" />
+                            </opaqueInsets>
                         </Button>
-                     </items>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <padding>
-                        <Insets top="100.0" />
-                     </padding>
-                  </SplitPane>
-               </items>
-            </SplitPane>
-            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
-               <items>
-                  <ListView fx:id="userListView" prefHeight="200.0" prefWidth="200.0" />
-                  <Button mnemonicParsing="false" onAction="#switchToReturnBook2" prefHeight="117.0" prefWidth="598.0" text="Select user returning a book">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Button>
-               </items>
-            </SplitPane>
-         </items>
-      </SplitPane>
-   </center>
+                    </items>
+                </SplitPane>
+                <!-- SplitPane for arranging user list and select button -->
+                <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                    <items>
+                        <!-- ListView to display user list -->
+                        <ListView fx:id="userListView" prefHeight="200.0" prefWidth="200.0" />
+                        <!-- Button to select a user for returning a book -->
+                        <Button mnemonicParsing="false" onAction="#switchToReturnBook2" prefHeight="117.0" prefWidth="598.0" text="Select user returning a book">
+                            <font>
+                                <Font size="40.0" />
+                            </font>
+                        </Button>
+                    </items>
+                </SplitPane>
+            </items>
+        </SplitPane>
+    </center>
+
 </BorderPane>
