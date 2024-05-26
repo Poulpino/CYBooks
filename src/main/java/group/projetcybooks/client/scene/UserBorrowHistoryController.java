@@ -25,6 +25,9 @@ public class UserBorrowHistoryController extends SceneController{
         this.user = user;
     }
 
+    /**
+     * Loads the borrow history for the current user.
+     */
     public void loadBorrowHistory() {
         List<Borrow> borrowHistory = new Client().clientAskHistoryBookList(user);
         if (borrowHistory != null) {

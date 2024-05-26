@@ -13,14 +13,6 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.event.ActionEvent;
-import javafx.scene.Scene;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.List;
-
 public class ReturnBook2Controller extends SceneController {
 
     private Stage stage;
@@ -39,11 +31,19 @@ public class ReturnBook2Controller extends SceneController {
     public TextArea authorTextArea;
     public TextArea titleTextArea;
 
+    /**
+     * Initializes the view with the specified user's information.
+     * @param user the user whose information is used to initialize the view
+     */
     public void initializeWithUser(User user) {
         this.selectedUser = user;
         loadBorrowList(user);
     }
 
+    /**
+     * Loads the borrow list for the specified user.
+     * @param user the user for whom to load the borrow list
+     */
     public void loadBorrowList(User user) {
         borrowList = new Client().clientAskReturnBookList(user);
         List<Book> books = new ArrayList<>();
@@ -59,6 +59,10 @@ public class ReturnBook2Controller extends SceneController {
         }
     }
 
+    /**
+     * Confirms the return of the selected book.
+     * @param event the action event triggered by the user
+     */
     public void ConfirmReturn(ActionEvent event) {
         Book selectedBook = booksListView.getSelectionModel().getSelectedItem();
         if (selectedBook != null) {

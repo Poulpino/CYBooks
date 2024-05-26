@@ -32,6 +32,10 @@ public class BorrowBooks1Controller extends SceneController {
     Scene scene;
     Parent root;
 
+    /**
+     * Searches for books based on the provided ISBN, author, and title information.
+     * Updates the books list view with the retrieved books.
+     */
     public void searchBooks() {
 
         String isbn = isbnTextField.getText();
@@ -52,6 +56,14 @@ public class BorrowBooks1Controller extends SceneController {
         }
     }
 
+    /**
+     * Switches to the borrow book view when triggered by the user.
+     * Initializes the BorrowBooks2Controller with the selected book to borrow.
+     *
+     * @param event the action event triggered by the user
+     * @throws IOException if there is an error loading the FXML file
+     * @return void
+     */
     @Override
     public void switchToBorrowBook2 (ActionEvent event) throws IOException {
         selectedBook = booksListView.getSelectionModel().getSelectedItem();

@@ -21,6 +21,9 @@ public class LateReturnController extends SceneController{
         this.stage = stage;
     }
 
+    /**
+     * Initializes the late returns view with the list of late return records.
+     */
     public void initializeLateReturns(){
         List<Borrow>lateReturnList = new Client().clientAskLateReturn();
         lateReturnListView.getItems().addAll(lateReturnList);

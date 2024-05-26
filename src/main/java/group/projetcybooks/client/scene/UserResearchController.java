@@ -31,6 +31,11 @@ public class UserResearchController extends SceneController{
     public TextArea phoneField;
     public ListView<User> userListView;
 
+    /**
+     * Initializes the interface and sets up event handling for the user list view.
+     * When a user double-clicks on an item in the list, it triggers the switch to the client's edit view.
+     */
+
     public void initialize() {
         userListView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
@@ -39,6 +44,10 @@ public class UserResearchController extends SceneController{
         });
     }
 
+    /**
+     * Handles the search action triggered by the user.
+     * @param event the action event triggered by the user
+     */
     public void handleSearch(ActionEvent event) {
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
@@ -56,7 +65,11 @@ public class UserResearchController extends SceneController{
         }
     }
 
-    public void handleDelete(ActionEvent event) {
+    /**
+     * Handles the delete action triggered by the user.
+     * @param event the action event triggered by the user
+     */
+    public void handleDelete(ActionEvent event) throws IOException {
         User selectedUser = userListView.getSelectionModel().getSelectedItem();
 
         if (selectedUser != null) {
@@ -64,6 +77,12 @@ public class UserResearchController extends SceneController{
             if (result == 1) {
                 showError("Success", "User deleted successfully.");
                 userListView.getItems().remove(selectedUser);
+                FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("MainScene.fxml"));
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                scene = new Scene(fxmlLoader.load());
+                stage.setScene(scene);
+                stage.setFullScreen(true);
+                stage.show();
             } else {
                 showError("Error", "Failed to delete user.");
             }
@@ -72,6 +91,10 @@ public class UserResearchController extends SceneController{
         }
     }
 
+    /**
+     * Switches to the client edit view when triggered by the user.
+     * @param event the action event triggered by the user
+     */
     public void switchToClientsEdit(ActionEvent event) {
         User selectedUser = userListView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
@@ -95,6 +118,10 @@ public class UserResearchController extends SceneController{
         }
     }
 
+    /**
+     * Switches to the client edit view when triggered by a mouse event.
+     * @param event the mouse event triggered by the user
+     */
     public void switchToClientsEdit(MouseEvent event) {
         User selectedUser = userListView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
@@ -118,6 +145,10 @@ public class UserResearchController extends SceneController{
         }
     }
 
+    /**
+     * Switches to the client's borrow history view when triggered by the user.
+     * @param event the action event triggered by the user
+     */
     public void switchToClientsBorrowHistory(ActionEvent event) throws IOException {
         User selectedUser = userListView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {

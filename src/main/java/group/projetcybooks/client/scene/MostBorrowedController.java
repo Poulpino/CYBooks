@@ -19,6 +19,10 @@ public class MostBorrowedController extends SceneController {
         this.stage = stage;
     }
 
+    /**
+     * Handles the action to display the most borrowed books.
+     * @param event the action event triggered by the user
+     */
     public void handleMostBorrowed(ActionEvent event) {
         List<Book> books = (List<Book>) new Client().clientAskPopularBook();
         if (books != null) {
