@@ -3,6 +3,7 @@ package group.projetcybooks.client;
 import group.projetcybooks.serveur.model.*;
 import group.projetcybooks.client.scene.SceneController;
 
+import java.awt.desktop.SystemEventListener;
 import java.io.*;
 import java.net.*;
 import java.text.ParseException;
@@ -372,9 +373,9 @@ public class Client {
 
             HashMap<Book, Integer> popularBooks = new HashMap<>();
 
-            String result = in.readLine().replace("[", "").replace("]", "").replace(" ", "");
-            String[] resultSplit = result.split(",");
+            String result = in.readLine().replace("[", "").replace("]", "").replace(", ", "§").replace("201#", "");
 
+            String[] resultSplit = result.split("§");
             for (String line : resultSplit) {
                 String[] resultSplit2 = line.split("=");
                 Book book = new Book(resultSplit2[0]);

@@ -115,7 +115,12 @@ public class BooksMainController extends SceneController {
     public void switchToMostBorrowed(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("MostBorrowed.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load(), 1080, 720);
+        Scene scene = new Scene(fxmlLoader.load());
+
+        MostBorrowedController controller = fxmlLoader.getController();
+        controller.setStage(stage);
+        controller.handleMostBorrowed();
+
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();

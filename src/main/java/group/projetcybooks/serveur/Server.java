@@ -73,7 +73,8 @@ public class Server {
                         case 103 -> {
                             try {
                                 ArrayList<Map.Entry<Book, Integer>> popularBooks = borrowManager.getPopularBook();
-                                out.println("201 " + popularBooks.toString());
+                                System.out.println(popularBooks);
+                                out.println("201#" + popularBooks.toString());
 
                             } catch (Exception e) {
                                 System.out.println("400" + e.getMessage());
@@ -102,7 +103,7 @@ public class Server {
                                     output += book.toString() + "/";
                                 }
                                 output = output.substring(0, output.length() - 1);
-                                out.println("201 " + output);
+                                out.println("201#" + output);
                             } catch (Exception e) {
                                 out.println("400");
                                 System.out.println("400" + e.getMessage());
@@ -120,7 +121,7 @@ public class Server {
                                     out.println("201");
                                 }
                                 else{
-                                    throw new UserNotFoundException("Can't edit this user that not exist");
+                                    throw new UserNotFoundException("Book already borrowed");
                                 }
                             } catch (Exception e) {
                                 out.println("403");

@@ -76,9 +76,10 @@ public class BorrowBooks2Controller extends SceneController {
      * @throws IOException if there is an error loading the MainScene.fxml file
      */
     public void borrowBook(ActionEvent event) throws IOException {
-        showError("Success", "Book borrowed");
+
         int borrow = new Client().clientBorrowBook(bookToBorrow, userBorrowing);
         if (borrow == 1){
+            showError("Success", "Book borrowed");
             FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("MainScene.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(fxmlLoader.load());

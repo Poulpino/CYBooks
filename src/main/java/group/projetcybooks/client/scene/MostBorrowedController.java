@@ -20,10 +20,9 @@ public class MostBorrowedController extends SceneController {
     }
 
     /**
-     * Handles the action to display the most borrowed books.
-     * @param event the action event triggered by the user
+     * Handles the action to display the most borrowed books, called in BooksMainController.java
      */
-    public void handleMostBorrowed(ActionEvent event) {
+    public void handleMostBorrowed() {
         List<Book> books = (List<Book>) new Client().clientAskPopularBook();
         if (books != null) {
             bookListView.getItems().setAll(books);

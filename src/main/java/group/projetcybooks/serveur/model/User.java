@@ -67,6 +67,6 @@ public class User {
 
     @Override
     public String toString() {
-        return id+";"+lastName+";"+firstName+";"+phone;
+        return id + ";" + lastName + ";" + firstName + ";" + phone;
     }
 }
