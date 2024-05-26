@@ -12,6 +12,10 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller class for the ReturnBook2 scene.
+ * This class handles the interaction for returning borrowed books.
+ */
 public class ReturnBook2Controller extends SceneController {
 
     private Stage stage;
@@ -28,11 +32,21 @@ public class ReturnBook2Controller extends SceneController {
     public TextArea authorTextArea;
     public TextArea titleTextArea;
 
+    /**
+     * Initializes the controller with the selected user and loads the borrow list.
+     *
+     * @param user the selected user
+     */
     public void initializeWithUser(User user) {
         this.selectedUser = user;
         loadBorrowList(user);
     }
 
+    /**
+     * Loads the borrow list for the selected user.
+     *
+     * @param user the selected user
+     */
     public void loadBorrowList(User user) {
         List<Borrow> borrows = new Client().clientAskReturnBookList(user);
         List<Book> books = new ArrayList<>();
@@ -48,7 +62,10 @@ public class ReturnBook2Controller extends SceneController {
         }
     }
 
-
+    /**
+     * Confirms the return of the selected borrowed book.
+     * Removes the book from the borrow list if returned successfully.
+     */
     public void ConfirmReturn() {
         Borrow selectedBorrow = borrowListView.getSelectionModel().getSelectedItem();
         if (selectedBorrow != null) {
