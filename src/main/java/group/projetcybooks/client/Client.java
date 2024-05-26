@@ -299,6 +299,7 @@ public class Client {
             out.println(clientInput);
             String s = in.readLine();
             String[] output = s.split("#");
+            System.out.println(output[0]);
             String[] output2 = output[1].split("§");
 
             borrowList = new ArrayList<>();

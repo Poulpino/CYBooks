@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import group.projetcybooks.client.Client;
 
-public class ClientsEditController extends SceneController{
+public class UsersEditController extends SceneController{
 
     private Stage stage;
     private Scene scene;

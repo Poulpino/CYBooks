@@ -29,7 +29,7 @@ public class SceneController {
     }
 
     public void switchToClientsMain(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsMain.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("UsersMain.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
@@ -83,7 +83,7 @@ public class SceneController {
     }
 
     public void switchToClientsResearch(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsResearch.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("UsersResearch.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
@@ -92,7 +92,7 @@ public class SceneController {
     }
 
     public void switchToClientsSignUp(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsSignUp.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("UsersSignUp.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
@@ -119,7 +119,7 @@ public class SceneController {
     }
 
     public void switchToClientsEdit(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsEdit.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("UsersEdit.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
