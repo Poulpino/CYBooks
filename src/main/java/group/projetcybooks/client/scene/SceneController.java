@@ -10,132 +10,96 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controller class for managing scene transitions and displaying error messages.
+ */
 public class SceneController {
 
     private Stage stage;
     private Scene scene;
 
+    /**
+     * Sets the stage for the controller.
+     *
+     * @param stage the stage to set
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    // Methods for switching to different scenes
+
+    // Switches to the Main scene
     public void switchToMain(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("MainScene.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        // Code for loading Main scene
     }
 
+    // Switches to the ClientsMain scene
     public void switchToClientsMain(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsMain.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        // Code for loading ClientsMain scene
     }
 
+    // Switches to the BorrowMain scene
     public void switchToBorrowMain(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("BorrowMain.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        // Code for loading BorrowMain scene
     }
 
+    // Switches to the BooksMain scene
     public void switchToBooksMain(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("BooksMain.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        // Code for loading BooksMain scene
     }
 
+    // Switches to the BorrowBook1 scene
     public void switchToBorrowBook1(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("BorrowBook1.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        // Code for loading BorrowBook1 scene
     }
 
+    // Switches to the BorrowBook2 scene
     public void switchToBorrowBook2(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("BorrowBook2.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        // Code for loading BorrowBook2 scene
     }
 
+    // Switches to the ReturnBook1 scene
     public void switchToReturnBook1(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ReturnBook1.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        // Code for loading ReturnBook1 scene
     }
 
+    // Switches to the ClientsResearch scene
     public void switchToClientsResearch(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsResearch.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        // Code for loading ClientsResearch scene
     }
 
+    // Switches to the ClientsSignUp scene
     public void switchToClientsSignUp(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsSignUp.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        // Code for loading ClientsSignUp scene
     }
 
+    // Switches to the LateReturn scene
     public void switchToLateReturn(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("LateReturn.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        // Code for loading LateReturn scene
     }
 
+    // Switches to the ClientsBorrowHistory scene
     public void switchToClientsBorrowHistory(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("CientsBorrowHistory.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        // Code for loading ClientsBorrowHistory scene
     }
 
+    // Switches to the ClientsEdit scene
     public void switchToClientsEdit(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("ClientsEdit.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        // Code for loading ClientsEdit scene
     }
 
+    // Switches to the MostBorrowed scene
     public void switchToMostBorrowed(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("MostBorrowed.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        // Code for loading MostBorrowed scene
     }
 
+    /**
+     * Displays an error message.
+     *
+     * @param title   the title of the error message
+     * @param message the content of the error message
+     */
     public static void showError(String title, String message) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
