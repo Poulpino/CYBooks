@@ -104,6 +104,7 @@ public class Server {
                                 output = output.substring(0, output.length() - 1);
                                 out.println("201 " + output);
                             } catch (Exception e) {
+                                out.println("400");
                                 SceneController.showError("Server Error", "400: " + e.getMessage());
                             }
                         }
@@ -112,13 +113,18 @@ public class Server {
                             try {
                                 Book book = new Book(inputLineSplit[1]);
                                 User user = new User(inputLineSplit[2]);
+
                                 if (userManager.userExiste(user.getId())) {
                                     bookManager.addBook(book);
                                     borrowManager.borrowBook(book.getidBnf(), user.getId(), userManager, bookManager);
                                     out.println("201");
                                 }
+                                else{
+                                    throw new UserNotFoundException("Can't edit this user that not exist");
+                                }
                             } catch (Exception e) {
-                                SceneController.showError("Server Error", "400: " + e.getMessage());
+                                out.println("403");
+                                SceneController.showError("Server Error", "400 :" + e.getMessage());
                             }
                         }
 
@@ -143,6 +149,7 @@ public class Server {
                                     userManager.addUser(user.getLastName(), user.getFirstName(), user.getPhone());
                                     out.println("201");
                                 } catch (Exception f) {
+                                    out.println("400");
                                     SceneController.showError("Server Error", "400: " + f.getMessage());
                                 }
                             }
@@ -189,6 +196,7 @@ public class Server {
                                 }
                                 out.println("201#" + result.toString());
                             } catch (UserNotFoundException e) {
+                                out.println("400");
                                 SceneController.showError("Server Error", e.getMessage());
                             }
                         }
@@ -201,8 +209,10 @@ public class Server {
                                 userManager.removeUser(user.getId(), borrowManager);
                                 out.println("201");
                             } catch (BookNotReturnException e) {
+                                out.println("400");
                                 SceneController.showError("Server Error", e.getMessage());
                             } catch (Exception e) {
+                                out.println("400");
                                 SceneController.showError("Server Error", "400: " + e.getMessage());
                             }
                         }
@@ -221,6 +231,7 @@ public class Server {
                                 }
                                 out.println("201 " + result.toString());
                             } catch (NoBorrowForUser f) {
+                                out.println("400");
                                 SceneController.showError("Server Error", f.getMessage());
                             }
                         }
@@ -232,6 +243,7 @@ public class Server {
                                 borrowManager.returnBook(borrow.getBook().getidBnf(), borrow.getId(), bookManager);
                                 out.println("201");
                             } catch (Exception e) {
+                                out.println("400");
                                 SceneController.showError("Server Error", "400: " + e.getMessage());
                                 //SceneController.showError("Server Error", "401: " + e.getMessage());
                             }
@@ -248,6 +260,7 @@ public class Server {
                                 output = output.substring(0, output.length() - 1);
                                 out.println("201 " + output);
                             } catch (Exception e) {
+                                out.println("400");
                                 SceneController.showError("Server Error", "401: " + e.getMessage());
                             }
                         }
@@ -266,6 +279,7 @@ public class Server {
                                 }
                                 out.println("201 " + result.toString());
                             } catch (NoHistoryForUser e) {
+                                out.println("400");
                                 SceneController.showError("Server Error", e.getMessage());
                             }
                         }

@@ -81,7 +81,7 @@ public class Client {
 
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
-            SceneController.showError("Client Error", "Unknow host problem: " + host + e.getMessage());
+            SceneController.showError("Client Error", "Unknown host problem: " + host + e.getMessage());
             return -1;
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);

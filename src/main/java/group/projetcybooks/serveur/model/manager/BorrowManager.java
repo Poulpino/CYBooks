@@ -125,7 +125,6 @@ public class BorrowManager {
     public void borrowBook(long idBnf,int userID,UserManager userManager,BookManager books) throws Exception {
         ConnectDB connectDB = new ConnectDB();
         Book book = books.getBook(idBnf);
-
         if(book.getStatue().equals(TypeStatue.FREE)){
             book.setStatue(TypeStatue.BORROW);
             User user = userManager.getUsers().get(userID);
