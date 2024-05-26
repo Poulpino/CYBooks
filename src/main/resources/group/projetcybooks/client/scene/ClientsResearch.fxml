@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+<!-- 
+    FXML file describing the user interface of the client research view.
+    This view allows users to search for client profiles, display the search results, and perform actions such as editing or deleting profiles.
+-->
 
 <BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.projetcybooks.client.scene.ClientsResearchController">
+
+   <!-- Top of the BorderPane -->
    <top>
+      <!-- SplitPane to arrange elements at the top -->
       <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" text="                     Search Client" textAlignment="CENTER">
+            <!-- Title of the view -->
+            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" 
+                   minHeight="10.0" minWidth="10.0" text="                     Search Client" textAlignment="CENTER">
                <font>
                   <Font size="60.0" />
                </font>
             </Label>
+            <!-- Back button -->
             <Button mnemonicParsing="false" onAction="#switchToClientsMain" prefHeight="109.0" prefWidth="328.0" text="Back">
                <font>
                   <Font size="45.0" />
@@ -29,11 +28,16 @@
          </items>
       </SplitPane>
    </top>
+   
+   <!-- Center of the BorderPane -->
    <center>
+      <!-- SplitPane to arrange elements at the center -->
       <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
+            <!-- SplitPane for search fields and action buttons -->
             <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                <items>
+                  <!-- GridPane for search fields -->
                   <GridPane>
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="10.0" prefWidth="330.0" />
@@ -45,6 +49,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
+                        <!-- Labels for search fields -->
                         <Label text="First name" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <font>
                               <Font size="54.0" />
@@ -60,13 +65,16 @@
                               <Font size="54.0" />
                            </font>
                         </Label>
+                        <!-- TextAreas for entering search criteria -->
                         <TextArea fx:id="firstNameField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
                         <TextArea fx:id="lastNameField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextArea fx:id="phoneField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
+                  <!-- SplitPane for action buttons -->
                   <SplitPane dividerPositions="0.5, 0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                      <items>
+                        <!-- Buttons for search, delete, and edit actions -->
                         <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleSearch" prefHeight="153.0" prefWidth="552.0" text="Search" textAlignment="CENTER">
                            <font>
                               <Font size="40.0" />
@@ -98,9 +106,12 @@
                   </SplitPane>
                </items>
             </SplitPane>
+            <!-- SplitPane for displaying search results and borrow history -->
             <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                <items>
+                  <!-- ListView for displaying search results -->
                   <ListView fx:id="userListView" prefHeight="200.0" prefWidth="200.0" />
+                  <!-- Button to display borrow history -->
                   <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToClientsBorrowHistory" prefHeight="117.0" prefWidth="598.0" text="Display borrow history">
                      <font>
                         <Font size="40.0" />
