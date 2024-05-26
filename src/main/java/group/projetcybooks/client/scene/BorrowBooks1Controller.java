@@ -52,20 +52,16 @@ public class BorrowBooks1Controller extends SceneController {
         }
     }
 
-    public void bookSelected() {
-        selectedBook = booksListView.getSelectionModel().getSelectedItem();
-        System.out.println(selectedBook);
-    }
-
-
     @Override
     public void switchToBorrowBook2 (ActionEvent event) throws IOException {
-
+        selectedBook = booksListView.getSelectionModel().getSelectedItem();
         if (selectedBook != null) {
             FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("BorrowBook2.fxml"));
+
             root = fxmlLoader.load();
             BorrowBooks2Controller controller = fxmlLoader.getController();
             controller.setBookToBorrow(selectedBook);
+
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

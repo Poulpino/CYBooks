@@ -20,9 +20,9 @@ public class ClientsBorrowHistoryController extends SceneController{
 
     public ListView<Borrow> borrowHistoryListView;
     private User user;
+
     public void initializeWithUser(User user) {
         this.user = user;
-        loadBorrowHistory();
     }
 
     public void loadBorrowHistory() {

@@ -35,7 +35,6 @@ public class BorrowBooks2Controller extends SceneController {
 
     public void setBookToBorrow(Book bookToBorrow) {
         this.bookToBorrow = bookToBorrow;
-        System.out.println(bookToBorrow);
     }
 
     public void handleSearch(ActionEvent event) {

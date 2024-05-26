@@ -1,7 +1,9 @@
 package group.projetcybooks.client.scene;
 
 import group.projetcybooks.serveur.model.User;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import group.projetcybooks.client.Client;
@@ -14,20 +16,25 @@ public class ClientsEditController extends SceneController{
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
+    @FXML
     public TextField newFirstNameField;
+    @FXML
     public TextField newLastNameField;
+    @FXML
     public TextField newPhoneField;
-    public TextField currentFirstNameField;
-    public TextField currentLastNameField;
-    public TextField currentPhoneField;
+    @FXML
+    public Label currentFirstNameLabel;
+    @FXML
+    public Label currentLastNameLabel;
+    @FXML
+    public Label currentPhoneLabel;
     private User currentUser;
 
     public void initializeWithUser(User user) {
         this.currentUser = user;
-        currentFirstNameField.setText(user.getFirstName());
-        currentLastNameField.setText(user.getLastName());
-        currentPhoneField.setText(user.getPhone());
+        currentFirstNameLabel.setText("Current first name : " + user.getFirstName());
+        currentLastNameLabel.setText("Current last name : " + user.getLastName());
+        currentPhoneLabel.setText("Current phone : :" + user.getPhone());
     }
     public void handleEdit() {
         String newFirstName = newFirstNameField.getText();

@@ -87,7 +87,7 @@
             </SplitPane>
             <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                <items>
-                  <ListView fx:id="booksListView" onMouseClicked="#bookSelected" prefHeight="200.0" prefWidth="200.0" />
+                  <ListView fx:id="booksListView" prefHeight="200.0" prefWidth="200.0" />
                   <Button mnemonicParsing="false" onAction="#switchToBorrowBook2" prefHeight="117.0" prefWidth="494.0" text="Select a book to borrow">
                      <font>
                         <Font size="40.0" />
