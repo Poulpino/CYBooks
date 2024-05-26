@@ -9,7 +9,7 @@ import javafx.scene.control.ListView;
 
 import java.util.List;
 
-public class UsersBorrowHistoryController extends SceneController{
+public class UserBorrowHistoryController extends SceneController{
 
     private Stage stage;
     private Scene scene;

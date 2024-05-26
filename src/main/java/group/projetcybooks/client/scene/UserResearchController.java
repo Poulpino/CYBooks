@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
-public class UsersResearchController extends SceneController{
+public class UserResearchController extends SceneController{
 
     private Stage stage;
     private Scene scene;
@@ -80,7 +80,7 @@ public class UsersResearchController extends SceneController{
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(fxmlLoader.load());
 
-                UsersEditController controller = fxmlLoader.getController();
+                UserEditController controller = fxmlLoader.getController();
                 controller.setStage(stage);
                 controller.initializeWithUser(selectedUser);
 
@@ -103,7 +103,7 @@ public class UsersResearchController extends SceneController{
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(fxmlLoader.load());
 
-                UsersEditController controller = fxmlLoader.getController();
+                UserEditController controller = fxmlLoader.getController();
                 controller.setStage(stage);
                 controller.initializeWithUser(selectedUser);
 
@@ -125,7 +125,7 @@ public class UsersResearchController extends SceneController{
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(fxmlLoader.load());
 
-            UsersBorrowHistoryController controller = fxmlLoader.getController();
+            UserBorrowHistoryController controller = fxmlLoader.getController();
             controller.setStage(stage);
             controller.initializeWithUser(selectedUser);
 
