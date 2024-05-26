@@ -37,6 +37,11 @@ public class BorrowBooks2Controller extends SceneController {
         this.bookToBorrow = bookToBorrow;
     }
 
+    /**
+     * Handles the search action triggered by the user.
+     * Updates the users list view with the retrieved users.
+     * @param event the action event triggered by the user
+     */
     public void handleSearch(ActionEvent event) {
         String firstName = firstNameTextField.getText();
         String lastName = lastNameTextField.getText();
@@ -56,11 +61,20 @@ public class BorrowBooks2Controller extends SceneController {
         }
     }
 
+    /**
+     * Retrieves the selected user from the users list view.
+     * @return void
+     */
     public void userSelected() {
         userBorrowing = usersListView.getSelectionModel().getSelectedItem();
         System.out.println(userBorrowing);
     };
 
+    /**
+     * Borrows the selected book for the selected user.
+     * @param event the action event triggered by the user
+     * @throws IOException if there is an error loading the MainScene.fxml file
+     */
     public void borrowBook(ActionEvent event) throws IOException {
         int borrow = new Client().clientBorrowBook(bookToBorrow, userBorrowing);
         if (borrow == 1){

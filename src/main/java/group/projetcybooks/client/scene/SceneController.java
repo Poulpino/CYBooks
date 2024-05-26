@@ -19,6 +19,11 @@ public class SceneController {
         this.stage = stage;
     }
 
+    /**
+     * Switches to the main scene when triggered by the user.
+     * @param event the action event triggered by the user
+     * @throws IOException if there is an error loading the MainScene.fxml file
+     */
     public void switchToMain(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("MainScene.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -136,6 +141,11 @@ public class SceneController {
         stage.show();
     }
 
+    /**
+     * Displays an error message dialog.
+     * @param title the title of the error dialog
+     * @param message the error message to be displayed
+     */
     public static void showError(String title, String message) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);

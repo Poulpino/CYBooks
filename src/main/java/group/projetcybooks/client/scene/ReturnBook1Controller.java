@@ -1,7 +1,6 @@
 package group.projetcybooks.client.scene;
 
 import group.projetcybooks.client.Client;
-import group.projetcybooks.serveur.model.Borrow;
 import group.projetcybooks.serveur.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;

@@ -18,6 +18,11 @@ public class BorrowMainController extends SceneController {
         this.stage = stage;
     }
 
+    /**
+     * Switches to the late return view when triggered by the user.
+     * @param event the action event triggered by the user
+     * @throws IOException if there is an error loading the LateReturn.fxml file
+     */
     public void switchToLateReturn(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainFX.class.getResource("LateReturn.fxml"));
 
@@ -31,5 +36,4 @@ public class BorrowMainController extends SceneController {
         stage.setFullScreen(true);
         stage.show();
     }
-
 }
