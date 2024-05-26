@@ -9,6 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReturnBook2Controller extends SceneController {
@@ -34,12 +35,19 @@ public class ReturnBook2Controller extends SceneController {
 
     public void loadBorrowList(User user) {
         List<Borrow> borrows = new Client().clientAskReturnBookList(user);
-        if (!borrows.isEmpty()) {
-            borrowListView.getItems().addAll(borrows);
+        List<Book> books = new ArrayList<>();
+
+        for (Borrow borrow : borrows) {
+            books.add(borrow.getBook());
+        }
+
+        if (!books.isEmpty()) {
+            booksListView.getItems().addAll(books);
         } else {
-            SceneController.showError("Error", "No borrow found for this user: " + user.getFirstName() + user.getLastName());
+            SceneController.showError("Error", "No books found for this user: " + user.getFirstName() + " " + user.getLastName());
         }
     }
+
 
     public void ConfirmReturn() {
         Borrow selectedBorrow = borrowListView.getSelectionModel().getSelectedItem();
