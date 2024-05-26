@@ -31,23 +31,23 @@ public class UserManager {
     public UserManager(String requestUser) {
 
         this.users = new HashMap<>();
-            if (!requestUser.isEmpty()) {
-                //Split lines and values
-                String[] lines = requestUser.split("/");
-                for (String line : lines) {
-                    String[] values = line.split(";");
-                    if (values.length == 4) {
-                        int id = Integer.parseInt(values[0]);
-                        String lastName = values[1];
-                        String firstName = values[2];
-                        String phone = values[3];
-                        User user = new User(id, lastName, firstName, phone);
-                        users.put(id, user);
-                    } else {
-                        throw new IllegalArgumentException("The line doesn't have all the values wanted: " + line);
-                    }
+        if (!requestUser.isEmpty()) {
+            //Split lines and values
+            String[] lines = requestUser.split("/");
+            for (String line : lines) {
+                String[] values = line.split(";");
+                if (values.length == 4) {
+                    int id = Integer.parseInt(values[0]);
+                    String lastName = values[1];
+                    String firstName = values[2];
+                    String phone = values[3];
+                    User user = new User(id, lastName, firstName, phone);
+                    users.put(id, user);
+                } else {
+                    throw new IllegalArgumentException("The line doesn't have all the values wanted: " + line);
                 }
             }
+        }
     }
 
     /**
@@ -64,8 +64,8 @@ public class UserManager {
         ConnectDB connectDB = new ConnectDB();
         int newID=0;
         while(users.containsKey(newID)){
-                newID+=1;
-            }
+            newID+=1;
+        }
 
         User User = new User(newID, lastName, firstName, phone);
         users.put(newID, User);
