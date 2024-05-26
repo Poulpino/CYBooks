@@ -18,6 +18,9 @@ public class ClientsSignUpController extends SceneController{
         this.stage = stage;
     }
 
+    /**
+     * Handles the sign-up action initiated by the user.
+     */
     public void handleSignUp() {
         String lastName = lastNameField.getText();
         String firstName = firstNameField.getText();

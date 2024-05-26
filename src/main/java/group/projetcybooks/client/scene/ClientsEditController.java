@@ -30,12 +30,23 @@ public class ClientsEditController extends SceneController{
     public Label currentPhoneLabel;
     private User currentUser;
 
+    /**
+     * Initializes the interface with the provided user's information.
+     * @param user
+     */
     public void initializeWithUser(User user) {
         this.currentUser = user;
         currentFirstNameLabel.setText("Current first name : " + user.getFirstName());
         currentLastNameLabel.setText("Current last name : " + user.getLastName());
         currentPhoneLabel.setText("Current phone : :" + user.getPhone());
     }
+
+    /**
+     * Modifies the information of the current user.
+     * @param newFirstName
+     * @param newLastName
+     * @param newPhone
+     */
     public void handleEdit() {
         String newFirstName = newFirstNameField.getText();
         String newLastName = newLastNameField.getText();

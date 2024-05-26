@@ -44,6 +44,10 @@ public class ReturnBook2Controller extends SceneController {
         loadBorrowList(user);
     }
 
+    /**
+     * Loads the borrow list for the specified user.
+     * @param user the user for whom to load the borrow list
+     */
     public void loadBorrowList(User user) {
         borrowList = new Client().clientAskReturnBookList(user);
         List<Book> books = new ArrayList<>();
@@ -59,6 +63,10 @@ public class ReturnBook2Controller extends SceneController {
         }
     }
 
+    /**
+     * Confirms the return of the selected book.
+     * @param event the action event triggered by the user
+     */
     public void ConfirmReturn(ActionEvent event) {
         Book selectedBook = booksListView.getSelectionModel().getSelectedItem();
         if (selectedBook != null) {

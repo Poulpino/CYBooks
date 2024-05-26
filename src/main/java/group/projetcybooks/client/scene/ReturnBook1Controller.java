@@ -28,6 +28,10 @@ public class ReturnBook1Controller extends SceneController{
     public TextArea phoneField;
     public ListView<User> userListView;
 
+    /**
+     * Handles the search action triggered by the user.
+     * @param event the action event triggered by the user
+     */
     public void handleSearch(ActionEvent event) {
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
@@ -44,6 +48,11 @@ public class ReturnBook1Controller extends SceneController{
             showError("Error", "Failed to search users");
         }
     }
+
+    /**
+     * Switches to the return book view when triggered by the user.
+     * @param event the action event triggered by the user
+     */
 
     public void switchToReturnBook2(ActionEvent event) {
         User selectedUser = userListView.getSelectionModel().getSelectedItem();
