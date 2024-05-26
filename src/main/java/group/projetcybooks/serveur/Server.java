@@ -43,7 +43,8 @@ public class Server {
                     }
                 }
             } catch (Exception e) {
-                SceneController.showError("Server Error", "400: " + e.getMessage());
+                System.out.println("400" + e.getMessage());
+                System.out.println("400" + e.getMessage());
             }
 
             //Init objets
@@ -76,7 +77,7 @@ public class Server {
                                 out.println("201 " + popularBooks.toString());
 
                             } catch (Exception e) {
-                                SceneController.showError("Server Error", "400: " + e.getMessage());
+                                System.out.println("400" + e.getMessage());
                             }
 
 
@@ -105,7 +106,7 @@ public class Server {
                                 out.println("201 " + output);
                             } catch (Exception e) {
                                 out.println("400");
-                                SceneController.showError("Server Error", "400: " + e.getMessage());
+                                System.out.println("400" + e.getMessage());
                             }
                         }
                         //clientBorrowBook WORKING
@@ -124,7 +125,7 @@ public class Server {
                                 }
                             } catch (Exception e) {
                                 out.println("403");
-                                SceneController.showError("Server Error", "400 :" + e.getMessage());
+                                System.out.println("400" + e.getMessage());
                             }
                         }
 
@@ -140,9 +141,9 @@ public class Server {
                                 }
                                 User user = new User(0, lastName, firsName, phone);
                                 userManager.searchUser(user.getLastName(), user.getFirstName(), user.getPhone(), Boolean.TRUE);
-                                SceneController.showError("Server Error", "401 : User already exist");
+                                System.out.println("User Already Exist");
                             } catch (IllegalArgumentException e) {
-                                SceneController.showError("Server Error", "400: " + e.getMessage());
+                                System.out.println("400" + e.getMessage());
                             } catch (UserNotFoundException e) {
                                 try {
                                     User user = new User(inputLineSplit[1]);
@@ -150,7 +151,7 @@ public class Server {
                                     out.println("201");
                                 } catch (Exception f) {
                                     out.println("400");
-                                    SceneController.showError("Server Error", "400: " + f.getMessage());
+                                    System.out.println("400" + e.getMessage());
                                 }
                             }
                         }
@@ -197,7 +198,7 @@ public class Server {
                                 out.println("201#" + result.toString());
                             } catch (UserNotFoundException e) {
                                 out.println("400");
-                                SceneController.showError("Server Error", e.getMessage());
+                                System.out.println("400" + e.getMessage());
                             }
                         }
 
@@ -210,10 +211,10 @@ public class Server {
                                 out.println("201");
                             } catch (BookNotReturnException e) {
                                 out.println("400");
-                                SceneController.showError("Server Error", e.getMessage());
+                                System.out.println("400" + e.getMessage());
                             } catch (Exception e) {
                                 out.println("400");
-                                SceneController.showError("Server Error", "400: " + e.getMessage());
+                                System.out.println("400" + e.getMessage());
                             }
                         }
 
@@ -232,7 +233,7 @@ public class Server {
                                 out.println("201 " + result.toString());
                             } catch (NoBorrowForUser f) {
                                 out.println("400");
-                                SceneController.showError("Server Error", f.getMessage());
+                                System.out.println("400" + f.getMessage());
                             }
                         }
 
@@ -244,8 +245,7 @@ public class Server {
                                 out.println("201");
                             } catch (Exception e) {
                                 out.println("400");
-                                SceneController.showError("Server Error", "400: " + e.getMessage());
-                                //SceneController.showError("Server Error", "401: " + e.getMessage());
+                                System.out.println("400" + e.getMessage());
                             }
                         }
 
@@ -261,7 +261,7 @@ public class Server {
                                 out.println("201 " + output);
                             } catch (Exception e) {
                                 out.println("400");
-                                SceneController.showError("Server Error", "401: " + e.getMessage());
+                                System.out.println("400" + e.getMessage());
                             }
                         }
 
@@ -280,7 +280,7 @@ public class Server {
                                 out.println("201 " + result.toString());
                             } catch (NoHistoryForUser e) {
                                 out.println("400");
-                                SceneController.showError("Server Error", e.getMessage());
+                                System.out.println("400" + e.getMessage());
                             }
                         }
                         case 150 -> {
